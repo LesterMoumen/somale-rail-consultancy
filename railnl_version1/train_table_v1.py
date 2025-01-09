@@ -123,7 +123,7 @@ class Train_table():
         for the correct format. For now, just prints the traject_histories.
         """
         print("train, stations")
-        for traject in self.traject_histories:
+        for i, traject in enumerate(self.traject_histories):
             # print()
             print(traject)
         print("score", self.calculate_quality())
@@ -131,12 +131,25 @@ class Train_table():
     def output_to_csv(self):
         """ Returns output as csv file.
         """
-        None
+        csv_file = open('train_stations.csv', 'w', newline='')
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(['train', 'stations'])
+
+        for i, traject in enumerate(self.traject_histories):
+            # print(f"train {i+1}, {traject}")
+            train = f"train {1+i}"
+
+            csv_writer.writerow([train, traject])
+        csv_writer.writerow(["score", self.calculate_quality()])
+        csv_file.close()
 
     def visualisation(self):
         """ To do: making it create a plot with trajects. See visualisatie_v1.py.
         """
         None
+# class Visualisation():
+#     def __init__(self, )
+# 
 
 # Input files
 locations = "StationsHolland_locaties.csv"
@@ -148,3 +161,4 @@ if __name__ == "__main__":
     # Prints the established trajects
     baseline_train_table.print_output()
     #print(baseline_train_table.calculate_quality())
+    baseline_train_table.output_to_csv()
