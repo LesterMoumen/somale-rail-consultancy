@@ -8,6 +8,7 @@
 import csv
 import helper_functions as helper
 import random
+import matplotlib.pyplot as plt
 import itertools
 
 class Traject():
@@ -146,10 +147,79 @@ class Train_table():
     def visualisation(self):
         """ To do: making it create a plot with trajects. See visualisatie_v1.py.
         """
-        None
-# class Visualisation():
-#     def __init__(self, )
-# 
+        visualize = Visualisation(self.connections, self.locations, self.traject_histories)
+        visualize.show_visualisation()
+
+class Visualisation():
+    def __init__(self, connections, locations, trajects):
+        self.connections = connections
+        self.locations = locations
+        self.trajects = trajects
+
+    def stations_plot(self):
+        y = []
+        x = []
+        cities = {}
+        for city, coordinates in self.locations.items():
+            x_coordinate, y_coordinate = float(coordinates[0]), float(coordinates[1])
+
+            cities[city] = {"x": x_coordinate, "y": y_coordinate}
+            y.append(y_coordinate)
+            x.append(x_coordinate)
+
+        # Plotting stations/cities
+        plt.scatter(x, y)
+        return cities
+
+    def connection_plot(self):
+        connection_lines = []
+        for connection, cities in self.connections.items():
+            x = []
+            y = []
+            # print(connection, cities)
+
+            city1, city2 = connection.split("_")
+
+            coordinates_city1 = self.locations[city1]
+            coordinates_city2 = self.locations[city2]
+
+            x.append(float(coordinates_city1[0]))
+            y.append(float(coordinates_city1[1]))
+            x.append(float(coordinates_city2[0]))
+            y.append(float(coordinates_city2[1]))
+
+            connection_lines.append([x,y])
+
+        # Plotting connections between stations
+        for connection in connection_lines:
+            plt.plot(connection[0], connection[1], 'k')
+
+        # plt.show()
+
+    def route_plot(self):
+        cities = self.stations_plot()
+        for i, traject in enumerate(self.trajects):
+            marked_cities = {}
+            y_city = []
+            x_city = []
+            for station in traject:
+                for city, coordinates in cities.items():
+                    if station == city:
+                        marked_cities[city] = coordinates
+
+            for city_went, coordinates in marked_cities.items():
+                y_city.append(coordinates["y"])
+                x_city.append(coordinates["x"])
+
+            plt.plot(x_city,y_city, '--b')
+            # plt.show()
+
+    def show_visualisation(self):
+        self.stations_plot()
+        self.connection_plot()
+        self.route_plot()
+        plt.show()
+
 
 # Input files
 locations = "StationsHolland_locaties.csv"
@@ -162,3 +232,4 @@ if __name__ == "__main__":
     baseline_train_table.print_output()
     #print(baseline_train_table.calculate_quality())
     baseline_train_table.output_to_csv()
+    baseline_train_table.visualisation()
