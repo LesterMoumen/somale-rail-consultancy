@@ -63,5 +63,5 @@ for connection, cities in connections.items():
 for connection in connection_lines:
     plt.plot(connection[0], connection[1])
 print("hello")
-
+print("doei")
 plt.show()
