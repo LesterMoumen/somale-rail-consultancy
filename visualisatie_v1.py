@@ -62,5 +62,6 @@ for connection, cities in connections.items():
 # Plotting connections between stations
 for connection in connection_lines:
     plt.plot(connection[0], connection[1])
+print("hello")
 
 plt.show()
