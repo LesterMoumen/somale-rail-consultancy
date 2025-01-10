@@ -1,5 +1,5 @@
 # Malve Rail Consulting
-# 07/01/2025
+# 10/01/2025
 #
 # First version of the main code for making the train tables (de lijnvoering).
 # It randomly creates the trajects of the train table (routes) with a given max
@@ -16,7 +16,7 @@ class Traject():
     """
     def __init__(self, start_location, connections, locations, connections_options, color, max_time):
         self.location = start_location # current station
-        self.color = color
+        self.color = color # color of the traject
         self.traject_history = [] # list with stations visited
         self.connection_history = [] # list with connections visited
         self.traject_time = 0 # minutes traveled
@@ -94,6 +94,7 @@ class Traject():
 
         return self.traject_history, self.connection_history, self.traject_time
 
+
 class Train_table():
     """ Handles and creates multiple trajects. Calculates cost of created table
     and outputs findings.
@@ -133,7 +134,6 @@ class Train_table():
         formula:     K = p*10000 - (T*100 + Min)
         waarin K de kwaliteit van de lijnvoering is, p de fractie van de bereden verbindingen
         (dus tussen 0 en 1), T het aantal trajecten en Min het aantal minuten in alle trajecten samen.
-
         """
         print()
         # Create set with all stations in region
@@ -156,8 +156,8 @@ class Train_table():
         return quality
 
     def print_output(self):
-        """ Prints the output, see the assignment on ah.proglab.nl/cases/railnl
-        for the correct format. For now, just prints the traject_histories.
+        """ Prints in terminal as ouput the trajects and quality score. Mainly used for
+        debugging. Final version of code will only use output_to_csv().
         """
         print("train, stations")
         for i, traject in enumerate(self.traject_histories):
@@ -174,10 +174,9 @@ class Train_table():
         csv_writer.writerow(['train', 'stations'])
 
         for i, traject in enumerate(self.traject_histories):
-            # print(f"train {i+1}, {traject}")
             train = f"train {1+i}"
-
             csv_writer.writerow([train, traject])
+
         csv_writer.writerow(["score", self.calculate_quality()])
         csv_file.close()
 
@@ -215,8 +214,6 @@ class Visualisation():
         # Plotting stations/cities
         plt.scatter(x, y)
 
-        # self.stations_coordinates = stations_coordinates
-
         return stations_coordinates
 
     def connection_plot(self):
@@ -241,8 +238,7 @@ class Visualisation():
 
             connection_lines.append([x,y])
 
-
-        # Plotting connections between stations
+        # Plot connections between stations
         for connection in connection_lines:
             plt.plot(connection[0], connection[1], 'k')
 
@@ -283,10 +279,12 @@ locations = "StationsHolland_locaties.csv"
 connections = "ConnectiesHolland.csv"
 
 if __name__ == "__main__":
+    # Create baseline model with 7 locations and 120 minutes max
     baseline_train_table = Train_table(connections, locations, 7, max_time = 120)
     baseline_train_table.create_table()
-    # Prints the established trajects
+
+    # Printing output in terminal for debugging purposes
     baseline_train_table.print_output()
-    #print(baseline_train_table.calculate_quality())
+
     baseline_train_table.output_to_csv()
     baseline_train_table.visualisation()
