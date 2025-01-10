@@ -19,7 +19,7 @@ def stations_plot(file):
                 continue
             split_data = line.split(",")
 
-            city = split_data[0]
+            city = str(split_data[0])
             y_coordinate = float(split_data[1])
             x_coordinate = float(split_data[2])
 
@@ -30,7 +30,10 @@ def stations_plot(file):
             x.append(x_coordinate)
 
     # Plotting stations/cities
-    plt.scatter(x, y)
+    for city, coordinates in cities.items():
+        print(city)
+        plt.scatter(x, y)
+        plt.text(coordinates["x"]+.03, coordinates["y"]+.03, city, fontsize=9)
     return cities
 
 
@@ -84,6 +87,7 @@ def route_plot(traject):
                 marked_cities[cities] = coordinates
 
     for city_went, coordinates in marked_cities.items():
+        # print(city_went, coordinates)
         y_city.append(coordinates["y"])
         x_city.append(coordinates["x"])
 

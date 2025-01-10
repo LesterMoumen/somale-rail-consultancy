@@ -153,6 +153,10 @@ class Train_table():
         visualize.show_visualisation()
 
 class Visualisation():
+    '''
+    To do: all the functions need to use the same coordinates with self. So the plot uses
+    the same points and the route will use the connecting lines.
+    '''
     def __init__(self, connections, locations, trajects):
         self.connections = connections
         self.locations = locations
@@ -174,6 +178,9 @@ class Visualisation():
 
         # Plotting stations/cities
         plt.scatter(x, y)
+
+        # self.stations_coordinates = stations_coordinates
+
         return stations_coordinates
 
     def connection_plot(self):
