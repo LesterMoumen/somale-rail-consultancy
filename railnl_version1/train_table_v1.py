@@ -24,39 +24,75 @@ class Traject():
         self.connections_options = connections_options
         self.locations = locations
         self.max_time = max_time # max time in minutes
+        self.finished = False # initiate track as unfinished
 
     def movement(self):
         """ Random movement from current station to randomly chosen station from
         the available connections. For the baseline model this is random, future
         models will use more advanced algortihms to create more optimal time
         tables.
+        TODO:
+        - a lot of duplicate code, we will clean this up in either an object
+        or just cleaner code.
+        - clean up int(float(time))
         """
         # Makes list of connecting stations with connecting times
         connection_options = list(self.connections_options[self.location].items())
+        # Create list for connections that are within time limit
+        possible_connections = []
 
-        next_connection, time  = random.choice(connection_options)
+        # To avoid passing the maximum time per track, append all stations within time limit to a new list
+        for connection, time in connection_options:
+            real_time = self.traject_time + int(float(time)) # Maybe a nicer solution than using int(float) to prevent errors?
+            if real_time <= self.max_time:
+                possible_connections.append((connection, time))
 
-        split_location = next_connection.split("_")
-        if split_location[0] != self.location:
-            next_station = split_location[0]
+        # If len(list) > 1 exercize random
+        if len(possible_connections) > 1:
+            next_connection, time = random.choice(possible_connections)
+
+            # Split connections into stations
+            split_location = next_connection.split("_")
+            # Check if currently at same station
+            if split_location[0] != self.location:
+                next_station = split_location[0]
+            else:
+                next_station = split_location[1]
+
+            self.traject_history.append(next_station)
+            self.location = next_station
+            self.traject_time += int(float(time)) # Maybe a nicer solution than using int(float) to prevent errors?
+            self.connection_history.append(next_connection)
+
+        # If len(list) == 1, take this as next movement
+        elif len(possible_connections) == 1:
+            next_connection, time = possible_connections[0]
+
+            # Split connections into stations
+            split_location = next_connection.split("_")
+            # Check if currently at same station
+            if split_location[0] != self.location:
+                next_station = split_location[0]
+            else:
+                next_station = split_location[1]
+
+            self.traject_history.append(next_station)
+            self.location = next_station
+            self.traject_time += int(float(time)) # Maybe a nicer solution than using int(float) to prevent errors?
+            self.connection_history.append(next_connection)
+
+        # If list is empty, track is finished
         else:
-            next_station = split_location[1]
-
-        self.traject_history.append(next_station)
-        self.connection_history.append(next_connection)
-        self.location = next_station
-        self.traject_time += int(float(time)) # Maybe a nicer solution that using int(float) to prevent errors?
+            self.finished = True
 
     def run(self):
-        """ Move the train until exceeding the max_time.
-        To do: make the <= max_time apply to the total time, not the n-1 total
-        time as it currently only stops once the max time has been passed.
+        """ Move the train until track is finished. Track is finished if
+        the next traject would cause the traject to exceed the maximum allowed time.
         """
-        while self.traject_time <= self.max_time:
+        while not self.finished:
             self.movement()
 
         return self.traject_history, self.connection_history, self.traject_time
-
 
 class Train_table():
     """ Handles and creates multiple trajects. Calculates cost of created table
