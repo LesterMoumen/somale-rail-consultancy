@@ -28,7 +28,7 @@ class Train_table():
         clean_connections = helper.file_import(connections)
 
         for location in clean_locations:
-            station, x, y = location
+            station, y, x = location
 
             station_connections = {}
             for connection in clean_connections:
@@ -103,7 +103,7 @@ class Train_table():
         """
         print("train, stations")
         for i, traject in enumerate(self.traject_histories):
-            print(traject)
+            print(f'train {i+1} {traject}')
         print("score", self.calculate_quality())
 
     def output_to_csv(self):
@@ -130,5 +130,7 @@ class Train_table():
         - To get y use:                           self.stations_dict[station_name].y_coordinate
         - self.connections and self.locations do not exist anymore.
         """
-        visualize = Visualisation(self.connections, self.locations, self.traject_histories)
+
+        visualize = Visualisation(self.stations_dict, self.traject_histories)
+
         visualize.show_visualisation()
