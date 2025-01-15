@@ -214,9 +214,9 @@ class Visualisation():
         # Plotting stations/cities
         plt.scatter(x, y)
 
-        self.stations_coordinates = stations_coordinates
+        # self.stations_coordinates = stations_coordinates
 
-        # return stations_coordinates
+        return stations_coordinates
 
     def connection_plot(self):
         '''
@@ -224,6 +224,7 @@ class Visualisation():
         '''
         connection_lines = []
         for connection, time in self.connections.items():
+            # print(connection)
             x = []
             y = []
 
@@ -255,20 +256,31 @@ class Visualisation():
                       "brown", "pink", "gray", "olive", "cyran"]
 
         for i, traject in enumerate(self.trajects):
-            marked_cities = {}
-            y_city = []
             x_city = []
-            for station in traject:
-                for city, coordinates in stations_coordinates.items():
-                    if station == city:
-                        marked_cities[city] = coordinates
+            y_city = []
+            # goes over the index in the traject list
+            for index in range(len(traject)-1):
+                current_station = traject[index]
+                next_station = traject[index + 1]
 
-            for city_went, coordinates in marked_cities.items():
-                y_city.append(coordinates["y"])
-                x_city.append(coordinates["x"])
+                # connection as it is in written in the connection dictionary and checks
+                # how the connection is written
+                connection_forward = f"{current_station}_{next_station}"
+                connection_backwards = f"{next_station}_{current_station}"
 
-            plt.plot(x_city,y_city, color = color_list[i], label=f'Traject {i + 1}')
-        plt.legend()
+                if connection_forward in self.connections:
+                    connection = connection_forward
+                elif connection_backwards in self.connections:
+                    connection = connection_backwards
+
+                x_city.append(stations_coordinates[current_station]['x'])
+                y_city.append(stations_coordinates[current_station]['y'])
+                x_city.append(stations_coordinates[next_station]['x'])
+                y_city.append(stations_coordinates[next_station]['y'])
+
+                # plots the train route and only adds a label for the first connection in the traject
+                plt.plot(x_city, y_city, color = color_list[i], label=f'Train {i+1}' if index == 0 else "")
+                plt.legend()
 
     def show_visualisation(self):
         '''
