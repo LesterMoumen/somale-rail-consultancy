@@ -18,4 +18,4 @@ if __name__ == "__main__":
     baseline_train_table.output_to_csv()
 
     # Note: buggy! Will not work
-    #baseline_train_table.visualisation()
+    baseline_train_table.visualisation()

@@ -263,22 +263,12 @@ class Visualisation():
                 current_station = traject[index]
                 next_station = traject[index + 1]
 
-                # connection as it is in written in the connection dictionary and checks
-                # how the connection is written
-                connection_forward = f"{current_station}_{next_station}"
-                connection_backwards = f"{next_station}_{current_station}"
-
-                if connection_forward in self.connections:
-                    connection = connection_forward
-                elif connection_backwards in self.connections:
-                    connection = connection_backwards
-
                 x_city.append(stations_coordinates[current_station]['x'])
                 y_city.append(stations_coordinates[current_station]['y'])
                 x_city.append(stations_coordinates[next_station]['x'])
                 y_city.append(stations_coordinates[next_station]['y'])
 
-                # plots the train route and only adds a label for the first connection in the traject
+                # plots the train route and only adds a label for the first point in the traject
                 plt.plot(x_city, y_city, color = color_list[i], label=f'Train {i+1}' if index == 0 else "")
                 plt.legend()
 
@@ -295,12 +285,10 @@ class Visualisation():
 # Input files
 locations = "StationsHolland_locaties.csv"
 connections = "ConnectiesHolland.csv"
-#locations = "StationsNationaal_locaties.csv"
-#connections = "ConnectiesNationaal.csv"
 
 if __name__ == "__main__":
     # Create baseline model with 7 locations and 120 minutes max
-    baseline_train_table = Train_table(connections, locations, 4, max_time = 120)
+    baseline_train_table = Train_table(connections, locations, 7, max_time = 120)
     baseline_train_table.create_table()
 
     # Printing output in terminal for debugging purposes
