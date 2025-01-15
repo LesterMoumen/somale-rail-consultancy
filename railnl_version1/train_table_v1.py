@@ -277,10 +277,12 @@ class Visualisation():
 # Input files
 locations = "StationsHolland_locaties.csv"
 connections = "ConnectiesHolland.csv"
+#locations = "StationsNationaal_locaties.csv"
+#connections = "ConnectiesNationaal.csv"
 
 if __name__ == "__main__":
     # Create baseline model with 7 locations and 120 minutes max
-    baseline_train_table = Train_table(connections, locations, 7, max_time = 120)
+    baseline_train_table = Train_table(connections, locations, 4, max_time = 120)
     baseline_train_table.create_table()
 
     # Printing output in terminal for debugging purposes

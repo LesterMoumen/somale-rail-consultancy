@@ -66,6 +66,7 @@ def locations_dict(locations):
         station, x, y = location
 
         locations_dict[station] = [x, y]
+        #locations_dict[station] = {"x": x, "y": y}
 
 
     return locations_dict
