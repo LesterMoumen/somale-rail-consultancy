@@ -214,7 +214,9 @@ class Visualisation():
         # Plotting stations/cities
         plt.scatter(x, y)
 
-        return stations_coordinates
+        self.stations_coordinates = stations_coordinates
+
+        # return stations_coordinates
 
     def connection_plot(self):
         '''
@@ -240,7 +242,7 @@ class Visualisation():
 
         # Plot connections between stations
         for connection in connection_lines:
-            plt.plot(connection[0], connection[1], 'k')
+            plt.plot(connection[0], connection[1], '--k')
 
 
     def route_plot(self):
@@ -248,6 +250,9 @@ class Visualisation():
         Create the plot for each train traject
         '''
         stations_coordinates = self.stations_plot()
+
+        color_list = ["blue", "orange", "green", "red", "purple",
+                      "brown", "pink", "gray", "olive", "cyran"]
 
         for i, traject in enumerate(self.trajects):
             marked_cities = {}
@@ -262,7 +267,8 @@ class Visualisation():
                 y_city.append(coordinates["y"])
                 x_city.append(coordinates["x"])
 
-            plt.plot(x_city,y_city, "--b")
+            plt.plot(x_city,y_city, color = color_list[i], label=f'Traject {i + 1}')
+        plt.legend()
 
     def show_visualisation(self):
         '''
