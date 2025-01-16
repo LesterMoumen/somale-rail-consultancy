@@ -1,17 +1,15 @@
 import matplotlib.pyplot as plt
 
 class Visualisation():
-    '''
-    To do: all the functions need to use the same coordinates with self. So the plot uses
-    the same points and the route will use the connecting lines.
+    ''' Handles visualisation of train table.
     '''
     def __init__(self, stations_dict, traject_histories):
         self.stations_dict = stations_dict
         self.traject_histories = traject_histories
 
+
     def stations_plot(self):
-        '''
-        Create a plot for the stations as a scatter plot
+        ''' Create a plot for the stations as a scatter plot
         '''
         y = []
         x = []
@@ -19,7 +17,6 @@ class Visualisation():
         for station, station_object in self.stations_dict.items():
             y_coordinate_station = float(station_object.y_coordinate)
             x_coordinate_station = float(station_object.x_coordinate)
-            # y_coordinate, x_coordinate = float(coordinates[0]), float(coordinates[1])
 
             # stations_coordinates[city] = {"x": x_coordinate, "y": y_coordinate}
             stations_coordinates[station] = {"x": x_coordinate_station, "y": y_coordinate_station}
@@ -32,9 +29,9 @@ class Visualisation():
 
         return stations_coordinates
 
+
     def connection_plot(self):
-        '''
-        Creates the connections in between the stations.
+        ''' Creates the connections in between the stations.
         '''
         connection_lines = []
         # keep track on the plotted connections in a set so there will not be any duplicate connections
@@ -42,7 +39,7 @@ class Visualisation():
 
         for station, station_object in self.stations_dict.items():
             for connection in station_object.connections:
-                
+
                 # make a tuple of the station and its connection and sort it alphabetically.
                 connection_pair = tuple(sorted((station, connection)))
 
@@ -60,9 +57,10 @@ class Visualisation():
                     connections_plotted.add(connection_pair)
 
         # Plot connections between stations
+        labelx = True
         for connection_coordinates in connection_lines:
-            plt.plot(connection_coordinates[0], connection_coordinates[1], '--k')
-
+            plt.plot(connection_coordinates[0], connection_coordinates[1], '--k', label="Empty routes" if labelx else "")
+            labelx = False
 
 
     def route_plot(self):
@@ -80,7 +78,6 @@ class Visualisation():
 
             # goes over the index in the traject list
             for index in range(len(traject)-1):
-
                 current_station, next_station = traject[index].split('_')
 
                 x_city.append(stations_coordinates[current_station]['x'])
@@ -95,13 +92,15 @@ class Visualisation():
                 x_city.clear()
                 y_city.clear()
 
-            plt.legend()
+            plt.legend(loc = "lower right")
+
 
     def show_visualisation(self):
-        '''
-        Combines the different plots in a single one
+        ''' Combines the different plots in a single one, and shows it.
         '''
         self.stations_plot()
         self.connection_plot()
         self.route_plot()
+        plt.title("Train trajects Holland visualized")
+
         plt.show()
