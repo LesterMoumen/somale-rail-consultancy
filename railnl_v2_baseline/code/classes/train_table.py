@@ -101,6 +101,7 @@ class Train_table():
         """ Prints in terminal as ouput the trajects and quality score. Mainly used for
         debugging. Final version of code will only use output_to_csv().
         """
+
         print("train, stations")
         for i, traject in enumerate(self.traject_histories):
             print(f'train {i+1} {traject}')
@@ -124,11 +125,6 @@ class Train_table():
     def visualisation(self):
         """
         Creates the visualisation for the trains and the train table and displays it.
-        Notes:
-        - Buggy! Does not refer to classes yet.
-        - To get the x of certain station use:    self.stations_dict[station_name].x_coordinate
-        - To get y use:                           self.stations_dict[station_name].y_coordinate
-        - self.connections and self.locations do not exist anymore.
         """
 
         visualize = Visualisation(self.stations_dict, self.traject_histories)

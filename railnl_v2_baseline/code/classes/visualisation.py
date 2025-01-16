@@ -5,9 +5,9 @@ class Visualisation():
     To do: all the functions need to use the same coordinates with self. So the plot uses
     the same points and the route will use the connecting lines.
     '''
-    def __init__(self, stations_dict, trajects):
+    def __init__(self, stations_dict, traject_histories):
         self.stations_dict = stations_dict
-        self.trajects = trajects
+        self.traject_histories = traject_histories
 
     def stations_plot(self):
         '''
@@ -37,29 +37,12 @@ class Visualisation():
         Creates the connections in between the stations.
         '''
         connection_lines = []
-        # keep track on the plotted connections
+        # keep track on the plotted connections in a set so there will not be any duplicate connections
         connections_plotted = set()
-        # for connection, time in self.stations_dict.items():
-        #
-        #     x = []
-        #     y = []
-        #
-        #     # splitting the connection in 2 cities
-        #     city1, city2 = connection.split("_")
-        #
-        #     coordinates_city1 = self.locations[city1]
-        #     coordinates_city2 = self.locations[city2]
-        #
-        #     y.append(float(coordinates_city1[0]))
-        #     x.append(float(coordinates_city1[1]))
-        #     y.append(float(coordinates_city2[0]))
-        #     x.append(float(coordinates_city2[1]))
-        #
-        #     connection_lines.append([x,y])
 
         for station, station_object in self.stations_dict.items():
             for connection in station_object.connections:
-
+                
                 # make a tuple of the station and its connection and sort it alphabetically.
                 connection_pair = tuple(sorted((station, connection)))
 
@@ -91,21 +74,14 @@ class Visualisation():
         color_list = ["blue", "orange", "green", "red", "purple",
                       "brown", "pink", "gray", "olive", "cyran"]
 
-        for i, traject in enumerate(self.trajects):
+        for i, traject in enumerate(self.traject_histories):
             x_city = []
             y_city = []
 
             # goes over the index in the traject list
             for index in range(len(traject)-1):
 
-                # current_station = traject[index]
-                # # print(current_station)
-                # next_station = traject[index + 1]
-
                 current_station, next_station = traject[index].split('_')
-                print(f'current_station; {current_station}')
-                print(f'next_station; {next_station}')
-
 
                 x_city.append(stations_coordinates[current_station]['x'])
                 y_city.append(stations_coordinates[current_station]['y'])
@@ -114,7 +90,12 @@ class Visualisation():
 
                 # plots the train route and only adds a label for the first point in the traject
                 plt.plot(x_city, y_city, color = color_list[i], label=f'Train {i+1}' if index == 0 else "")
-                plt.legend()
+
+                # clear the list so there will not be connections which do not exist due to overlapping points
+                x_city.clear()
+                y_city.clear()
+
+            plt.legend()
 
     def show_visualisation(self):
         '''
