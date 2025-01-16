@@ -2,6 +2,7 @@
 
 import random
 import csv
+from code.algorithms.randomise import random_start_station
 from .traject import Traject
 from .station import Station
 from .visualisation import Visualisation
@@ -60,7 +61,7 @@ class Train_table():
                       "brown", "pink", "gray", "olive", "cyran"]
 
         for i in range(number_of_trajects):
-            start_location = random.choice(list(self.stations_dict.keys()))
+            start_location = random_start_station(list(self.stations_dict.keys()))
             self.trajects_list.append(Traject(start_location, self.stations_dict, color_list[i], max_time))
 
     def create_connections_set(self, connections):

@@ -1,5 +1,5 @@
 # baseline version
-
+from code.algorithms.randomise import random_select_next_station
 import random
 
 class Traject():
@@ -30,32 +30,49 @@ class Traject():
         return valid_connections
 
     def movement(self):
-        """ Random movement from current station to randomly chosen station from
-        the available connections. For the baseline model this is random, future
-        models will use more advanced algortihms to create more optimal time
-        tables.
-        TODO:
-        - clean up int(float(time))?
+        """ Move to next station.
         """
         valid_connections = self.valid_connection_options()
+        next_station = random_select_next_station(valid_connections)
 
-        # Checks if there are valid connections left, otherwise marks track as finished
-        if not valid_connections:
+        if next_station is None:
             self.finished = True
-        else:
-            # Randomly pick next connection from valid options
-            next_station = random.choice(list(valid_connections.keys()))
+            return
 
-            # Add connection to history, and sort alphabetically
-            connection = sorted([self.location, next_station])
-            self.connection_history.append(connection[0] + "_" + connection[1])
+        # Add connection to history, and sort alphabetically
+        connection = sorted([self.location, next_station])
+        self.connection_history.append(connection[0] + "_" + connection[1])
 
-            # update self.time and self.location
-            self.traject_time += int(float(valid_connections[next_station]))
-            self.location = next_station
+        # update self.time and self.location
+        self.traject_time += int(float(valid_connections[next_station]))
+        self.location = next_station
 
         # Note:
         # Old code, kept here for reference, can be deleted upon checking.
+        #def movement(self):
+        #""" Random movement from current station to randomly chosen station from
+        #the available connections. For the baseline model this is random, future
+        #models will use more advanced algortihms to create more optimal time
+        #tables.
+        #TODO:
+        #- clean up int(float(time))?
+        #"""
+        #valid_connections = self.valid_connection_options()
+
+        # Checks if there are valid connections left, otherwise marks track as finished
+        #if not valid_connections:
+        #    self.finished = True
+        #else:
+        #    # Randomly pick next connection from valid options
+        #    next_station = random.choice(list(valid_connections.keys()))
+        #
+            # Add connection to history, and sort alphabetically
+        #    connection = sorted([self.location, next_station])
+        #    self.connection_history.append(connection[0] + "_" + connection[1])
+
+            # update self.time and self.location
+        #    self.traject_time += int(float(valid_connections[next_station]))
+        #    self.location = next_station
         #
         # Create list for connections that are within time limit
         #possible_connections = []
