@@ -13,6 +13,7 @@ class Traject():
         self.stations = stations # list of initialized station classes
         self.max_time = max_time # max time in minutes
         self.finished = False # initiate track as unfinished
+        self.station_history = [start_location] # list with stations visited
 
     def valid_connection_options(self):
         # Get dictionary of connection options with respective time
@@ -46,6 +47,7 @@ class Traject():
         # update self.time and self.location
         self.traject_time += int(float(valid_connections[next_station]))
         self.location = next_station
+        self.station_history.append(next_station)
 
         # Note:
         # Old code, kept here for reference, can be deleted upon checking.
@@ -128,4 +130,4 @@ class Traject():
         while not self.finished:
             self.movement()
 
-        return self.connection_history, self.traject_time
+        return self.station_history, self.connection_history, self.traject_time

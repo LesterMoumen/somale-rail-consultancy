@@ -17,6 +17,7 @@ class Train_table():
         self.trajects_list = [] # list to store trajects
         self.add_trajects(number_of_trajects, max_time)
         self.traject_histories = []
+        self.station_histories = []
         self.connections_set = self.create_connections_set(connections) # set of connections
         self.total_time = 0
 
@@ -50,9 +51,10 @@ class Train_table():
         """ Creates the train table.
         """
         for traject in self.trajects_list:
-            connection_history, traject_time = traject.run()
+            station_history, connection_history, traject_time = traject.run()
             self.traject_histories.append(connection_history)
             self.total_time += traject_time
+            self.station_histories.append(station_history)
 
     def add_trajects(self, number_of_trajects, max_time):
         """ Add new trains/trajects.
@@ -104,8 +106,8 @@ class Train_table():
         """
 
         print("train, stations")
-        for i, traject in enumerate(self.traject_histories):
-            print(f'train {i+1} {traject}')
+        for i, stations in enumerate(self.station_histories):
+            print(f'train {i+1} {stations}')
         print("score", self.calculate_quality())
 
     def output_to_csv(self):
@@ -116,9 +118,9 @@ class Train_table():
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['train', 'stations'])
 
-        for i, traject in enumerate(self.traject_histories):
+        for i, stations in enumerate(self.station_histories):
             train = f"train {1+i}"
-            csv_writer.writerow([train, traject])
+            csv_writer.writerow([train, stations])
 
         csv_writer.writerow(["score", self.calculate_quality()])
         csv_file.close()
