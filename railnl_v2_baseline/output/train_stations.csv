@@ -1,3 +1,3 @@
 train,stations
-train 1,"['Dordrecht_Rotterdam Centraal', 'Rotterdam Centraal_Schiedam Centrum', 'Rotterdam Centraal_Schiedam Centrum', 'Rotterdam Alexander_Rotterdam Centraal', 'Gouda_Rotterdam Alexander', 'Alphen a/d Rijn_Gouda', 'Alphen a/d Rijn_Leiden Centraal', 'Heemstede-Aerdenhout_Leiden Centraal', 'Heemstede-Aerdenhout_Leiden Centraal', 'Leiden Centraal_Schiphol Airport']"
-score,2638.142857142857
+train 1,"['Amsterdam Sloterdijk_Amsterdam Zuid', 'Amsterdam Sloterdijk_Haarlem', 'Beverwijk_Haarlem', 'Beverwijk_Zaandam', 'Beverwijk_Zaandam', 'Beverwijk_Haarlem', 'Haarlem_Heemstede-Aerdenhout']"
+score,1570.7142857142858
