@@ -5,7 +5,7 @@ import random
 class Traject():
     """ Handles a single train route/traject.
     """
-    def __init__(self, start_location, stations, color, max_time):
+    def __init__(self, start_location, stations, color, max_time, select_next_station_algoritm):
         self.location = start_location # current station
         self.color = color # color of the traject
         self.connection_history = [] # list with connections visited
@@ -14,6 +14,7 @@ class Traject():
         self.max_time = max_time # max time in minutes
         self.finished = False # initiate track as unfinished
         self.station_history = [start_location] # list with stations visited
+        self.select_next_station_algoritm = select_next_station_algoritm
 
 
     def valid_connection_options(self):

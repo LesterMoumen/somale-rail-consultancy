@@ -12,10 +12,10 @@ class Train_table():
     """ Handles and creates multiple trajects. Calculates cost of created table
     and outputs findings.
     """
-    def __init__(self, connections, locations, number_of_trajects, max_time):
+    def __init__(self, connections, locations, number_of_trajects, max_time, start_location_algorithm, select_next_station_algoritm):
         self.stations_dict = self.load_stations(connections, locations)
         self.trajects_list = [] # list to store trajects
-        self.add_trajects(number_of_trajects, max_time)
+        self.add_trajects(number_of_trajects, max_time, start_location_algorithm, select_next_station_algoritm)
         self.connections_set = self.create_connections_set(connections) # set of connections
         self.traject_histories = []
         self.station_histories = []
@@ -59,15 +59,17 @@ class Train_table():
             self.station_histories.append(station_history)
 
 
-    def add_trajects(self, number_of_trajects, max_time):
+    def add_trajects(self, number_of_trajects, max_time, start_location_algorithm, select_next_station_algoritm):
         """ Add new trains/trajects.
         """
         color_list = ["blue", "orange", "green", "red", "purple",
                       "brown", "pink", "gray", "olive", "cyran"]
 
         for i in range(number_of_trajects):
-            start_location = random_start_station(list(self.stations_dict.keys()))
-            self.trajects_list.append(Traject(start_location, self.stations_dict, color_list[i], max_time))
+            start_location = start_location_algorithm(list(self.stations_dict.keys()))
+            self.trajects_list.append(Traject(start_location, self.stations_dict, color_list[i], max_time, select_next_station_algoritm))
+            # start_location = random_start_station(list(self.stations_dict.keys()))
+            # self.trajects_list.append(Traject(start_location, self.stations_dict, color_list[i], max_time))
 
 
     def create_connections_set(self, connections):
