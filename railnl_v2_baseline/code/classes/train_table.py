@@ -14,13 +14,16 @@ class Train_table():
     and outputs findings.
     """
     def __init__(self, connections, locations, number_of_trajects, max_time, start_location_algorithm, select_next_station_algoritm):
-        self.stations_dict, self.connections_dict = self.load_data(connections, locations)
-        self.trajects_list = [] # list to store trajects
-        self.add_trajects(number_of_trajects, max_time, start_location_algorithm, select_next_station_algoritm)
+        self.number_of_trajects = number_of_trajects
+        self.max_time = max_time
+        self.total_time = 0
+        self.start_location_algorithm = start_location_algorithm
+        self.select_next_station_algoritm = select_next_station_algoritm
         self.connections_set = self.create_connections_set(connections) # set of connections
+        self.trajects_list = [] # list to store trajects
         self.traject_histories = []
         self.station_histories = []
-        self.total_time = 0
+        self.stations_dict, self.connections_dict = self.load_data(connections, locations)
 
 
     def load_data(self, connections, locations):
@@ -35,6 +38,7 @@ class Train_table():
         stations_dict = {}
         for location in clean_locations:
             station, y, x = location
+            # Station called with empty dictionary, being appended in line 52/53
             stations_dict[station] = Station(station, {}, x, y)
 
         # Create and add Connection objects to connection dict
@@ -53,11 +57,13 @@ class Train_table():
     def create_table(self):
         """ Creates the train table (lijnvoering).
         """
+
         for traject in self.trajects_list:
             station_history, connection_history, traject_time = traject.run()
             self.traject_histories.append(connection_history)
             self.total_time += traject_time
             self.station_histories.append(station_history)
+
 
 
     def add_trajects(self, number_of_trajects, max_time, start_location_algorithm, select_next_station_algoritm):
@@ -105,7 +111,7 @@ class Train_table():
         # Calculate cost
         quality = p * 10000 - (T*100 + self.total_time)
 
-        return quality
+        return quality, p
 
 
     def print_output(self):
@@ -140,3 +146,44 @@ class Train_table():
         """
         visualize = Visualisation(self.stations_dict, self.traject_histories)
         visualize.show_visualisation()
+
+
+    def is_solution(self):
+        """ Checks if final state is indeed a solution """
+        K, p = self.calculate_quality()
+
+        if p == 1:
+            return True  # Solution found
+        return False
+
+
+    def loop_for_solution(self, max_iterations=10000):
+        """
+        Loops to create train tables until a complete solution is found (p = 1)
+        or the maximum number of iterations is reached.
+        """
+        for iteration in range(max_iterations):
+            print(f"Iteration {iteration + 1}: Generating train table...")
+
+            # Reset and recreate the table
+            self.reset_trajects()
+            self.add_trajects(self.number_of_trajects, self.max_time, self.start_location_algorithm, self.select_next_station_algoritm)
+            self.create_table()
+
+            # Check if the solution is complete
+            if self.is_solution():
+                print(f"Traject Histories: {len(self.traject_histories)}")
+
+                print("Complete solution found!")
+                return  # Stop the loop
+
+        print("Maximum iterations reached. No complete solution found.")
+
+    def reset_trajects(self):
+        """
+        Resets the table.
+        """
+        self.trajects_list = []
+        self.traject_histories = []
+        self.station_histories = []
+        self.total_time = 0
