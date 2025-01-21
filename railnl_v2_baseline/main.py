@@ -3,6 +3,8 @@
 from code.classes.train_table import Train_table
 from code.algorithms.randomise import random_start_station
 from code.algorithms.randomise import random_select_next_station
+from code.classes.trajectanalyzer import *
+from code.boxplot import create_box_plot
 
 # Data files
 locations_holland = "data/StationsHolland_locaties.csv"
@@ -25,7 +27,24 @@ if __name__ == "__main__":
     #baseline_train_table.print_output()
 
     # Creates csv output file and adds to output folder
-    baseline_train_table.output_to_csv()
+    #baseline_train_table.output_to_csv()
 
     # Creates visualisatin plot
-    baseline_train_table.visualisation()
+    #baseline_train_table.visualisation()
+
+    #stations_dict = baseline_train_table.stations_dict
+    #ta = TrajectAnalyzer(stations_dict) #, traject_histories)
+
+    #______TrajectAnalyzer tester______
+    stations_dict = baseline_train_table.stations_dict
+    ta = TrajectAnalyzer(stations_dict) #, traject_histories)
+    print(f"\n(Remaining) Dead ends: \n{ta.dead_ends}")
+    print(f"\n(Remaining) Odd connections: \n{ta.odd_connections}")
+    print(f"\n(Next) Start location: {ta.next_start_location}")
+
+    #______Box plot maker for random algorithm______
+    #number_of_experiments = 100 # N
+    #number_of_trajects = 7
+    #plot_name = f"K Distributie Random Algoritme (N = {number_of_experiments})"
+
+    #create_box_plot(connections, locations, number_of_trajects, max_time, start_location_algorithm = random_start_station, select_next_station_algoritm = random_select_next_station, N = number_of_experiments, plot_name = plot_name)
