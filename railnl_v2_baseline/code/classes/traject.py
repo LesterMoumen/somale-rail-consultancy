@@ -39,7 +39,7 @@ class Traject():
         """ Move to next station.
         """
         valid_connections = self.valid_connection_options()
-        next_station = random_select_next_station(valid_connections)
+        next_station = self.select_next_station_algoritm(valid_connections)
 
         if next_station is None:
             self.finished = True
