@@ -3,6 +3,7 @@
 from code.classes.train_table import Train_table
 from code.algorithms.randomise import random_start_station
 from code.algorithms.randomise import random_select_next_station
+# from code.algortihms.greedy import greedy as gr
 
 # Data files
 locations_holland = "data/StationsHolland_locaties.csv"
@@ -29,3 +30,6 @@ if __name__ == "__main__":
 
     # Creates visualisatin plot
     baseline_train_table.visualisation()
+    # -------------Greedy ----------------------------
+    # greedy = gr.Greedy(baseline_train_table())
+    # greedy.run()
