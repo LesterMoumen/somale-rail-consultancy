@@ -77,7 +77,7 @@ class Visualisation():
             y_city = []
 
             # goes over the index in the traject list
-            for index in range(len(traject)-1):
+            for index in range(len(traject)):
                 current_station, next_station = traject[index].split('_')
 
                 x_city.append(stations_coordinates[current_station]['x'])
