@@ -8,6 +8,7 @@
 from code.algorithms.experiment import Experiment
 from code.algorithms.randomise import Randomise
 from code.algorithms.run_experiments import RunExperiments
+from code.algorithms.greedy import Greedy
 
 # Data files
 locations_holland = "data/StationsHolland_locaties.csv"
@@ -25,15 +26,20 @@ if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
     number_of_trajects = 4
-    randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
-    randomised_experiment.run()
-    # Print output in terminal
-    randomised_experiment.print_output()
+    # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
+    # randomised_experiment.run()
+    # # Print output in terminal
+    # randomised_experiment.print_output()
+
+    # ____run Greedy_____________
+    greedy = Greedy(connections_file, locations_file, number_of_trajects, max_time)
+    greedy.run()
+    greedy.print_output()
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
-    algorithm = Randomise
-    number_of_experiments = 100
-    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    r.run()
-    r.create_boxplot()
+    # algorithm = Randomise
+    # number_of_experiments = 100
+    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    # r.run()
+    # r.create_boxplot()
