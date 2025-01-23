@@ -33,8 +33,8 @@ class Experiment():
         stations_dict = {}
         for location in clean_locations:
             station, y, x = location
-            # Station called with empty dictionary, being appended in line 52/53
-            stations_dict[station] = Station(station, {}, x, y)
+            # Station crreated with empty connection dictionary, being appended in line 52/53
+            stations_dict[station] = Station(station, {}, (float(x), float(y)))
 
         # Create and add Connection objects to connection dict
         connections_dict = {}
@@ -201,5 +201,5 @@ class Experiment():
         """
         Creates the visualisation for the trains and the train table and displays it.
         """
-        visualize = Visualisation(self.stations_dict, self.traject_list)
+        visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
         visualize.show_visualisation()
