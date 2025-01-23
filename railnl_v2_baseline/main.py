@@ -3,6 +3,9 @@
 from code.classes.train_table import Train_table
 from code.algorithms.randomise import random_start_station
 from code.algorithms.randomise import random_select_next_station
+from code.algorithms.greedy import Greedy
+# from code.algorithms.greedy import get_next_connection
+
 from code.classes.trajectanalyzer import *
 from code.boxplot import create_box_plot
 from code.algorithms.depthfirst import DepthFirstCounter
@@ -53,13 +56,26 @@ if __name__ == "__main__":
 
 
     #______Box plot maker for random algorithm______
-    #number_of_experiments = 100 # N
-    #number_of_trajects = 7
-    #plot_name = f"K Distributie Random Algoritme (N = {number_of_experiments})"
+    number_of_experiments = 100 # N
+    number_of_trajects = 7
+    plot_name = f"K Distributie Random Algoritme (N = {number_of_experiments})"
 
-    #create_box_plot(connections, locations, number_of_trajects, max_time, start_location_algorithm = random_start_station, select_next_station_algoritm = random_select_next_station, N = number_of_experiments, plot_name = plot_name)
+    create_box_plot(connections, locations, number_of_trajects, max_time, start_location_algorithm = random_start_station, select_next_station_algoritm = random_select_next_station, N = number_of_experiments, plot_name = plot_name)
 
 
-# -------------Greedy ----------------------------
-# greedy = gr.Greedy(baseline_train_table())
-# greedy.run()
+    # -------------Greedy ----------------------------
+
+    # for traject in baseline_train_table.trajects_list:
+    #     greedy = Greedy(baseline_train_table, traject)
+    #     greedy.run()
+    #     # Recalculate quality after running Greedy
+    #     quality = baseline_train_table.calculate_quality()
+    #     print(f"\nQuality after Greedy: {quality}")
+    #
+    #     # Print updated output
+    #     print("\nGreedy solution:")
+    #     # baseline_train_table.print_output()
+    #
+    #     # Optional: save the updated output to a CSV and visualize it
+    #     # baseline_train_table.output_to_csv(filename="greedy_output.csv")
+    #     baseline_train_table.visualisation()

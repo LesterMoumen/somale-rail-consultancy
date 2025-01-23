@@ -29,13 +29,20 @@ class Visualisation():
 
         return stations_coordinates
 
-
-    def connection_plot(self):
-        ''' Creates the connections in between the stations.
+    def connection_frequency_plot(self):
         '''
-        connection_lines = []
-        # keep track on the plotted connections in a set so there will not be any duplicate connections
-        connections_plotted = set()
+        Creates the connections between the stations with its frequency.
+        '''
+        # keeps track how often a connection has been used in traject_histories
+        connection_counts = {}
+        # keep track on the plotted connections as connection_pair; [x_station, x_connection, y_station, y_connection]
+        connections_plotted = {}
+
+        for traject in self.traject_histories:
+            for index in range(len(traject)):
+                current_station, next_station = traject[index].split('_')
+                connection_pair = tuple(sorted((current_station, next_station)))
+                connection_counts[connection_pair] = connection_counts.get(connection_pair, 0) + 1
 
         for station, station_object in self.stations_dict.items():
             for connection in station_object.connections:
@@ -44,23 +51,18 @@ class Visualisation():
                 connection_pair = tuple(sorted((station, connection)))
 
                 if connection_pair not in connections_plotted:
-                    # print(connection)
-                    x = []
-                    y = []
 
-                    x.append(float(self.stations_dict[station].x_coordinate))
-                    y.append(float(self.stations_dict[station].y_coordinate))
-                    x.append(float(self.stations_dict[connection].x_coordinate))
-                    y.append(float(self.stations_dict[connection].y_coordinate))
+                    x = [float(self.stations_dict[station].x_coordinate) , float(self.stations_dict[connection].x_coordinate)]
+                    y = [float(self.stations_dict[station].y_coordinate), float(self.stations_dict[connection].y_coordinate)]
 
-                    connection_lines.append([x,y])
-                    connections_plotted.add(connection_pair)
+                    connections_plotted[connection_pair] = [x,y]
 
-        # Plot connections between stations
-        labelx = True
-        for connection_coordinates in connection_lines:
-            plt.plot(connection_coordinates[0], connection_coordinates[1], '--k', label="Empty routes" if labelx else "")
-            labelx = False
+        # Plot the connections pair and its frequency how often a connecion has been used
+        # how bigger the line_width how more frequent the connection has been used.
+        for connection_pair, coordinates in connections_plotted.items():
+            frequency = connection_counts.get(connection_pair)
+            line_width = frequency + 1
+            plt.plot(coordinates[0], coordinates[1], '--k', linewidth = line_width )
 
 
     def route_plot(self):
@@ -99,7 +101,7 @@ class Visualisation():
         ''' Combines the different plots in a single one, and shows it.
         '''
         self.stations_plot()
-        self.connection_plot()
+        self.connection_frequency_plot()
         self.route_plot()
         plt.title("Train trajects Holland visualized")
 
