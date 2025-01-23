@@ -25,6 +25,7 @@ max_time = 120
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
+<<<<<<< HEAD
     number_of_trajects = 4
     # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
     # randomised_experiment.run()
@@ -47,3 +48,19 @@ if __name__ == "__main__":
         greedy = Greedy(connections_file, locations_file, number_of_trajects, max_time)
         greedy.run()
         greedy.print_output()
+=======
+    number_of_trajects = 7
+    randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
+    randomised_experiment.run()
+    # Print output in terminal
+    randomised_experiment.print_output()
+    randomised_experiment.visualisation()
+
+    # ____Run multiple experiments___
+    # e.g. with randomise algorithms
+    #algorithm = Randomise
+    #number_of_experiments = 100
+    #r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    #r.run()
+    #r.create_boxplot()
+>>>>>>> 1f6260b22536b6aaa8740c156ee5400d2d41755d
