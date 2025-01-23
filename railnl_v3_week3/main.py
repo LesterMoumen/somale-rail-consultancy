@@ -31,11 +31,6 @@ if __name__ == "__main__":
     # # Print output in terminal
     # randomised_experiment.print_output()
 
-    # ____run Greedy_____________
-    greedy = Greedy(connections_file, locations_file, number_of_trajects, max_time)
-    greedy.run()
-    greedy.print_output()
-
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
     # algorithm = Randomise
@@ -43,3 +38,12 @@ if __name__ == "__main__":
     # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
     # r.run()
     # r.create_boxplot()
+
+
+
+
+
+        # ____run Greedy_____________
+        greedy = Greedy(connections_file, locations_file, number_of_trajects, max_time)
+        greedy.run()
+        greedy.print_output()
