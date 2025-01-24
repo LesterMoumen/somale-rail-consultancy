@@ -130,6 +130,6 @@ class Visualisation():
         self.connection_frequency_plot()
         self.route_plot()
         plt.title("Train trajects Holland visualized")
-        plt.legend(loc = "lower right")
+        # plt.legend(loc = "lower right")
 
         plt.show()
