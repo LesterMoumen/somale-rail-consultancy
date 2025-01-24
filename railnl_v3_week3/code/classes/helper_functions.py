@@ -16,3 +16,13 @@ def file_import(file):
             clean_file.append(split_data)
 
     return clean_file
+
+def sorted_connection(station1, station2, separator="_"):
+    """ Returns input two stations as sorted connection string.
+    e.g. "Den Helder" and "Alkmaar" become "Alkmaar_Den Helder"
+    """
+    sorted_connection = sorted([station1, station2])
+
+    connection_str = f"{sorted_connection[0]}_{sorted_connection[1]}"
+
+    return connection_str
