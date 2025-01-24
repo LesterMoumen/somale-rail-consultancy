@@ -9,6 +9,8 @@ from code.algorithms.experiment import Experiment
 from code.algorithms.randomise import Randomise
 from code.algorithms.run_experiments import RunExperiments
 from code.algorithms.greedy import Greedy
+from code.algorithms.greedy import GreedyLookahead
+
 
 # Data files
 locations_holland = "data/StationsHolland_locaties.csv"
@@ -25,12 +27,12 @@ max_time = 120
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    number_of_trajects = 1
+    number_of_trajects = 3
     randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
-    #randomised_experiment.run()
+    randomised_experiment.run()
     # Print output in terminal
-    #randomised_experiment.print_output()
-    #randomised_experiment.visualisation()
+    randomised_experiment.print_output()
+    # randomised_experiment.visualisation()
 
     # Test trajectanalyzer
     stations_dict = randomised_experiment.stations_dict
@@ -63,3 +65,8 @@ if __name__ == "__main__":
     greedy_experiment.run()
     greedy_experiment.print_output()
     greedy_experiment.visualisation()
+    # __________GreedyLookahead___________
+    greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
+    greedy_lookahead_experiment.run()
+    greedy_lookahead_experiment.print_output()
+    # greedy_lookahead_experiment.visualisation()
