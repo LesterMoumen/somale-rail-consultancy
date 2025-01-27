@@ -10,7 +10,7 @@ from code.algorithms.randomise import Randomise
 from code.algorithms.run_experiments import RunExperiments
 from code.algorithms.greedy import Greedy
 from code.algorithms.greedy import GreedyLookahead
-from code.algorithms.hillclimber import HillClimber
+#from code.algorithms.hillclimber import HillClimber
 
 
 # Data files
@@ -20,10 +20,10 @@ locations_national = "data/StationsNationaal_locaties.csv"
 connections_national = "data/ConnectiesNationaal.csv"
 
 # Parameters
-connections_file = connections_holland
-locations_file = locations_holland
-max_number_of_trajects = 7
-max_time = 120
+connections_file = connections_national
+locations_file = locations_national
+max_number_of_trajects = 20
+max_time = 180
 
 if __name__ == "__main__":
     # ____Run single experiment____
@@ -56,10 +56,10 @@ if __name__ == "__main__":
     number_of_experiments = 1000
     r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
     r.run()
-    r.print()
-    r.visualise()
-    r.to_csv()
-    traintable = r.best_yielding_experiment
+    # r.print()
+    # r.visualise()
+    # r.to_csv()
+    # traintable = r.best_yielding_experiment
     #r.create_boxplot()
 
       # # ____run DepthFirstCounter_____________
@@ -71,9 +71,9 @@ if __name__ == "__main__":
     # randomised_experiment = Randomise(connections_file, locations_file, max_number_of_trajects, max_time)
     # traintable = randomised_experiment.run_till_solution()
     #
-    hill_climber = HillClimber(traintable)
-    hill_climber.run(1000, verbose=True)
-    
+    # hill_climber = HillClimber(traintable)
+    # hill_climber.run(1000, verbose=True)
+
     # traintable.print_output()
     # traintable.visualisation()
 

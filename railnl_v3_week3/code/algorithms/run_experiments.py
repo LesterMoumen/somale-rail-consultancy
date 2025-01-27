@@ -1,7 +1,8 @@
-
 import matplotlib.pyplot as plt
 from code.algorithms.experiment import Experiment
 from code.algorithms.randomise import Randomise
+from code.classes.helper_functions import save_results
+from code.algorithms.hillclimber import HillClimber
 
 
 class RunExperiments():
@@ -12,7 +13,8 @@ class RunExperiments():
         self.max_time = max_time
         self.number_of_experiments = number_of_experiments
         self.algorithm = algorithm_type
-        self.best_yielding_experiment = None
+        self.best_yielding_experiment = {}
+
         # List of lists of qualities
         # e.g. [traject1_data, traject2_data] with traject1_data = [experiment1_quality, experiment2_quality]
         self.data = {}
@@ -20,16 +22,17 @@ class RunExperiments():
     def run(self):
         """ Runs all experiments and collects data. Saves best quality experiment too.
         """
-        highest_quality = 0
 
-        for number_of_trajects in range(7, self.max_number_of_trajects+1):
+        for number_of_trajects in range(8, 11): #self.max_number_of_trajects+1):
+            highest_quality = 0
             qualities = []
+            best_experiment_object = None
+
             print(f"Starting experiments for {number_of_trajects} trajects...")
 
             for i in range(self.number_of_experiments):
+                # Initialize the experiment object
                 experiment_object = self.algorithm(self.connections_file, self.locations_file, number_of_trajects, self.max_time)
-
-                # Run experiment
                 experiment_object.run()
 
                 # Print progress every 100 iterations
@@ -42,10 +45,28 @@ class RunExperiments():
 
                 if quality > highest_quality:
                     highest_quality = quality
-                    self.best_yielding_experiment = experiment_object
+                    best_experiment_object = experiment_object
+
+            # Save results for the highest quality solution (before HillClimber)
+            save_results(best_experiment_object, number_of_trajects, "before")
+
+            # Run the HillClimber on the highest quality solution
+            hill_climber = HillClimber(best_experiment_object)
+            hill_climber.run(iterations=100, verbose=False)
+
+            # Update the best-yielding experiment
+            self.best_yielding_experiment[f"Total number of trajects: {number_of_trajects}"] = hill_climber.train_table
+
+            # Save results for the highest quality solution (after HillClimber)
+            save_results(hill_climber.train_table, number_of_trajects, "after")
 
             # Add to dictionary
             self.data[number_of_trajects] = qualities
+
+            # Save results
+            # self to_csv()
+            # self.print()
+            # self.visualise()
 
     def to_csv(self):
         self.best_yielding_experiment.output_to_csv()
