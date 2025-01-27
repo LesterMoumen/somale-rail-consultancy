@@ -23,7 +23,7 @@ class RunExperiments():
         """ Runs all experiments and collects data. Saves best quality experiment too.
         """
 
-        for number_of_trajects in range(8, 11): #self.max_number_of_trajects+1):
+        for number_of_trajects in range(10, 11): #self.max_number_of_trajects+1):
             highest_quality = 0
             qualities = []
             best_experiment_object = None
@@ -52,7 +52,7 @@ class RunExperiments():
 
             # Run the HillClimber on the highest quality solution
             hill_climber = HillClimber(best_experiment_object)
-            hill_climber.run(iterations=100, verbose=False)
+            hill_climber.run(iterations=10000, verbose=False)
 
             # Update the best-yielding experiment
             self.best_yielding_experiment[f"Total number of trajects: {number_of_trajects}"] = hill_climber.train_table
