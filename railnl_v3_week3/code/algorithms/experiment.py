@@ -15,20 +15,12 @@ class Experiment():
         self.max_time = max_time
         self.number_of_trajects = number_of_trajects
 
-<<<<<<< HEAD
-        self.color_list = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "ivory", "gray", "cyan", "magenta", "lime", "teal", "indigo", "violet", "gold","silver","beige"]
 
-=======
-<<<<<<< HEAD
         self.color_list = ["blue", "orange", "green", "red", "purple",
         "brown", "pink", "gray", "olive", "cyan",
         "yellow", "violet", "indigo", "magenta", "teal",
         "turquoise", "lime", "navy", "gold", "silver"]
-=======
-        self.color_list = list(colormaps)#["blue", "orange", "green", "red", "purple",
-                           #"brown", "pink", "gray", "olive", "cyran"]
->>>>>>> 93365ba4d21e9e21d5028b9043581729f8251475
->>>>>>> 8a0e8945f956f8e63e92cd821237f2e7b858ac78
+
 
         self.traject_list = []
 
@@ -139,14 +131,13 @@ class Experiment():
 
         return total_time
 
-    # def initialize(self):
-    #     """ Add new trains/trajects.
-    #     """
-    #     for i in range
-    #     # for i in range(self.number_of_trajects):
-    #     #     start_location = self.start_station(list(self.stations_dict.keys()))
-    #     #
-    #     #     self.traject_list.append(Traject2(start_location, self.color_list[i])) #, max_time, select_next_station_algoritm))
+    def initialize_trajects(self):
+        """ Add new trains/trajects.
+        """
+        for i in range(self.number_of_trajects):
+            start_location = self.start_station(list(self.stations_dict.keys()))
+
+            self.traject_list.append(Traject2(start_location, self.color_list[i])) #, max_time, select_next_station_algoritm))
 
     def movement(self, traject_object):
         """ To do: Move to experiment with (self, next_station)

@@ -33,11 +33,11 @@ class Greedy(Experiment):
         for connecting_station, time in connection_options.items():
             connection = helper.sorted_connection(traject_object.location, connecting_station)
 
-<<<<<<< HEAD
-            
+
+
             used_connections = self.connections_dict[connection_combination].times_used
             next_connection_quality, p = self.calculate_quality()
-=======
+
             # Get next connection quality
             connection_histories = (self.get_connection_histories()).union({connection}) #.add(connection) #.add(connection)
             total_time = self.get_total_time() + int(time)
@@ -46,7 +46,7 @@ class Greedy(Experiment):
 
             #used_connections = self.connections_dict[connection].times_used
             #print("used connections", used_connections)
->>>>>>> 8a0e8945f956f8e63e92cd821237f2e7b858ac78
+
 
             # If the connection has already been used it will give a penalty
             #if used_connections >= 1:
@@ -55,14 +55,14 @@ class Greedy(Experiment):
             if next_connection_quality > best_quality:
                 best_quality = next_connection_quality
                 best_connection = connection
-<<<<<<< HEAD
+
                 print(f"best connection {connection}, quality {best_quality}")
                 # print(best_connection)
-        return best_connection
-=======
+        #return best_connection
+
                 best_next_station = connecting_station
                 #print("      New best:", best_connection)
->>>>>>> 8a0e8945f956f8e63e92cd821237f2e7b858ac78
+
 
             #print()
 
@@ -110,7 +110,7 @@ class Greedy(Experiment):
             while not traject_object.finished:
                 #result = self.get_next_connection(traject_object)
 
-                self.moveme nt(traject_object)
+                self.movement(traject_object)
                 #if result is not None:
                 #    best_connection, next_station = result
                 #if best_connection is None:
