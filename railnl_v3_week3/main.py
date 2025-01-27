@@ -10,6 +10,7 @@ from code.algorithms.randomise import Randomise
 from code.algorithms.run_experiments import RunExperiments
 from code.algorithms.greedy import Greedy
 from code.algorithms.greedy import GreedyLookahead
+from code.algorithms.hillclimber import HillClimber
 
 
 # Data files
@@ -27,27 +28,27 @@ max_time = 120
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    number_of_trajects = 3
-    randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
-    randomised_experiment.run()
-    # Print output in terminal
-    randomised_experiment.print_output()
-    # randomised_experiment.visualisation()
-
-    # Test trajectanalyzer
-    stations_dict = randomised_experiment.stations_dict
-    connections_dict = randomised_experiment.connections_dict
-    traject_list = randomised_experiment.traject_list
-    connections_set = randomised_experiment.connections_set
-
-    ta = TrajectAnalyzer(stations_dict, connections_dict, traject_list, connections_set)
-
-    dead_ends = ta.dead_ends
-    odd_connections = ta.odd_connections
-    next_start_station = ta.find_next_start_location()
-    print("Dead ends", dead_ends)
-    print("Odd connection", odd_connections)
-    print("Next start location:", next_start_station)
+    # number_of_trajects = 3
+    # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
+    # randomised_experiment.run()
+    # # Print output in terminal
+    # randomised_experiment.print_output()
+    # # randomised_experiment.visualisation()
+    #
+    # # Test trajectanalyzer
+    # stations_dict = randomised_experiment.stations_dict
+    # connections_dict = randomised_experiment.connections_dict
+    # traject_list = randomised_experiment.traject_list
+    # connections_set = randomised_experiment.connections_set
+    #
+    # ta = TrajectAnalyzer(stations_dict, connections_dict, traject_list, connections_set)
+    #
+    # dead_ends = ta.dead_ends
+    # odd_connections = ta.odd_connections
+    # next_start_station = ta.find_next_start_location()
+    # print("Dead ends", dead_ends)
+    # print("Odd connection", odd_connections)
+    # print("Next start location:", next_start_station)
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
@@ -63,7 +64,7 @@ if __name__ == "__main__":
     # print(f"Total possible trajectories for the map within {max_time} minutes: {total_possible_trajectories}")
 
     #____run HillClimber_____________
-    # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
+    # randomised_experiment = Randomise(connections_file, locations_file, max_number_of_trajects, max_time)
     # traintable = randomised_experiment.run_till_solution()
     #
     # hill_climber = HillClimber(traintable)
@@ -72,13 +73,13 @@ if __name__ == "__main__":
     # traintable.visualisation()
 
 
-    # ____________Greedy____________
-    greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
-    greedy_experiment.run()
-    greedy_experiment.print_output()
-    greedy_experiment.visualisation()
-    # __________GreedyLookahead___________
-    greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
-    greedy_lookahead_experiment.run()
-    greedy_lookahead_experiment.print_output()
-    # greedy_lookahead_experiment.visualisation()
+    # # ____________Greedy____________
+    # greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
+    # greedy_experiment.run()
+    # greedy_experiment.print_output()
+    # greedy_experiment.visualisation()
+    # # __________GreedyLookahead___________
+    # greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
+    # greedy_lookahead_experiment.run()
+    # greedy_lookahead_experiment.print_output()
+    # # greedy_lookahead_experiment.visualisation()
