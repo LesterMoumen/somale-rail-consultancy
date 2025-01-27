@@ -27,7 +27,7 @@ max_time = 120
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    number_of_trajects = 3
+    number_of_trajects = 1
     randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
     randomised_experiment.run()
     # Print output in terminal
@@ -58,15 +58,27 @@ if __name__ == "__main__":
     #r.create_boxplot()
 
 
-
-
     # ____________Greedy____________
     greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
     greedy_experiment.run()
     greedy_experiment.print_output()
-    greedy_experiment.visualisation()
+    # greedy_experiment.visualisation()
     # __________GreedyLookahead___________
     greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
     greedy_lookahead_experiment.run()
     greedy_lookahead_experiment.print_output()
     # greedy_lookahead_experiment.visualisation()
+
+    # __________GreedyLookahead___________ experiment:
+    algorithm = Greedy
+    number_of_experiments = 50
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    # r.run()
+    # r.create_boxplot()
+
+    # __________GreedyLookahead___________ experiment:
+    algorithm = GreedyLookahead
+    number_of_experiments = 50
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    # r.run()
+    # r.create_boxplot()

@@ -65,6 +65,7 @@ class Greedy(Experiment):
             traject_object.finished = True
 
         else:
+
             # make connection string on alphabetical order
             connection = f"{sorted([traject_object.location, next_station])[0]}_{sorted([traject_object.location, next_station])[1]}"
             time = self.connections_dict[connection].time
@@ -82,10 +83,12 @@ class GreedyLookahead(Greedy):
         """
         valid_connections = self.valid_connection_options(traject_object)
         if not valid_connections:
-            return None
+            return None, []
 
         best_quality = float('-inf')
         best_connection = None
+        best_route = []
+
         for connection, time in valid_connections.items():
 
             # make connection string on alphabetical order
@@ -95,7 +98,7 @@ class GreedyLookahead(Greedy):
             if connection_combination in traject_object.connection_history:
                 continue
 
-            total_quality = self.simulate_lookahead(traject_object, connection, lookahead)
+            total_quality, route = self.simulate_lookahead(traject_object, connection, lookahead)
             used_connections = self.connections_dict[connection_combination].times_used
             next_connection_quality, p = self.calculate_quality()
 
@@ -106,22 +109,58 @@ class GreedyLookahead(Greedy):
             if total_quality > best_quality:
                 best_quality = total_quality
                 best_connection = connection
-        return best_connection
+                # the best combination of stations
+                best_route = route
+
+        return best_connection, best_route
 
     def simulate_lookahead(self, traject_object, connection, lookahead_steps):
         total_quality = 0
+        # a list for the possible route
+        route = []
 
         # make a copy to simulate a lookahead without effecting the original
         current_traject = copy.deepcopy(traject_object)
 
         # move to connection
         self.movement(current_traject, connection)
+
+        # append first station in route
+        route.append(connection)
+
+        connection_quality, p = self.calculate_quality()
+        total_quality += connection_quality
+
         for i in range(lookahead_steps):
-            next_connection = self.get_next_connection(current_traject)
+            next_connection, best_route = self.get_next_connection(current_traject)
             if next_connection is None:
                 break
 
             next_connection_quality, p = self.calculate_quality()
             total_quality += next_connection_quality
             self.movement(current_traject, next_connection)
-        return total_quality
+            route.append(next_connection)
+
+        return total_quality, route
+
+
+    def run(self):
+        """
+        Run the greedy lookahead algorithm.
+        """
+        self.initialize_trajects()
+
+        for traject_object in self.traject_list:
+            while not traject_object.finished:
+                best_station, best_route = self.get_next_connection(traject_object)
+                if not best_station:
+                    traject_object.finished = True
+                    break
+
+                # uses only the stations with the best combination of quality
+                for station in best_route:
+                    self.movement(traject_object, station)
+
+                    # checks if traject is finished
+                    if traject_object.finished:
+                        break
