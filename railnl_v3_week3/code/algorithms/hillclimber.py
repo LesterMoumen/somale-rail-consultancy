@@ -23,7 +23,7 @@ class HillClimber(Experiment):
         if not train_table.is_solution():
                 raise Exception("HillClimber requires a complete solution.")
 
-        self.train_table = copy.deepcopy(train_table)  # Keeping the original train_table for reference
+        self.train_table = train_table  # Keeping the original train_table for reference
         self.value = train_table.calculate_quality()[0]
 
 

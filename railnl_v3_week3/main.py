@@ -52,10 +52,14 @@ if __name__ == "__main__":
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
-    #algorithm = Randomise
-    #number_of_experiments = 100
-    #r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    #r.run()
+    algorithm = Randomise
+    number_of_experiments = 1000
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    r.run()
+    r.print()
+    r.visualise()
+    r.to_csv()
+    traintable = r.best_yielding_experiment
     #r.create_boxplot()
 
       # # ____run DepthFirstCounter_____________
@@ -64,13 +68,14 @@ if __name__ == "__main__":
     # print(f"Total possible trajectories for the map within {max_time} minutes: {total_possible_trajectories}")
 
     #____run HillClimber_____________
-    randomised_experiment = Randomise(connections_file, locations_file, max_number_of_trajects, max_time)
-    traintable = randomised_experiment.run_till_solution()
-
+    # randomised_experiment = Randomise(connections_file, locations_file, max_number_of_trajects, max_time)
+    # traintable = randomised_experiment.run_till_solution()
+    #
     hill_climber = HillClimber(traintable)
     hill_climber.run(1000, verbose=True)
-    traintable.print_output()
-    traintable.visualisation()
+    
+    # traintable.print_output()
+    # traintable.visualisation()
 
     # ____________Greedy____________
     # greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
