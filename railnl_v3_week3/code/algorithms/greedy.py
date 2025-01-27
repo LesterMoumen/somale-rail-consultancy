@@ -2,77 +2,120 @@ import copy
 import random
 from code.algorithms.experiment import Experiment
 from code.classes.traject2 import Traject2
-
+from code.classes.trajectanalyzer import TrajectAnalyzer
+import code.classes.helper_functions as helper
 
 class Greedy(Experiment):
-    def start_station(self, list_of_stations):
+    def start_station(self):
         """
         Return random starting station from list of stations.
         """
-        start_station_random = random.choice(list(list_of_stations))
-        return start_station_random
+        ta = TrajectAnalyzer(self.stations_dict, self.connections_dict, self.traject_list, self.connections_set)
+        next_start_station = ta.find_next_start_location()
 
-    def get_next_connection(self, traject_object):
+        #print("Dead ends:", ta.find_dead_ends())
+        #print("Odds:", ta.find_odd_connections())
+        #start_station_random = random.choice(list(list_of_stations))
+        #print("Start Location:", next_start_station)
+        #print()
+        return next_start_station #_random
+
+    def get_next_connection(self, traject_object, connection_options):
         """
         Returns the next connection which has the highest quality.
         - It avoids connections which already has been visited
         """
-        valid_connections = self.valid_connection_options(traject_object)
-        if not valid_connections:
-            return None #if there are no connection options
-
         best_quality = float('-inf')
         best_connection = None
-        for connection, time in valid_connections.items():
+        best_next_station = None
 
-            # make connection string on alphabetical order
-            connection_combination = f"{sorted([traject_object.location, connection])[0]}_{sorted([traject_object.location, connection])[1]}"
-            # checks if the connection is already visted if so it will check next connection
-            if connection_combination in traject_object.connection_history:
-                continue
+        # Loop over valid connections
+        for connecting_station, time in connection_options.items():
+            connection = helper.sorted_connection(traject_object.location, connecting_station)
 
-            used_connections = self.connections_dict[connection_combination].times_used
-            next_connection_quality, p = self.calculate_quality()
+            # Get next connection quality
+            connection_histories = (self.get_connection_histories()).union({connection}) #.add(connection) #.add(connection)
+            total_time = self.get_total_time() + int(time)
+            next_connection_quality, p = self.calculate_quality(connection_histories, total_time)
+            #print(f"Connection {connection}'s score: {next_connection_quality}")
+
+            #used_connections = self.connections_dict[connection].times_used
+            #print("used connections", used_connections)
 
             # If the connection has already been used it will give a penalty
-            if used_connections > 0:
-                next_connection_quality -= 1000
+            #if used_connections >= 1:
+            #    next_connection_quality -= 1000
 
             if next_connection_quality > best_quality:
                 best_quality = next_connection_quality
                 best_connection = connection
-        return best_connection
+                best_next_station = connecting_station
+                #print("      New best:", best_connection)
 
-    def run(self):
-        """
-        Run the greedy algorithm.
-        """
-        self.initialize_trajects()
-        for traject_object in self.traject_list:
-            while not traject_object.finished:
-                best_station = self.get_next_connection(traject_object)
-                if best_station is None:
-                    traject_object.finished = True
-                    break
-                self.movement(traject_object, best_station)
+            #print()
 
+        if best_connection and best_next_station:
+            return best_connection, best_next_station
+        else:
+            return None
 
-    def movement(self, traject_object, next_station):
+    def movement(self, traject_object):
         """
         Movement of traject_object to next station
         """
-        if next_station is None:
+        # Get dict of valid connections (within max_min) from current location
+        valid_connection_options = self.valid_connection_options(traject_object)
+
+        if valid_connection_options:
+            next_connection, next_station = self.get_next_connection(traject_object, valid_connection_options)
+            #print("Next station:", next_station)
+
+            time = self.connections_dict[next_connection].time
+            traject_object.update(next_connection, next_station, time)
+
+            self.connections_dict[next_connection].update_used()
+        else:
             traject_object.finished = True
 
-        else:
+    def initialize_traject(self, color_list_i):
+        start_location = self.start_station()
+        traject_object = Traject2(start_location, self.color_list[color_list_i])
+        self.traject_list.append(traject_object)
 
-            # make connection string on alphabetical order
-            connection = f"{sorted([traject_object.location, next_station])[0]}_{sorted([traject_object.location, next_station])[1]}"
-            time = self.connections_dict[connection].time
-            traject_object.update(connection, next_station, time)
+        return traject_object
 
-            # Update the connection as used
-            self.connections_dict[connection].update_used()
+
+    def run(self):
+        """ Run the greedy algorithm.
+        """
+        #print(self.number_of_trajects)
+        for i in range(self.number_of_trajects):
+            #print()
+            #print(f"Traject {i+1}")
+            traject_object = self.initialize_traject(i)
+
+            # Continues running until traject is finished
+            while not traject_object.finished:
+                #result = self.get_next_connection(traject_object)
+
+                self.movement(traject_object)
+                #if result is not None:
+                #    best_connection, next_station = result
+                #if best_connection is None:
+                #    traject_object.finished = True
+                #    break
+                #self.movement(traject_object, best_connection, next_station)
+            #print("Traject finished")
+
+
+        #self.initialize_trajects()
+        # for traject_object in self.traject_list:
+        #     while not traject_object.finished:
+        #         best_station = self.get_next_connection(traject_object)
+        #         if best_station is None:
+        #             traject_object.finished = True
+        #             break
+        #         self.movement(traject_object, best_station)
 
 
 
@@ -148,9 +191,13 @@ class GreedyLookahead(Greedy):
         """
         Run the greedy lookahead algorithm.
         """
-        self.initialize_trajects()
 
-        for traject_object in self.traject_list:
+
+        for i in range(self.number_of_trajects):
+            start_location = self.start_station()
+            traject_object = Traject2(start_location, self.color_list[i])
+            self.traject_list.append(traject_object)
+
             while not traject_object.finished:
                 best_station, best_route = self.get_next_connection(traject_object)
                 if not best_station:
@@ -164,3 +211,21 @@ class GreedyLookahead(Greedy):
                     # checks if traject is finished
                     if traject_object.finished:
                         break
+
+
+        # self.initialize_trajects()
+        #
+        # for traject_object in self.traject_list:
+        #     while not traject_object.finished:
+        #         best_station, best_route = self.get_next_connection(traject_object)
+        #         if not best_station:
+        #             traject_object.finished = True
+        #             break
+        #
+        #         # uses only the stations with the best combination of quality
+        #         for station in best_route:
+        #             self.movement(traject_object, station)
+        #
+        #             # checks if traject is finished
+        #             if traject_object.finished:
+        #                 break

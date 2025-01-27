@@ -23,9 +23,8 @@ class RunExperiments():
         highest_quality = 0
         best_yielding_experiment = None
 
-
-
         for number_of_trajects in range(1, self.max_number_of_trajects+1):
+            print()
             qualities = []
             for i in range(self.number_of_experiments):
                 experiment_object = self.algorithm(self.connections_file, self.locations_file, number_of_trajects, self.max_time)
@@ -35,6 +34,7 @@ class RunExperiments():
 
                 # Collect data
                 quality, p = experiment_object.calculate_quality()
+                print(quality)
                 qualities.append(quality)
 
                 if quality > highest_quality:
@@ -42,6 +42,8 @@ class RunExperiments():
                     best_yielding_experiment = experiment_object
 
             self.data.append(qualities)
+
+        return best_yielding_experiment
 
     def create_boxplot(self):
         """ Display data as boxplot.
