@@ -1,4 +1,4 @@
-
+import csv
 from code.classes import helper_functions as helper
 from code.classes.station import Station
 from code.classes.connection import Connection
@@ -220,9 +220,9 @@ class Experiment():
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['train', 'stations'])
 
-        for i, stations in enumerate(self.station_histories):
+        for i, traject in enumerate(self.traject_list):
             train = f"train {1+i}"
-            csv_writer.writerow([train, stations])
+            csv_writer.writerow([train, traject.station_history])
 
         csv_writer.writerow(["score", self.calculate_quality()])
         csv_file.close()

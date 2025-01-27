@@ -30,34 +30,38 @@ max_time = 120
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    #number_of_trajects = 1
-    #randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
-    #randomised_experiment.run()
-    ## Print output in terminal
-    #randomised_experiment.print_output()
+    # number_of_trajects = 1
+    # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
+    # randomised_experiment.run()
+    # # Print output in terminal
+    # randomised_experiment.print_output()
     # randomised_experiment.visualisation()
-
-    # Test trajectanalyzer
-    #stations_dict = randomised_experiment.stations_dict
-    #connections_dict = randomised_experiment.connections_dict
-    #traject_list = randomised_experiment.traject_list
-    #connections_set = randomised_experiment.connections_set
-
-    #ta = TrajectAnalyzer(stations_dict, connections_dict, traject_list, connections_set)
-
-    #dead_ends = ta.dead_ends
-    #odd_connections = ta.odd_connections
-    #next_start_station = ta.find_next_start_location()
-    #print("Dead ends", dead_ends)
-    #print("Odd connection", odd_connections)
-    #print("Next start location:", next_start_station)
+    #
+    # # Test trajectanalyzer
+    # stations_dict = randomised_experiment.stations_dict
+    # connections_dict = randomised_experiment.connections_dict
+    # traject_list = randomised_experiment.traject_list
+    # connections_set = randomised_experiment.connections_set
+    #
+    # ta = TrajectAnalyzer(stations_dict, connections_dict, traject_list, connections_set)
+    #
+    # dead_ends = ta.dead_ends
+    # odd_connections = ta.odd_connections
+    # next_start_station = ta.find_next_start_location()
+    # print("Dead ends", dead_ends)
+    # print("Odd connection", odd_connections)
+    # print("Next start location:", next_start_station)
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
-    #algorithm = Randomise
-    #number_of_experiments = 100
-    #r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    #r.run()
+    algorithm = Randomise
+    number_of_experiments = 1000
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    r.run()
+    r.print()
+    r.visualise()
+    r.to_csv()
+    traintable = r.best_yielding_experiment
     #r.create_boxplot()
 
       # # ____run DepthFirstCounter_____________
@@ -69,8 +73,9 @@ if __name__ == "__main__":
     # randomised_experiment = Randomise(connections_file, locations_file, max_number_of_trajects, max_time)
     # traintable = randomised_experiment.run_till_solution()
     #
-    # hill_climber = HillClimber(traintable)
-    # hill_climber.run(1000, verbose=True)
+    hill_climber = HillClimber(traintable)
+    hill_climber.run(1000, verbose=True)
+
     # traintable.print_output()
     # traintable.visualisation()
 

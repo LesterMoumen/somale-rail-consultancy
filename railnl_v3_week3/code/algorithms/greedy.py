@@ -98,7 +98,7 @@ class Greedy(Experiment):
             while not traject_object.finished:
                 #result = self.get_next_connection(traject_object)
 
-                self.movement(traject_object)
+                self.moveme nt(traject_object)
                 #if result is not None:
                 #    best_connection, next_station = result
                 #if best_connection is None:
