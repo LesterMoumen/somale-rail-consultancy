@@ -31,6 +31,7 @@ class Greedy(Experiment):
             if connection_combination in traject_object.connection_history:
                 continue
 
+            
             used_connections = self.connections_dict[connection_combination].times_used
             next_connection_quality, p = self.calculate_quality()
 
@@ -41,6 +42,8 @@ class Greedy(Experiment):
             if next_connection_quality > best_quality:
                 best_quality = next_connection_quality
                 best_connection = connection
+                print(f"best connection {connection}, quality {best_quality}")
+                # print(best_connection)
         return best_connection
 
     def run(self):
@@ -99,18 +102,24 @@ class GreedyLookahead(Greedy):
                 continue
 
             total_quality, route = self.simulate_lookahead(traject_object, connection, lookahead)
+            # print(f"all routes {route}")
             used_connections = self.connections_dict[connection_combination].times_used
             next_connection_quality, p = self.calculate_quality()
+            print(f"connection {connection}, quality {total_quality}")
+
 
             # If the connection has already been used it will give a penalty
             if used_connections > 0:
                 total_quality -= 1000
 
             if total_quality > best_quality:
-                best_quality = total_quality
+                best_quality = total_quality+1000
                 best_connection = connection
+                print(f"best connection {connection}, quality {best_quality}")
+
                 # the best combination of stations
                 best_route = route
+                # print(f"chosen route {best_route}")
 
         return best_connection, best_route
 

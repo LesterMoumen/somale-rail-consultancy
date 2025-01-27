@@ -4,6 +4,7 @@ from code.classes.station import Station
 from code.classes.connection import Connection
 from code.classes.visualisation import Visualisation
 from code.classes.traject2 import Traject2
+from matplotlib import colormaps
 
 class Experiment():
     """
@@ -13,8 +14,8 @@ class Experiment():
         self.max_time = max_time
         self.number_of_trajects = number_of_trajects
 
-        self.color_list = ["blue", "orange", "green", "red", "purple",
-                           "brown", "pink", "gray", "olive", "cyran"]
+        self.color_list = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "ivory", "gray", "cyan", "magenta", "lime", "teal", "indigo", "violet", "gold","silver","beige"]
+
 
         self.traject_list = []
 
