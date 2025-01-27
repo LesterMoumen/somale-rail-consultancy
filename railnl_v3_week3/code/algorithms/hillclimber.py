@@ -26,9 +26,6 @@ class HillClimber(Experiment):
         self.train_table = copy.deepcopy(train_table)  # Keeping the original train_table for reference
         self.value = train_table.calculate_quality()[0]
 
-        # ? do i need ?
-        # self.best_solution = copy.deepcopy(train_table)
-        # self.best_score = self.evaluate_solution(train_table)
 
     def check_solution(self, new_table):
         """
@@ -42,13 +39,14 @@ class HillClimber(Experiment):
             self.train_table = new_table
             self.value = new_value
 
+
     def mutate_traject(self, new_table):
         """
         Mutates the current solution by replacing one random traject in the experiment
         with a newly generated random one.
         """
         # Select index of a random traject to replace
-        random_traject_index = random.randint(0, len(new_table.traject_list) - 1)
+        random_traject_index = random.randint(0, len(new_table.traject_list) -1)
 
         # Generate a new random traject
         start_location = random.choice(list(new_table.stations_dict.keys()))  # Random start station
@@ -63,19 +61,46 @@ class HillClimber(Experiment):
         # Replace the old traject with the new one
         new_table.traject_list[random_traject_index] = new_traject
 
-    def mutate_track(self):
-        pass
 
-    def mutate_table(self, new_table, number_of_trajects=1):
+    def mutate_track(self, new_table, number_of_tracks=1):
+        """
+        Mutates one or multiple connections within a traject and reroutes the traject.
+        """
+        random_traject_index = random.randint(0, len(new_table.traject_list) - 1)
+        traject = new_table.traject_list[random_traject_index]
+
+        # Ensure the traject has connections to remove
+        if traject.connection_history:
+            for _ in range(number_of_tracks):
+                # Randomly choose to remove either the first or the last connection
+                remove_choice = random.choice(["first", "last"])
+
+                if remove_choice == "first":
+                    # Remove the first connection and associated station
+                    removed_connection = traject.connection_history.pop(0)
+                    removed_station = traject.station_history.pop(0)
+                    traject_time_to_subtract = int(float(removed_connection[1]))  # Extract time from the connection tuple
+                    traject.traject_time -= traject_time_to_subtract  # Subtract the time from the total
+                else:
+                    # Remove the last connection and associated station
+                    removed_connection = traject.connection_history.pop()
+                    removed_station = traject.station_history.pop()
+                    traject_time_to_subtract = int(float(removed_connection[1]))  # Extract time from the connection tuple
+                    traject.traject_time -= traject_time_to_subtract  # Subtract the time from the total
+
+        # Now use the movement function to reroute the traject
+        self.movement(traject)
+
+
+    def mutate_table(self, new_table, number_of_trajects=1, number_of_tracks=1):
         """
         Changes a random traject in the train table with a randomly generated traject.
         """
         for _ in range(number_of_trajects):
             self.mutate_traject(new_table)
+            #self.mutate_track(self, new_table, number_of_tracks)
 
-
-
-    def run(self, iterations, verbose=False, mutate_trajects_number=1):
+    def run(self, iterations, verbose=False, mutate_trajects_number=1, mutate_tracks_number=1):
         """
         Runs the HillClimber algorithm for the specified number of iterations.
         """
@@ -87,8 +112,8 @@ class HillClimber(Experiment):
             new_table = copy.deepcopy(self.train_table)
             new_table.reset_connection_frequencies()
             # Evaluate the neighboring solution
-            self.mutate_table(new_table, number_of_trajects=mutate_trajects_number)
-
+            self.mutate_table(new_table, number_of_trajects=mutate_trajects_number, number_of_tracks=mutate_tracks_number)
+            # Evalute new train table
             self.check_solution(new_table)
 
         # Heb nu hier de output/visualization want als ik deze in main call gebruikt hij nog niet de juiste waardes

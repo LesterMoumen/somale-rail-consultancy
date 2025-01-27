@@ -3,8 +3,8 @@
 #from code.classes.train_table import Train_table
 from code.classes.trajectanalyzer import TrajectAnalyzer
 #from code.boxplot import create_box_plot
-#from code.algorithms.depthfirst import DepthFirstCounter
-#from code.classes.station import Station
+from code.algorithms.depthfirst import DepthFirstCounter
+from code.classes.station import Station
 from code.algorithms.experiment import Experiment
 from code.algorithms.randomise import Randomise
 from code.algorithms.run_experiments import RunExperiments
@@ -57,7 +57,19 @@ if __name__ == "__main__":
     #r.run()
     #r.create_boxplot()
 
+      # # ____run DepthFirstCounter_____________
+    # depth_first = DepthFirstCounter(connections_file, locations_file, number_of_trajects, max_time)
+    # total_possible_trajectories = depth_first.count_all_possible_trajectories()
+    # print(f"Total possible trajectories for the map within {max_time} minutes: {total_possible_trajectories}")
 
+    #____run HillClimber_____________
+    # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
+    # traintable = randomised_experiment.run_till_solution()
+    #
+    # hill_climber = HillClimber(traintable)
+    # hill_climber.run(1000, verbose=True)
+    # traintable.print_output()
+    # traintable.visualisation()
 
 
     # ____________Greedy____________
