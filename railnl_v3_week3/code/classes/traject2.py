@@ -16,4 +16,4 @@ class Traject2():
         self.location = new_station
         self.connection_history.append(new_connection)
         self.station_history.append(new_station)
-        self.traject_time += int(new_time)
+        self.traject_time += int(float(new_time))

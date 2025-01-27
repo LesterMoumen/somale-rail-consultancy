@@ -163,12 +163,37 @@ class Experiment():
         self.run_trajects()
 
 
+    def reset_connection_frequencies(self):
+        """ Resets dictionary for iterations.
+        """
+        for connection, connection_object in self.connections_dict.items():
+            connection_object.times_used = 0
+
+
     def run_till_solution(self, max_iterations=10000):
         """ Runs experiment until a complete solution is found (p = 1)
-
-        Note: not finished yet
         """
-        print()
+        p = 0
+        iteration = 0
+        while p != 1 and iteration <= max_iterations:
+
+            iteration += 1
+            self.traject_list = []
+            self.initialize_trajects()
+            self.reset_connection_frequencies()
+            self.run_trajects()
+            K, p = self.calculate_quality()
+
+        # print(K)
+        # print(iteration)
+        return self
+
+
+    def is_solution(self):
+        """ Check if the experiment is a complete solution (p = 1). """
+        _, p = self.calculate_quality()
+        return p == 1
+
 
     def print_output(self):
         """ Prints in terminal as ouput the trajects and quality score. Mainly used for
@@ -178,6 +203,7 @@ class Experiment():
         for i, traject in enumerate(self.traject_list):
             print(f'train {i+1} {traject.station_history}')
         print("score", self.calculate_quality()[0])
+
 
     def output_to_csv(self):
         """
