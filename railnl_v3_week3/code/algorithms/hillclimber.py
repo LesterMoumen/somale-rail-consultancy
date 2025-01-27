@@ -2,7 +2,7 @@ import copy
 import random
 from code.algorithms.experiment import Experiment
 from code.algorithms.randomise import Randomise
-from code.algorithms.run_experiments import RunExperiments
+# from code.algorithms.run_experiments import RunExperiments
 from code.classes.station import Station
 from code.classes.connection import Connection
 from code.classes.visualisation import Visualisation
@@ -20,8 +20,8 @@ class HillClimber(Experiment):
         """
         Initializes the HillClimber with a complete train table solution.
         """
-        if not train_table.is_solution():
-                raise Exception("HillClimber requires a complete solution.")
+        #if not train_table.is_solution():
+        #        raise Exception("HillClimber requires a complete solution.")
 
         self.train_table = copy.deepcopy(train_table)  # Keeping the original train_table for reference
         self.value = train_table.calculate_quality()[0]
@@ -62,47 +62,58 @@ class HillClimber(Experiment):
         new_table.traject_list[random_traject_index] = new_traject
 
 
-    def mutate_track(self, new_table, number_of_tracks=1):
+    def mutate_track(self, new_table, number_of_tracks):
         """
         Mutates one or multiple connections within a traject and reroutes the traject.
         """
         random_traject_index = random.randint(0, len(new_table.traject_list) - 1)
         traject = new_table.traject_list[random_traject_index]
-
         # Ensure the traject has connections to remove
-        if traject.connection_history:
-            for _ in range(number_of_tracks):
+        for i in range(number_of_tracks):
+            if traject.connection_history:
                 # Randomly choose to remove either the first or the last connection
                 remove_choice = random.choice(["first", "last"])
 
                 if remove_choice == "first":
                     # Remove the first connection and associated station
                     removed_connection = traject.connection_history.pop(0)
+                    new_table.connections_dict[removed_connection].times_used -= 1
                     removed_station = traject.station_history.pop(0)
-                    traject_time_to_subtract = int(float(removed_connection[1]))  # Extract time from the connection tuple
-                    traject.traject_time -= traject_time_to_subtract  # Subtract the time from the total
+                    traject_time_to_subtract = new_table.connections_dict[removed_connection].time  # Extract time from the connection dict
+                    traject.traject_time -= int(float(traject_time_to_subtract))  # Subtract the time from the total
                 else:
                     # Remove the last connection and associated station
                     removed_connection = traject.connection_history.pop()
+                    new_table.connections_dict[removed_connection].times_used -= 1
                     removed_station = traject.station_history.pop()
-                    traject_time_to_subtract = int(float(removed_connection[1]))  # Extract time from the connection tuple
-                    traject.traject_time -= traject_time_to_subtract  # Subtract the time from the total
+                    traject_time_to_subtract = new_table.connections_dict[removed_connection].time  # Extract time from the connection dict
+                    traject.traject_time -= int(float(traject_time_to_subtract))  # Subtract the time from the total
+
+        # Start at tail or head of Traject
+        start_index = random_choice = random.choice([0, -1])
+        if start_index == 0: # If start at tail, reverse the direction of the traject and move from there
+            traject.location = traject.station_history[start_index]
+            traject.station_history.reverse()
+
+        else: # If starting at the head, keep the direction as is
+            traject.location = traject.station_history[-1]
 
         # Set the traject to unfisshed so we can use movement function
         traject.finished = False
+
         # Now use the movement function to reroute the traject
-        self.movement(traject)
+        new_table.movement(traject)
 
-
-    def mutate_table(self, new_table, number_of_trajects=1, number_of_tracks=1):
+    def mutate_table(self, new_table, number_of_trajects, number_of_tracks):
         """
         Changes a random traject in the train table with a randomly generated traject.
         """
         for _ in range(number_of_trajects):
-            self.mutate_traject(new_table)
-            #self.mutate_track(self, new_table, number_of_tracks)
+            #self.mutate_traject(new_table)
+            self.mutate_track(new_table, number_of_tracks)
 
-    def run(self, iterations, verbose=False, mutate_trajects_number=1, mutate_tracks_number=1):
+
+    def run(self, iterations, verbose=False, mutate_trajects_number=2, mutate_tracks_number=2):
         """
         Runs the HillClimber algorithm for the specified number of iterations.
         """
@@ -112,12 +123,12 @@ class HillClimber(Experiment):
 
             # Generate a neighboring solution
             new_table = copy.deepcopy(self.train_table)
-            new_table.reset_connection_frequencies()
+
             # Evaluate the neighboring solution
             self.mutate_table(new_table, number_of_trajects=mutate_trajects_number, number_of_tracks=mutate_tracks_number)
             # Evalute new train table
             self.check_solution(new_table)
 
         # Heb nu hier de output/visualization want als ik deze in main call gebruikt hij nog niet de juiste waardes
-        self.train_table.print_output()
-        self.train_table.visualisation()
+        # self.train_table.print_output()
+        # self.train_table.visualisation()

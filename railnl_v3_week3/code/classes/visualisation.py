@@ -126,6 +126,7 @@ class Visualisation():
     def show_visualisation(self):
         ''' Combines the different plots in a single one, and shows it.
         '''
+
         self.stations_plot()
         self.connection_frequency_plot()
         self.route_plot()
@@ -134,3 +135,22 @@ class Visualisation():
         # plt.legend(loc = "lower right")
 
         plt.show()
+
+    def save_visualisation(self, filename=None):
+        ''' Combines the different plots in a single one, and shows it.
+        '''
+        plt.figure()
+
+        self.stations_plot()
+        self.connection_frequency_plot()
+        self.route_plot()
+        plt.title("Train trajects Holland visualized")
+    
+        # Save the plot as a PNG file if a filename is provided
+        if filename:
+            plt.savefig(filename, format='png')  # Save the image
+            print(f"Visualization saved as {filename}")
+
+        # Show the plot
+        # plt.show()
+        # plt.clf()
