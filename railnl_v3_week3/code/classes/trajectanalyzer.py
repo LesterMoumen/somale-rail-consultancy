@@ -32,11 +32,20 @@ class TrajectAnalyzer():
         connecting_stations = station_object.connections
         number_of_connections = 0
         connections_list = []
-        for connecting_station in connecting_stations:
-            if connecting_station not in self.used_connections:
-                number_of_connections += 1
-                connections_list.append(helper.sorted_connection(connecting_station, station_object.name))
 
+        self.used_connections = self.find_used_connections()
+        #print("Connections for station", station_object.name)
+
+        for connecting_station in connecting_stations:
+            #print("Connection to", connecting_station)
+            connection = helper.sorted_connection(connecting_station, station_object.name)
+            if connection not in self.used_connections:
+                number_of_connections += 1
+                connections_list.append(connection)#helper.sorted_connection(connecting_station, station_object.name))
+            #else:
+                #print(f"skip as {connecting_station} in use")
+
+        #print("total connections for:", station_object.name, "is:", number_of_connections)
         return number_of_connections, connections_list
 
     def find_dead_ends(self):
@@ -45,8 +54,6 @@ class TrajectAnalyzer():
         Output format: {station_name : [next_station, distance_to_next_station]}
         """
         dead_ends = {}
-
-        self.used_connections = self.find_used_connections()
         # Loops over station object dictionary
         for station_name, station_object in self.stations_dict.items():
             number_of_connections, connections_list = self.find_number_of_connections(station_object)
@@ -98,7 +105,8 @@ class TrajectAnalyzer():
 
         else:
             # Pick a random station
-            available = self.connections_set - self.used_connections
-            next_start = random.choice(list(available))
+            #available = self.connections_set - self.used_connections
+            #next_start = random.choice(list(available))
+            next_start = next(iter(self.connections_set))
 
         return next_start

@@ -13,10 +13,10 @@ class Greedy(Experiment):
         ta = TrajectAnalyzer(self.stations_dict, self.connections_dict, self.traject_list, self.connections_set)
         next_start_station = ta.find_next_start_location()
 
-        #print("Dead ends:", ta.find_dead_ends())
-        #print("Odds:", ta.find_odd_connections())
+        print("Dead ends:", ta.find_dead_ends())
+        print("Odds:", ta.find_odd_connections())
         #start_station_random = random.choice(list(list_of_stations))
-        #print("Start Location:", next_start_station)
+        print("Start Location:", next_start_station)
         #print()
         return next_start_station #_random
 
@@ -98,7 +98,10 @@ class Greedy(Experiment):
             while not traject_object.finished:
                 #result = self.get_next_connection(traject_object)
 
-                self.moveme nt(traject_object)
+                self.movement(traject_object)
+
+            print()
+            print()
                 #if result is not None:
                 #    best_connection, next_station = result
                 #if best_connection is None:
@@ -116,6 +119,10 @@ class Greedy(Experiment):
         #             traject_object.finished = True
         #             break
         #         self.movement(traject_object, best_station)
+
+
+
+
 
 
 

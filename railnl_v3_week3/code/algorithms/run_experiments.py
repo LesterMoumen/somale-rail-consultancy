@@ -33,7 +33,7 @@ class RunExperiments():
                 experiment_object.run()
 
                 # Print progress every 100 iterations
-                if (ic + 1) % 100 == 0:
+                if (i + 1) % 100 == 0:
                     print(f"Progress: {i + 1}/{self.number_of_experiments} iterations completed for {number_of_trajects} trajects.")
 
                 # Collect data
