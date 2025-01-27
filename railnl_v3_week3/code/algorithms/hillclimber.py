@@ -88,6 +88,8 @@ class HillClimber(Experiment):
                     traject_time_to_subtract = int(float(removed_connection[1]))  # Extract time from the connection tuple
                     traject.traject_time -= traject_time_to_subtract  # Subtract the time from the total
 
+        # Set the traject to unfisshed so we can use movement function
+        traject.finished = False
         # Now use the movement function to reroute the traject
         self.movement(traject)
 
