@@ -36,11 +36,12 @@ class RunExperiments():
                 experiment_object.run()
 
                 # Print progress every 100 iterations
-                if (i + 1) % 100 == 0:
+                if (ic + 1) % 100 == 0:
                     print(f"Progress: {i + 1}/{self.number_of_experiments} iterations completed for {number_of_trajects} trajects.")
 
                 # Collect data
                 quality, p = experiment_object.calculate_quality()
+                print(quality)
                 qualities.append(quality)
 
                 if quality > highest_quality:
@@ -76,6 +77,8 @@ class RunExperiments():
 
     def print(self):
         self.best_yielding_experiment.print_output()
+
+        return best_yielding_experiment
 
     def create_boxplot(self):
         """ Display data as boxplot.
