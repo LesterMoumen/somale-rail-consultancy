@@ -100,6 +100,7 @@ class TrajectAnalyzer():
         """ Find optimal starting location for next train/traject. """
         dead_ends = self.find_dead_ends()
         odd_connections = self.find_odd_connections()
+        # available_stations = set(self.stations_dict.keys()) - used_start_stations
 
 
         if dead_ends:

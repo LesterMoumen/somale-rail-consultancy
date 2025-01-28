@@ -30,7 +30,7 @@ max_time = 180
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    number_of_trajects = 11
+    number_of_trajects = 15
     # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
     # randomised_experiment.run()
     # # Print output in terminal
@@ -81,14 +81,14 @@ if __name__ == "__main__":
 
     # ____________Greedy____________
     greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
-    # greedy_experiment.run()
-    # greedy_experiment.print_output()
+    greedy_experiment.run()
+    greedy_experiment.print_output()
     # greedy_experiment.visualisation("greedy")
     # # __________GreedyLookahead___________
     greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
-    greedy_lookahead_experiment.run()
-    greedy_lookahead_experiment.print_output()
-    greedy_lookahead_experiment.visualisation("GreedyLookahead")
+    # greedy_lookahead_experiment.run()
+    # greedy_lookahead_experiment.print_output()
+    # greedy_lookahead_experiment.visualisation("GreedyLookahead")
 
     # __________GreedyLookahead___________ experiment:
     # algorithm = Greedy

@@ -72,6 +72,10 @@ class Greedy(Experiment):
 
             time = self.connections_dict[next_connection].time
             traject_object.update(next_connection, next_station, time)
+            print("next station", next_station)
+            print()
+            print("next connection", next_connection)
+            print()
 
             self.connections_dict[next_connection].update_used()
         else:
@@ -123,6 +127,8 @@ class GreedyLookahead(Greedy):
     def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth=1):
         super().__init__(connections_file, locations_file, number_of_trajects, max_time)
         self.lookahead_depth = lookahead_depth
+        self.used_start_stations = set()  # To track used start stations
+
 
     def simulate_best_path(self, current_station, depth, visited_connections, total_quality):
         """
@@ -169,9 +175,6 @@ class GreedyLookahead(Greedy):
                 # print("sub quality/ bestquality", trail_quality)
                 best_quality = trail_quality
                 best_path = [next_station] + trail_path
-        print(f"Best Path from {current_station}: {best_path} with Quality: {best_quality}")
-        print()
-        print()
 
         return best_path, best_quality
 
@@ -186,7 +189,6 @@ class GreedyLookahead(Greedy):
 
             if best_path:
                 next_station = best_path[0]
-                print()
                 print()
                 connection = helper.sorted_connection(traject_object.location, next_station)
                 time = self.connections_dict[connection].time
@@ -208,12 +210,39 @@ class GreedyLookahead(Greedy):
             # print(f"[DEBUG] No valid connections from {traject_object.location}. Traject finished.")
 
             traject_object.finished = True
+    #
+    # def initialize_traject(self, color_list_i):
+    #     """
+    #     Initialize a trajectory, ensuring a unique start station is used.
+    #     """
+    #     ta = TrajectAnalyzer(self.stations_dict, self.connections_dict, self.traject_list, self.connections_set)
+    #     start_location = ta.find_next_start_location(self.used_start_stations)
+    #
+    #     if not start_location:
+    #         print(f"[DEBUG] No available start station for trajectory {color_list_i}.")
+    #         return None
+    #
+    #     print(f"[DEBUG] Starting trajectory {color_list_i} from {start_location}.")
+    #     self.used_start_stations.add(start_location)  # Mark the start station as used
+    #
+    #     traject_object = Traject2(start_location, self.color_list[color_list_i])
+    #     self.traject_list.append(traject_object)
+    #
+    #     return traject_object
+
 
     # def initialize_traject(self, color_list_i):
     #     """
     #     Use Greedy's initialize_traject.
     #     """
     #     return super().initialize_traject(color_list_i)
+    # def initialize_traject(self, color_list_i):
+    # # Use the dynamic start_station logic
+    #     start_location = self.start_station()
+    #     # print("start station ", start_location)
+    #     traject_object = Traject2(start_location, self.color_list[color_list_i])
+    #     self.traject_list.append(traject_object)
+    #     return traject_object
     # def initialize_traject(self, color_list_i):
     #     """
     #     Initialize traject for GreedyLookahead using the TrajectAnalyzer.
