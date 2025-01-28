@@ -2,18 +2,27 @@ import copy
 import random
 from code.algorithms.experiment import Experiment
 from code.classes.traject2 import Traject2
+<<<<<<< HEAD
 from code.classes.trajectanalyzer import TrajectAnalyzer
 import code.classes.helper_functions as helper
 from code.algorithms.randomise import Randomise
+=======
+
+>>>>>>> 980cff64847d798515e9ebc80ca5748e5b637edb
 
 class Greedy(Experiment):
-    def start_station(self):
+    def start_station(self, list_of_stations):
         """
         Return random starting station from list of stations.
         """
+<<<<<<< HEAD
 
         ta = TrajectAnalyzer(self.stations_dict, self.connections_dict, self.traject_list, self.connections_set)
         next_start_station = ta.find_next_start_location()
+=======
+        start_station_random = random.choice(list(list_of_stations))
+        return start_station_random
+>>>>>>> 980cff64847d798515e9ebc80ca5748e5b637edb
 
         return next_start_station
 
@@ -21,14 +30,26 @@ class Greedy(Experiment):
         """
         Returns the next connection which has the highest quality.
         """
+        valid_connections = self.valid_connection_options(traject_object)
+        if not valid_connections:
+            return None #if there are no connection options
+
         best_quality = float('-inf')
         best_connection = None
-        best_next_station = None
+        for connection, time in valid_connections.items():
 
+<<<<<<< HEAD
         # loops through all possible connections
         for connecting_station, time in connection_options.items():
 
             connection = helper.sorted_connection(traject_object.location, connecting_station)
+=======
+            # make connection string on alphabetical order
+            connection_combination = f"{sorted([traject_object.location, connection])[0]}_{sorted([traject_object.location, connection])[1]}"
+            # checks if the connection is already visted if so it will check next connection
+            if connection_combination in traject_object.connection_history:
+                continue
+>>>>>>> 980cff64847d798515e9ebc80ca5748e5b637edb
 
             # Get next connection quality
             # Connection used is used to calculate p in quality
@@ -44,7 +65,7 @@ class Greedy(Experiment):
 
         return best_connection, best_next_station
 
-    def movement(self, traject_object):
+    def movement(self, traject_object, next_station):
         """
         Movement of traject_object to next station
         """

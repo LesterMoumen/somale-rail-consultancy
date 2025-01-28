@@ -131,7 +131,7 @@ class Visualisation():
         self.connection_frequency_plot()
         self.route_plot()
         plt.title("Train trajects Holland visualized")
-        plt.axis('off')
+        # plt.axis('off')
         # plt.legend(loc = "lower right")
 
         plt.show()
@@ -145,12 +145,15 @@ class Visualisation():
         self.connection_frequency_plot()
         self.route_plot()
         plt.title("Train trajects Holland visualized")
-    
+
         # Save the plot as a PNG file if a filename is provided
         if filename:
             plt.savefig(filename, format='png')  # Save the image
             print(f"Visualization saved as {filename}")
 
+        # CLose to save memory
+        plt.close()
+        
         # Show the plot
         # plt.show()
         # plt.clf()

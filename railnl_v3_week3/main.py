@@ -10,9 +10,8 @@ from code.algorithms.randomise import Randomise
 from code.algorithms.run_experiments import RunExperiments
 from code.algorithms.greedy import Greedy
 from code.algorithms.greedy import GreedyLookahead
-#from code.algorithms.hillclimber import HillClimber
-
-import time
+from code.algorithms.hillclimber import HillClimber
+from code.algorithms.simulatedannealing import SimulatedAnnealing
 
 
 # Data files
@@ -54,10 +53,23 @@ if __name__ == "__main__":
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
-    # algorithm = Randomise
-    # number_of_experiments = 1000
-    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    # r.run()
+    temperature = 400
+    algorithm1 = Randomise
+    algorithm2 = SimulatedAnnealing
+
+
+
+    number_of_experiments1 = 1000
+    number_of_experiments2 = 2000
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
+                        number_of_experiments1, number_of_experiments2,
+                        algorithm1_type = algorithm1,
+                        algorithm2_type = algorithm2
+                        )
+    r.run_first_algorithm()
+    r.save_all_objects("before")
+    r.run_second_algorithm(temperature)
+    r.save_all_objects("after")
     # r.print()
     # r.visualise()
     # r.to_csv()
@@ -86,23 +98,29 @@ if __name__ == "__main__":
     # greedy_experiment.visualisation("greedy")
     # greedy_experiment.output_to_csv("Greedy csv ")
     # # __________GreedyLookahead___________
+<<<<<<< HEAD
     greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time, use_randomise = False)
     # greedy_lookahead_experiment.run_till_solution()
     greedy_lookahead_experiment.run()
     greedy_lookahead_experiment.print_output()
+=======
+    # greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
+    # greedy_lookahead_experiment.run()
+    # greedy_lookahead_experiment.print_output()
+>>>>>>> 980cff64847d798515e9ebc80ca5748e5b637edb
     # greedy_lookahead_experiment.visualisation("GreedyLookahead")
     # greedy_lookahead_experiment.output_to_csv("GreedyLookahead csv")
 
     # __________GreedyLookahead___________ experiment:
     # algorithm = Greedy
-    # number_of_experiments = 1
-    # r1 = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    # r1.run()
-    # r1.create_boxplot()
-
-    # __________GreedyLookahead___________ experiment:
-    #algorithm = GreedyLookahead
-    #number_of_experiments = 5
-    #r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    #r.run()
-    #r.create_boxplot()
+    # number_of_experiments = 50
+    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    # # r.run()
+    # # r.create_boxplot()
+    #
+    # # __________GreedyLookahead___________ experiment:
+    # algorithm = GreedyLookahead
+    # number_of_experiments = 50
+    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    # # r.run()
+    # # r.create_boxplot()

@@ -10,6 +10,19 @@ class TrajectAnalyzer():
         self.traject_list = traject_list
         self.connections_set = connections_set
         self.used_connections = self.find_used_connections()
+        self.used_stations = self.find_used_stations()
+
+        #self.next_start_location = self.find_next_start_location()
+
+    def find_used_stations(self):
+        """ Find used station from station_histories in Traject2 class
+        """
+        used_stations = set()
+        for traject in self.traject_list:
+            for station in traject.station_history:
+                used_stations.add(station)
+
+        return used_stations
 
     def find_used_connections(self):
         """ Find used connections from traject_histories.
@@ -71,6 +84,7 @@ class TrajectAnalyzer():
                 # print(station_name)
                 odd_connections[station_name] = number_of_connections
         return odd_connections
+
 
     def find_next_start_location(self):
         """ Find optimal starting location for next train/traject. """
