@@ -30,7 +30,7 @@ max_time = 180
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    number_of_trajects = 4
+    number_of_trajects = 20
     # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
     # randomised_experiment.run()
     # # Print output in terminal
@@ -54,9 +54,9 @@ if __name__ == "__main__":
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
-    algorithm = Randomise
-    number_of_experiments = 1000
-    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    # algorithm = Randomise
+    # number_of_experiments = 1000
+    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
     # r.run()
     # r.print()
     # r.visualise()

@@ -97,14 +97,14 @@ class Experiment():
 
         return valid_connections
 
-    # def get_station_histories(self):
-    #     """ Get a list of lists with station histories of each traject.
-    #     """
-    #     station_histories = []
-    #     for traject in self.traject_list:
-    #         station_histories.append(traject.station_history)
-    #
-    #     return station_histories
+    def get_station_histories(self):
+        """ Get a list of lists with station histories of each traject.
+        """
+        station_histories = []
+        for traject in self.traject_list:
+            station_histories.append(traject.station_history)
+
+        return station_histories
 
     def get_connection_histories(self):
         """ Get a set of all connections visited.

@@ -12,8 +12,8 @@ class Traject2():
         self.finished = False # initiate track as unfinished
         self.station_history = [start_location]
 
-    def update(self, new_connection, new_station, new_time):
-        self.location = new_station
+    def update(self, new_connection, new_start_station, new_time):
+        self.location = new_start_station
         self.connection_history.append(new_connection)
-        self.station_history.append(new_station)
+        self.station_history.append(new_start_station)
         self.traject_time += int(float(new_time))
