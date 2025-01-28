@@ -52,17 +52,20 @@ class Experiment():
 
         return stations_dict, connections_dict
 
-    def calculate_quality(self):
-        """ Calculate the quality of the train table. Optimal is 10000.
+    def calculate_quality(self, connection_histories = None, total_time = None):
+        """ Calculate the (current) quality of the train table. Optimal is 10000.
         formula:     K = p*10000 - (T*100 + Min)
         waarin K de kwaliteit van de lijnvoering is, p de fractie van de bereden verbindingen
         (dus tussen 0 en 1), T het aantal trajecten en Min het aantal minuten in alle trajecten samen.
         """
-
+        if connection_histories is None:
+            connection_histories = self.get_connection_histories()
+        if total_time is None:
+            total_time = self.get_total_time()
         # Calculate fraction (p) of visited connections
-        p = len(self.get_connection_histories()) / len(self.connections_set)
+        p = len(connection_histories) / len(self.connections_set)
         # Get total number of trajects (T)
-        T = len(self.traject_list)
+        T = self.number_of_trajects
         # Calculate cost
         quality = p * 10000 - (T*100 + total_time)
         print(f"Total Quality (Score): {quality}, Fraction of Visited Connections (p): {p}, time {total_time}")
