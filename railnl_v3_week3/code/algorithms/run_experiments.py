@@ -7,7 +7,7 @@ from code.algorithms.simulatedannealing import SimulatedAnnealing
 
 
 class RunExperiments():
-    def __init__(self, connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments1, number_of_experiments2, algorithm1_type, algorithm2_type):
+    def __init__(self, connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments1, number_of_experiments2, algorithm1_type, algorithm2_type, use_randomise = False):
         self.connections_file = connections_file
         self.locations_file = locations_file
         self.max_number_of_trajects = max_number_of_trajects
@@ -16,6 +16,7 @@ class RunExperiments():
         self.number_of_experiments2 = number_of_experiments2
         self.algorithm1 = algorithm1_type
         self.algorithm2 = algorithm2_type
+        self.use_randomise = use_randomise
         self.experiment_object_dict = {}
 
         # List of lists of qualities

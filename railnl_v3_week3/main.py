@@ -85,8 +85,11 @@ if __name__ == "__main__":
 
 
     #__________GreedyLookahead random experiment___________
-    # algorithm = GreedyLookahead
-    # number_of_experiments = 50
-    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    # # r.run()
+    algorithm1 = GreedyLookahead
+    algorithm2 = None
+    number_of_experiments1 = 50
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
+                        number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = True)
+    r.run_first_algorithm()
+    r.save_all_objects("before")
     # # r.create_boxplot()
