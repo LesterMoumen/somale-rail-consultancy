@@ -1,4 +1,5 @@
 import csv
+import matplotlib.pyplot as plt
 from code.classes import helper_functions as helper
 from code.classes.station import Station
 from code.classes.connection import Connection
@@ -14,8 +15,16 @@ class Experiment():
         self.max_time = max_time
         self.number_of_trajects = number_of_trajects
 
-        self.color_list = list(colormaps)#["blue", "orange", "green", "red", "purple",
-                           #"brown", "pink", "gray", "olive", "cyran"]
+        # self.color_list = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "ivory", "gray", "cyan", "magenta", "lime", "teal", "indigo", "violet", "gold","silver","beige"]
+
+
+        self.color_list = ["blue", "orange", "green", "red", "purple",
+        "brown", "pink", "gray", "olive", "cyan",
+        "yellow", "violet", "indigo", "magenta", "teal",
+        "turquoise", "lime", "navy", "gold", "silver"]
+
+        # self.color_list = list(colormaps)#["blue", "orange", "green", "red", "purple",
+        #                    #"brown", "pink", "gray", "olive", "cyran"]
 
         self.traject_list = []
 
@@ -66,6 +75,7 @@ class Experiment():
         T = self.number_of_trajects
         # Calculate cost
         quality = p * 10000 - (T*100 + total_time)
+        # print(f"Total Quality (Score): {quality}, Fraction of Visited Connections (p): {p}, time {total_time}")
 
         return quality, p
 
@@ -209,14 +219,14 @@ class Experiment():
         print("score", self.calculate_quality(self.get_connection_histories(), self.get_total_time())[0])
 
 
-    def output_to_csv(self):
+    def output_to_csv(self, filename):
         """
         Returns output as csv file.
 
         Note: does not work yet! See print_output() for how station_histories
         is replaced by traject.station_history
         """
-        csv_file = open('output/train_stations.csv', 'w', newline='')
+        csv_file = open(filename, 'w', newline='')
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['train', 'stations'])
 
@@ -227,9 +237,14 @@ class Experiment():
         csv_writer.writerow(["score", self.calculate_quality()])
         csv_file.close()
 
-    def visualisation(self):
+    def visualisation(self, filename):
         """
         Creates the visualisation for the trains and the train table and displays it.
         """
         visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
         visualize.show_visualisation()
+        # visualize.save_visualisation(filename)
+
+        #  # Save the visualisation to a PNG file
+        # plt.savefig(filename, format='png')
+        # print(f"Visualization saved as {filename}")

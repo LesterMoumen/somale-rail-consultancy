@@ -13,7 +13,6 @@ class TrajectAnalyzer():
 
         #self.next_start_location = self.find_next_start_location()
 
-
     def find_used_connections(self):
         """ Find used connections from traject_histories.
         """
@@ -21,6 +20,7 @@ class TrajectAnalyzer():
         for traject in self.traject_list:
             for connection in traject.connection_history:
                 used_connections.add(connection)
+        print(f"[DEBUG] Used connections: {used_connections}")
 
         return used_connections
 
@@ -30,6 +30,16 @@ class TrajectAnalyzer():
         connecting_stations = station_object.connections
         number_of_connections = 0
         connections_list = []
+        for connecting_station in connecting_stations:
+            connection = helper.sorted_connection(connecting_station, station_object.name)
+            if connection not in self.used_connections:
+                number_of_connections += 1
+                connections_list.append(connection)
+
+        # for connecting_station in connecting_stations:
+        #     if connecting_station not in self.used_connections:
+        #         number_of_connections += 1
+        #         connections_list.append(helper.sorted_connection(connecting_station, station_object.name))
 
         #print("Connections for station", station_object.name)
 
@@ -75,12 +85,25 @@ class TrajectAnalyzer():
         for station_name, station_object in self.stations_dict.items():
             number_of_connections, connections_list = self.find_number_of_connections(station_object)
 
-            # Check for odd number
+            # check for odd number
             if number_of_connections % 2 != 0:
-                print(station_name)
+                # print(station_name)
                 odd_connections[station_name] = number_of_connections
-
         return odd_connections
+        # odd_connections = {}
+        # for station_name, station_object in self.stations_dict.items():
+        #     number_of_connections = 0
+        #     for connection, time in station.connections.items():
+        #
+        #         # Checks if connection not used yet
+        #         if connection not in self.used_connections:
+        #             number_of_connections += 1
+        #
+        #     # Check for odd number
+        #     if number_of_connections % 2 != 0:
+        #         odd_connections[station_name] = number_of_connections
+        #
+        # return odd_connections
 
     def find_next_start_location(self):
         """ Find optimal starting location for next train/traject. """
@@ -90,19 +113,17 @@ class TrajectAnalyzer():
         if dead_ends:
             # get dead_end with longest time and return as starting location
             next_start = max(dead_ends, key = dead_ends.get)
+            print(f"Next start is dead end {next_start}")
 
         elif odd_connections:
             # get odd_connection with most connections and return as starting location
             next_start = max(odd_connections, key = odd_connections.get)
+            print(f"Next start is odd_connection {next_start}")
 
         else:
             # Pick a random station
             available = self.connections_set - self.used_connections
-            if available:
-                next_start = random.choice(list(available))
-            else:
-                return "No available start station: see to do comment!"
-                # To do:  make the traject loop stop as there are no more stations
-                #available
+            next_start = random.choice(list(available))
+            print(f"next start is random {next_start}")
 
         return next_start

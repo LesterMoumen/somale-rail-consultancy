@@ -10,7 +10,7 @@ from code.algorithms.randomise import Randomise
 from code.algorithms.run_experiments import RunExperiments
 from code.algorithms.greedy import Greedy
 from code.algorithms.greedy import GreedyLookahead
-from code.algorithms.hillclimber import HillClimber
+#from code.algorithms.hillclimber import HillClimber
 
 import time
 
@@ -22,15 +22,15 @@ locations_national = "data/StationsNationaal_locaties.csv"
 connections_national = "data/ConnectiesNationaal.csv"
 
 # Parameters
-connections_file = connections_holland
-locations_file = locations_holland
-max_number_of_trajects = 7
-max_time = 120
+connections_file = connections_national
+locations_file = locations_national
+max_number_of_trajects = 20
+max_time = 180
 
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    # number_of_trajects = 1
+    number_of_trajects = 11
     # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
     # randomised_experiment.run()
     # # Print output in terminal
@@ -54,14 +54,14 @@ if __name__ == "__main__":
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
-    # algorithm = Randomise
-    # number_of_experiments = 1000
-    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    algorithm = Randomise
+    number_of_experiments = 1000
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
     # r.run()
     # r.print()
     # r.visualise()
     # r.to_csv()
-    #traintable = r.best_yielding_experiment
+    # traintable = r.best_yielding_experiment
     #r.create_boxplot()
 
       # # ____run DepthFirstCounter_____________
@@ -73,29 +73,29 @@ if __name__ == "__main__":
     # randomised_experiment = Randomise(connections_file, locations_file, max_number_of_trajects, max_time)
     # traintable = randomised_experiment.run_till_solution()
     #
-    #hill_climber = HillClimber(traintable)
-    #hill_climber.run(1000, verbose=True)
+    # hill_climber = HillClimber(traintable)
+    # hill_climber.run(1000, verbose=True)
 
     # traintable.print_output()
     # traintable.visualisation()
 
     # ____________Greedy____________
-    # greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
+    greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
     # greedy_experiment.run()
     # greedy_experiment.print_output()
-    # greedy_experiment.visualisation()
+    # greedy_experiment.visualisation("greedy")
     # # __________GreedyLookahead___________
-    # greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
-    # greedy_lookahead_experiment.run()
-    # greedy_lookahead_experiment.print_output()
-    # greedy_lookahead_experiment.visualisation()
+    greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
+    greedy_lookahead_experiment.run()
+    greedy_lookahead_experiment.print_output()
+    greedy_lookahead_experiment.visualisation("GreedyLookahead")
 
     # __________GreedyLookahead___________ experiment:
-    algorithm = Greedy
-    number_of_experiments = 1
-    r1 = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    r1.run()
-    r1.create_boxplot()
+    # algorithm = Greedy
+    # number_of_experiments = 1
+    # r1 = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
+    # r1.run()
+    # r1.create_boxplot()
 
     # __________GreedyLookahead___________ experiment:
     #algorithm = GreedyLookahead
