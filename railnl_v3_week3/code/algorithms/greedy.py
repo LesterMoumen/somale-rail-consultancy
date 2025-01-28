@@ -101,6 +101,8 @@ class GreedyLookahead(Greedy):
     def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth=3):
         super().__init__(connections_file, locations_file, number_of_trajects, max_time)
         self.lookahead_depth = lookahead_depth
+        self.used_start_stations = set()  # To track used start stations
+
 
     def simulate_best_path(self, current_station, depth, visited_connections, total_quality):
         """

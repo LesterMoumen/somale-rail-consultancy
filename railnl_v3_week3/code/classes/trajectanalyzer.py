@@ -76,6 +76,9 @@ class TrajectAnalyzer():
         """ Find optimal starting location for next train/traject. """
         dead_ends = self.find_dead_ends()
         odd_connections = self.find_odd_connections()
+
+        # Set default as None because it only applies to dead ends
+        # if dead ends loop will assign the next_start_location
         next_start_connection = None
 
         if dead_ends:

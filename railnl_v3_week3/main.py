@@ -86,9 +86,9 @@ if __name__ == "__main__":
     # greedy_experiment.visualisation("greedy")
     # # __________GreedyLookahead___________
     greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
-    greedy_lookahead_experiment.run()
-    greedy_lookahead_experiment.print_output()
-    greedy_lookahead_experiment.visualisation("GreedyLookahead")
+    # greedy_lookahead_experiment.run()
+    # greedy_lookahead_experiment.print_output()
+    # greedy_lookahead_experiment.visualisation("GreedyLookahead")
 
     # __________GreedyLookahead___________ experiment:
     # algorithm = Greedy
