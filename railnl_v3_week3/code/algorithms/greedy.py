@@ -89,7 +89,7 @@ class Greedy(Experiment):
         self.traject_list.append(traject_object)
 
         # if traject_analyzer is used next_connecting_station != None than use the traject_analyzer as next_connecting_station
-      # Detects if start_location is a dead end, because it has a next_connecting_station
+        # Detects if start_location is a dead end, because it has a next_connecting_station
         if next_connecting_station:
             next_station, time = next_connecting_station
             connection = helper.sorted_connection(start_location, next_station)
