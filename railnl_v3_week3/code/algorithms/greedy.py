@@ -2,54 +2,41 @@ import copy
 import random
 from code.algorithms.experiment import Experiment
 from code.classes.traject2 import Traject2
-<<<<<<< HEAD
 from code.classes.trajectanalyzer import TrajectAnalyzer
 import code.classes.helper_functions as helper
 from code.algorithms.randomise import Randomise
-=======
-
->>>>>>> 980cff64847d798515e9ebc80ca5748e5b637edb
 
 class Greedy(Experiment):
-    def start_station(self, list_of_stations):
-        """
-        Return random starting station from list of stations.
-        """
-<<<<<<< HEAD
+    def __init__(self, connections_file, locations_file, number_of_trajects, max_time, use_randomise=False):
+        super().__init__(connections_file, locations_file, number_of_trajects, max_time)
 
-        ta = TrajectAnalyzer(self.stations_dict, self.connections_dict, self.traject_list, self.connections_set)
-        next_start_station = ta.find_next_start_location()
-=======
-        start_station_random = random.choice(list(list_of_stations))
-        return start_station_random
->>>>>>> 980cff64847d798515e9ebc80ca5748e5b637edb
+        # If self.use_randomise is True the starting station will use random algorithm
+        self.use_randomise = use_randomise
+        self.randomise = Randomise(connections_file, locations_file, number_of_trajects, max_time) if use_randomise else None
 
-        return next_start_station
+    def start_station(self):
+        """
+        Return a starting station using either Randomise or TrajectAnalyzer.
+        """
+        if self.use_randomise and self.randomise:
+            return self.randomise.start_station(self.stations_dict.keys())
+        else:
+            ta = TrajectAnalyzer(self.stations_dict, self.connections_dict, self.traject_list, self.connections_set)
+            return ta.find_next_start_location()
 
     def get_next_connection(self, traject_object, connection_options):
         """
         Returns the next connection which has the highest quality.
         """
-        valid_connections = self.valid_connection_options(traject_object)
-        if not valid_connections:
-            return None #if there are no connection options
 
         best_quality = float('-inf')
         best_connection = None
-        for connection, time in valid_connections.items():
+        best_next_station = None
 
-<<<<<<< HEAD
         # loops through all possible connections
         for connecting_station, time in connection_options.items():
 
             connection = helper.sorted_connection(traject_object.location, connecting_station)
-=======
-            # make connection string on alphabetical order
-            connection_combination = f"{sorted([traject_object.location, connection])[0]}_{sorted([traject_object.location, connection])[1]}"
-            # checks if the connection is already visted if so it will check next connection
-            if connection_combination in traject_object.connection_history:
-                continue
->>>>>>> 980cff64847d798515e9ebc80ca5748e5b637edb
 
             # Get next connection quality
             # Connection used is used to calculate p in quality
@@ -65,9 +52,10 @@ class Greedy(Experiment):
 
         return best_connection, best_next_station
 
-    def movement(self, traject_object, next_station):
+
+    def movement(self, traject_object):
         """
-        Movement of traject_object to next station
+        Movement of traject_object to the next station
         """
 
         # Get dict of valid connections (within max time) from current location
@@ -78,34 +66,37 @@ class Greedy(Experiment):
             new_time = self.connections_dict[next_connection].time
             traject_object.update(next_connection, next_start_station, new_time)
             self.connections_dict[next_connection].update_used()
-
         else:
             traject_object.finished = True
 
-    def initialize_traject(self, color_list_i):
 
+    def initialize_traject(self, color_list_i):
+        """
+        Initializes a new traject object and determines the start station using randomise or traject analyzer.
+        """
         start_loca = self.start_station()
 
+         # Randomise returns only the start station
         if isinstance(start_loca, str):
             start_location = start_loca
             next_connecting_station = None
+
+        # TrajectAnalyzer returns start location and next connecting station
         else:
-            start_location, next_connecting_station = self.start_station()
+            start_location, next_connecting_station = start_loca
 
         traject_object = Traject2(start_location, self.color_list[color_list_i])
         self.traject_list.append(traject_object)
 
         # if traject_analyzer is used next_connecting_station != None than use the traject_analyzer as next_connecting_station
-        # Detects if start_location is a dead end, because it has a next_connecting_station
+      # Detects if start_location is a dead end, because it has a next_connecting_station
         if next_connecting_station:
-            # Performs the first movement to the next_connecting_station
             next_station, time = next_connecting_station
             connection = helper.sorted_connection(start_location, next_station)
             traject_object.update(connection, next_station, time)
             self.connections_dict[connection].update_used()
 
         return traject_object
-
 
     def run(self):
         """ Run the greedy algorithm.
@@ -128,7 +119,7 @@ class Greedy(Experiment):
 
 
 class GreedyLookahead(Greedy):
-    def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth=1, use_randomise=False):
+    def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth=5, use_randomise=False):
         """
         initialize the GreedyLookahead algorithm
         - It has a lookahead depth of 3
@@ -183,7 +174,7 @@ class GreedyLookahead(Greedy):
             new_quality = total_quality + next_connection_quality
 
             # Recursively explores the next depth
-            trail_path, trail_quality = self.simulate_best_path( next_station, depth - 1, new_visited_connections, new_quality, traject_object)
+            trail_path, trail_quality = self.simulate_best_path(next_station, depth - 1, new_visited_connections, new_quality, traject_object)
 
             # saves the best path if it has a higher quality
             if trail_quality > best_quality and trail_quality > float('-inf'):
