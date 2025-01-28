@@ -9,9 +9,7 @@ class TrajectAnalyzer():
         self.connections_dict = connections_dict
         self.traject_list = traject_list
         self.connections_set = connections_set
-
         self.used_connections = self.find_used_connections()
-
 
         #self.next_start_location = self.find_next_start_location()
 
@@ -33,7 +31,6 @@ class TrajectAnalyzer():
         number_of_connections = 0
         connections_list = []
 
-        self.used_connections = self.find_used_connections()
         #print("Connections for station", station_object.name)
 
         for connecting_station in connecting_stations:
@@ -75,16 +72,12 @@ class TrajectAnalyzer():
         # e.g. {"Den Helder" : 1} # just connected to Alkmaar
         """
         odd_connections = {}
-        for station_name, station in self.stations_dict.items():
-            number_of_connections = 0
-            for connection, time in station.connections.items():
-
-                # Checks if connection not used yet
-                if connection not in self.used_connections:
-                    number_of_connections += 1
+        for station_name, station_object in self.stations_dict.items():
+            number_of_connections, connections_list = self.find_number_of_connections(station_object)
 
             # Check for odd number
             if number_of_connections % 2 != 0:
+                print(station_name)
                 odd_connections[station_name] = number_of_connections
 
         return odd_connections
@@ -93,7 +86,6 @@ class TrajectAnalyzer():
         """ Find optimal starting location for next train/traject. """
         dead_ends = self.find_dead_ends()
         odd_connections = self.find_odd_connections()
-
 
         if dead_ends:
             # get dead_end with longest time and return as starting location
@@ -105,8 +97,12 @@ class TrajectAnalyzer():
 
         else:
             # Pick a random station
-            #available = self.connections_set - self.used_connections
-            #next_start = random.choice(list(available))
-            next_start = next(iter(self.connections_set))
+            available = self.connections_set - self.used_connections
+            if available:
+                next_start = random.choice(list(available))
+            else:
+                return "No available start station: see to do comment!"
+                # To do:  make the traject loop stop as there are no more stations
+                #available
 
         return next_start
