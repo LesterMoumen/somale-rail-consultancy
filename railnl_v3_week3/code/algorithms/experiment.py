@@ -5,7 +5,6 @@ from code.classes.station import Station
 from code.classes.connection import Connection
 from code.classes.visualisation import Visualisation
 from code.classes.traject2 import Traject2
-from matplotlib import colormaps
 
 class Experiment():
     """
@@ -15,12 +14,10 @@ class Experiment():
         self.max_time = max_time
         self.number_of_trajects = number_of_trajects
 
-
         self.color_list = ["blue", "orange", "green", "red", "purple",
         "brown", "pink", "gray", "olive", "cyan",
         "yellow", "violet", "indigo", "magenta", "teal",
         "turquoise", "lime", "navy", "gold", "silver"]
-
 
         self.traject_list = []
 
@@ -55,24 +52,22 @@ class Experiment():
 
         return stations_dict, connections_dict
 
-    def calculate_quality(self, connection_histories = None, total_time = None):
-        """ Calculate the (current) quality of the train table. Optimal is 10000.
+    def calculate_quality(self):
+        """ Calculate the quality of the train table. Optimal is 10000.
         formula:     K = p*10000 - (T*100 + Min)
         waarin K de kwaliteit van de lijnvoering is, p de fractie van de bereden verbindingen
         (dus tussen 0 en 1), T het aantal trajecten en Min het aantal minuten in alle trajecten samen.
         """
-        if connection_histories is None:
-            connection_histories = self.get_connection_histories()
-        if total_time is None:
-            total_time = self.get_total_time()
+
         # Calculate fraction (p) of visited connections
-        p = len(connection_histories) / len(self.connections_set)
+        p = len(self.get_connection_histories()) / len(self.connections_set)
         # Get total number of trajects (T)
-        T = self.number_of_trajects
+        T = len(self.traject_list)
         # Calculate cost
-        quality = p * 10000 - (T*100 + total_time)
+        quality = p * 10000 - (T*100 + self.get_total_time())
 
         return quality, p
+
 
     def valid_connection_options(self, traject_object):
         """ Gives dictionary of valid connection options with respective time.
@@ -190,7 +185,7 @@ class Experiment():
             self.initialize_trajects()
             self.reset_connection_frequencies()
             self.run_trajects()
-            K, p = self.calculate_quality(self.get_connection_histories(), self.get_total_time())
+            K, p = self.calculate_quality()
 
         # print(K)
         # print(iteration)
@@ -199,7 +194,7 @@ class Experiment():
 
     def is_solution(self):
         """ Check if the experiment is a complete solution (p = 1). """
-        _, p = self.calculate_quality(self.get_connection_histories(), self.get_total_time())
+        _, p = self.calculate_quality()
         return p == 1
 
 
@@ -210,7 +205,7 @@ class Experiment():
         print("train, stations")
         for i, traject in enumerate(self.traject_list):
             print(f'train {i+1} {traject.station_history}')
-        print("score", self.calculate_quality(self.get_connection_histories(), self.get_total_time())[0])
+        print("score", self.calculate_quality()[0])
 
 
     def output_to_csv(self, filename):
@@ -226,7 +221,7 @@ class Experiment():
 
         for i, traject in enumerate(self.traject_list):
             train = f"train {1+i}"
-            csv_writer.writerow([train, traject.station_history])
+            csv_writer.writerow([train, traject.station_history, traject.traject_time])
 
         csv_writer.writerow(["score", self.calculate_quality()])
         csv_file.close()
