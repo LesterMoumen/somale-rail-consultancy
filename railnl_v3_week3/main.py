@@ -53,14 +53,14 @@ if __name__ == "__main__":
 
     # ____Run multiple experiments___
     # e.g. with randomise algorithms
-    temperature = 1200
+    temperature = 400
     algorithm1 = Randomise
     algorithm2 = SimulatedAnnealing
 
 
 
     number_of_experiments1 = 1000
-    number_of_experiments2 = 10000
+    number_of_experiments2 = 2000
     r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
                         number_of_experiments1, number_of_experiments2,
                         algorithm1_type = algorithm1,
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # greedy_experiment.print_output()
     # greedy_experiment.visualisation("greedy")
     # # __________GreedyLookahead___________
-    greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
+    # greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
     # greedy_lookahead_experiment.run()
     # greedy_lookahead_experiment.print_output()
     # greedy_lookahead_experiment.visualisation("GreedyLookahead")

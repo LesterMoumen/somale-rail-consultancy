@@ -39,7 +39,7 @@ class SimulatedAnnealing(HillClimber):
         # self.T = self.T - (self.T0 / self.iterations)
 
         # Exponential would look like this:
-        alpha = 0.9995
+        alpha = 0.995
         # self.T = self.T * alpha
         self.T = self.T * alpha
 

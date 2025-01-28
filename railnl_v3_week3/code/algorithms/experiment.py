@@ -68,7 +68,7 @@ class Experiment():
         T = self.number_of_trajects
         # Calculate cost
         quality = p * 10000 - (T*100 + total_time)
-        print(f"Total Quality (Score): {quality}, Fraction of Visited Connections (p): {p}, time {total_time}")
+        # print(f"Total Quality (Score): {quality}, Fraction of Visited Connections (p): {p}, time {total_time}")
 
         return quality, p
 
@@ -236,7 +236,7 @@ class Experiment():
         """
         visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
         visualize.show_visualisation()
-        # visualize.save_visualisation(filename)
+        visualize.save_visualisation(filename)
 
         #  # Save the visualisation to a PNG file
         # plt.savefig(filename, format='png')

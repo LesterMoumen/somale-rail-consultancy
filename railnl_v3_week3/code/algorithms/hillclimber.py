@@ -51,6 +51,9 @@ class HillClimber(Experiment):
 
 
     def clear_traject(self, traject, new_table):
+        """
+        Clears the whole traject from our data using clear_connection method.
+        """
         while traject.connection_history:
             self.clear_connection(traject, new_table)
 
