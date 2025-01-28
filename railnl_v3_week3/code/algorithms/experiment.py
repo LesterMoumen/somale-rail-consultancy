@@ -64,7 +64,8 @@ class Experiment():
         # Get total number of trajects (T)
         T = len(self.traject_list)
         # Calculate cost
-        quality = p * 10000 - (T*100 + self.get_total_time())
+        quality = p * 10000 - (T*100 + total_time)
+        print(f"Total Quality (Score): {quality}, Fraction of Visited Connections (p): {p}, time {total_time}")
 
         return quality, p
 
@@ -87,14 +88,14 @@ class Experiment():
 
         return valid_connections
 
-    # def get_station_histories(self):
-    #     """ Get a list of lists with station histories of each traject.
-    #     """
-    #     station_histories = []
-    #     for traject in self.traject_list:
-    #         station_histories.append(traject.station_history)
-    #
-    #     return station_histories
+    def get_station_histories(self):
+        """ Get a list of lists with station histories of each traject.
+        """
+        station_histories = []
+        for traject in self.traject_list:
+            station_histories.append(traject.station_history)
+
+        return station_histories
 
     def get_connection_histories(self):
         """ Get a set of all connections visited.
@@ -231,8 +232,8 @@ class Experiment():
         Creates the visualisation for the trains and the train table and displays it.
         """
         visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
-        #visualize.show_visualisation()
-        visualize.save_visualisation(filename)
+        visualize.show_visualisation()
+        # visualize.save_visualisation(filename)
 
         #  # Save the visualisation to a PNG file
         # plt.savefig(filename, format='png')

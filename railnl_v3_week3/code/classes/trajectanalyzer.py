@@ -9,7 +9,6 @@ class TrajectAnalyzer():
         self.connections_dict = connections_dict
         self.traject_list = traject_list
         self.connections_set = connections_set
-
         self.used_connections = self.find_used_connections()
         self.used_stations = self.find_used_stations()
 
@@ -42,9 +41,10 @@ class TrajectAnalyzer():
         number_of_connections = 0
         connections_list = []
         for connecting_station in connecting_stations:
-            if connecting_station not in self.used_connections:
+            connection = helper.sorted_connection(connecting_station, station_object.name)
+            if connection not in self.used_connections:
                 number_of_connections += 1
-                connections_list.append(helper.sorted_connection(connecting_station, station_object.name))
+                connections_list.append(connection)
 
         return number_of_connections, connections_list
 
@@ -54,8 +54,6 @@ class TrajectAnalyzer():
         Output format: {station_name : [next_station, distance_to_next_station]}
         """
         dead_ends = {}
-
-        self.used_connections = self.find_used_connections()
         # Loops over station object dictionary
         for station_name, station_object in self.stations_dict.items():
             number_of_connections, connections_list = self.find_number_of_connections(station_object)
@@ -66,7 +64,8 @@ class TrajectAnalyzer():
 
 
                     dead_ends[station_name] = int(float(time))
-
+        print("Dead ends:")
+        print(dead_ends)
         return dead_ends
 
 
@@ -77,38 +76,49 @@ class TrajectAnalyzer():
         # e.g. {"Den Helder" : 1} # just connected to Alkmaar
         """
         odd_connections = {}
-        for station_name, station in self.stations_dict.items():
-            number_of_connections = 0
-            for connection, time in station.connections.items():
+        for station_name, station_object in self.stations_dict.items():
+            number_of_connections, connections_list = self.find_number_of_connections(station_object)
 
-                # Checks if connection not used yet
-                if connection not in self.used_connections:
-                    number_of_connections += 1
-
-            # Check for odd number
+            # check for odd number
             if number_of_connections % 2 != 0:
+                # print(station_name)
                 odd_connections[station_name] = number_of_connections
-
         return odd_connections
-        
+
 
     def find_next_start_location(self):
         """ Find optimal starting location for next train/traject. """
         dead_ends = self.find_dead_ends()
         odd_connections = self.find_odd_connections()
 
+        # Set default as None because it only applies to dead ends
+        # if dead ends loop will assign the next_start_location
+        next_start_connection = None
 
         if dead_ends:
             # get dead_end with longest time and return as starting location
             next_start = max(dead_ends, key = dead_ends.get)
+            # Connecting time from dead_end station to connceting station
+            time = dead_ends[next_start]
+
+            # Loop through connections of dead_end to find connecting station that matches the time
+            for connecting_station, connection_time in self.stations_dict[next_start].connections.items():
+                if int(float(connection_time)) == time:
+                    # Store connecting station and time when mathces
+                    next_start_connection = (connecting_station, time)
+
+                    print(f"Next start is dead end {next_start}")
 
         elif odd_connections:
             # get odd_connection with most connections and return as starting location
             next_start = max(odd_connections, key = odd_connections.get)
 
+            print(f"Next start is odd_connection {next_start}")
+
         else:
             # Pick a random station
             available = self.connections_set - self.used_connections
             next_start = random.choice(list(available))
+            print(f"next start is random {next_start}")
 
-        return next_start
+        return next_start, next_start_connection
