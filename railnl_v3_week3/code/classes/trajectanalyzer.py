@@ -93,13 +93,10 @@ class TrajectAnalyzer():
                     # Store connecting station and time when mathces
                     next_start_connection = (connecting_station, time)
 
-                    print(f"Next start is dead end {next_start}")
-
         elif odd_connections:
             # get odd_connection with most connections and return as starting location
             next_start = max(odd_connections, key = odd_connections.get)
 
-            print(f"Next start is odd_connection {next_start}")
 
         else:
             # Pick a random station

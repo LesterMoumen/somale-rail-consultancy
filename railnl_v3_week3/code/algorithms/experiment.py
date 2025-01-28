@@ -243,7 +243,7 @@ class Experiment():
         """
         visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
         visualize.show_visualisation()
-        # visualize.save_visualisation(filename)
+        visualize.save_visualisation(filename)
 
         #  # Save the visualisation to a PNG file
         # plt.savefig(filename, format='png')
