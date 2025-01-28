@@ -21,7 +21,6 @@ class TrajectAnalyzer():
         for traject in self.traject_list:
             for connection in traject.connection_history:
                 used_connections.add(connection)
-        print(f"[DEBUG] Used connections: {used_connections}")
 
         return used_connections
 
@@ -106,17 +105,17 @@ class TrajectAnalyzer():
         if dead_ends:
             # get dead_end with longest time and return as starting location
             next_start = max(dead_ends, key = dead_ends.get)
-            print(f"Next start is dead end {next_start}")
+            # print(f"Next start is dead end {next_start}")
 
         elif odd_connections:
             # get odd_connection with most connections and return as starting location
             next_start = max(odd_connections, key = odd_connections.get)
-            print(f"Next start is odd_connection {next_start}")
+            # print(f"Next start is odd_connection {next_start}")
 
         else:
             # Pick a random station
             available = self.connections_set - self.used_connections
             next_start = random.choice(list(available))
-            print(f"next start is random {next_start}")
+            # print(f"next start is random {next_start}")
 
         return next_start
