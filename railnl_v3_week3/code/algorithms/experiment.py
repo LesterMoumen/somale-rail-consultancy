@@ -15,20 +15,16 @@ class Experiment():
         self.max_time = max_time
         self.number_of_trajects = number_of_trajects
 
-<<<<<<< HEAD
-        self.color_list = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "ivory", "gray", "cyan", "magenta", "lime", "teal", "indigo", "violet", "gold","silver","beige"]
+        # self.color_list = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "ivory", "gray", "cyan", "magenta", "lime", "teal", "indigo", "violet", "gold","silver","beige"]
 
-=======
-<<<<<<< HEAD
+
         self.color_list = ["blue", "orange", "green", "red", "purple",
         "brown", "pink", "gray", "olive", "cyan",
         "yellow", "violet", "indigo", "magenta", "teal",
         "turquoise", "lime", "navy", "gold", "silver"]
-=======
-        self.color_list = list(colormaps)#["blue", "orange", "green", "red", "purple",
-                           #"brown", "pink", "gray", "olive", "cyran"]
->>>>>>> 93365ba4d21e9e21d5028b9043581729f8251475
->>>>>>> 8a0e8945f956f8e63e92cd821237f2e7b858ac78
+
+        # self.color_list = list(colormaps)#["blue", "orange", "green", "red", "purple",
+        #                    #"brown", "pink", "gray", "olive", "cyran"]
 
         self.traject_list = []
 
@@ -79,6 +75,7 @@ class Experiment():
         T = self.number_of_trajects
         # Calculate cost
         quality = p * 10000 - (T*100 + total_time)
+        # print(f"Total Quality (Score): {quality}, Fraction of Visited Connections (p): {p}, time {total_time}")
 
         return quality, p
 
@@ -245,8 +242,8 @@ class Experiment():
         Creates the visualisation for the trains and the train table and displays it.
         """
         visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
-        #visualize.show_visualisation()
-        visualize.save_visualisation(filename)
+        visualize.show_visualisation()
+        # visualize.save_visualisation(filename)
 
         #  # Save the visualisation to a PNG file
         # plt.savefig(filename, format='png')

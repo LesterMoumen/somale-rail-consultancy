@@ -30,7 +30,7 @@ max_time = 180
 if __name__ == "__main__":
     # ____Run single experiment____
     # e.g. with randomise and 2 trajects
-    # number_of_trajects = 1
+    number_of_trajects = 11
     # randomised_experiment = Randomise(connections_file, locations_file, number_of_trajects, max_time)
     # randomised_experiment.run()
     # # Print output in terminal
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     algorithm = Randomise
     number_of_experiments = 1000
     r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments, algorithm_type = algorithm)
-    r.run()
+    # r.run()
     # r.print()
     # r.visualise()
     # r.to_csv()
@@ -80,15 +80,15 @@ if __name__ == "__main__":
     # traintable.visualisation()
 
     # ____________Greedy____________
-    # greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
+    greedy_experiment = Greedy(connections_file, locations_file, number_of_trajects, max_time)
     # greedy_experiment.run()
     # greedy_experiment.print_output()
-    # # greedy_experiment.visualisation()
+    # greedy_experiment.visualisation("greedy")
     # # __________GreedyLookahead___________
-    # greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
-    # greedy_lookahead_experiment.run()
-    # greedy_lookahead_experiment.print_output()
-    # greedy_lookahead_experiment.visualisation()
+    greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, number_of_trajects, max_time)
+    greedy_lookahead_experiment.run()
+    greedy_lookahead_experiment.print_output()
+    greedy_lookahead_experiment.visualisation("GreedyLookahead")
 
     # __________GreedyLookahead___________ experiment:
     # algorithm = Greedy
