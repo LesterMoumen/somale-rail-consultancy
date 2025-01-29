@@ -16,7 +16,7 @@ class Experiment():
     def __init__(self, connections_file, stations_file, number_of_trajects, max_time):
         """ Initializes the experiment.
 
-        Parameters:
+        Input:
         - connections_file: csv file containing train connections
         - locations_file: csv file containing station locations (coordinates)
         - number_of_trajects: int, amount of trajects to be generated

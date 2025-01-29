@@ -32,6 +32,7 @@ class RunExperiments():
     def run_first_algorithm(self):
         """ Runs all experiments and collects data. Saves best quality experiment too.
         """
+        print(f"Starting {str(self.algorithm1)} for {self.number_of_experiments1} iterations per traject number.")
 
         for number_of_trajects in range(self.start_trajects, self.end_trajects + 1):
             highest_quality = 0
@@ -68,6 +69,8 @@ class RunExperiments():
 
             # Add to dictionary
             self.data[number_of_trajects] = qualities
+
+            print(f"Experiment {str(self.algorithm1)} has finished!")
 
 
     def save_all_objects(self, state_name, algorithm):
