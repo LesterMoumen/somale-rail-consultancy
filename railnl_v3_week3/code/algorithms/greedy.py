@@ -1,4 +1,3 @@
-import copy
 import random
 from code.algorithms.experiment import Experiment
 from code.classes.traject2 import Traject2
@@ -99,7 +98,7 @@ class Greedy(Experiment):
         return traject_object
 
     def run(self):
-        """ Run the greedy algorithm.
+        """ Run the Greedy or GreedyLookahead algorithm.
         """
 
         for i in range(self.number_of_trajects):
@@ -113,6 +112,7 @@ class Greedy(Experiment):
             total_time = self.get_total_time()
             quality, p = self.calculate_quality(connections_visited, total_time)
 
+            # when p is 1 all connections are visited; the simulation stops.
             if p == 1:
                 print("All connections have been visited")
                 break
@@ -153,17 +153,30 @@ class GreedyLookahead(Greedy):
         """
         Recursively find the best path starting from the current station and explores the best path to a specified depth.
         Return the best path and its quality
+
+        e.g.
+        Den Helder --> Alkmaar = quality 3
+        Alkmaar --> Hoorn = quality 10
+        Hoorn --> Zaandam = quality 3
+
+        Den helder --> Alkmaar = quality 3
+        Alkmaar --> Castricum = quality 5
+        Castricum --> Amsterdam Sloterdijk = quality 15
+
+        Calculate both path quality and chooses next station with highest path quality.
         """
         # if there are no lookahead depths anymore, return a empty path and quality
         if depth == 0:
             return [], total_quality
 
+        # initialize variables to track the best path and quality
         best_quality = float('-inf')
         best_path = []
 
-        # valid connection option within max time
-        connection_options = self.valid_connection_options(traject_object)
+        # get connection options from current station
+        connection_options = self.stations_dict[current_station].connections
 
+        # loops through all connection options
         for next_station, travel_time in connection_options.items():
             connection = helper.sorted_connection(current_station, next_station)
 
@@ -173,7 +186,7 @@ class GreedyLookahead(Greedy):
             next_connection_quality, p = self.calculate_quality(new_visited_connections, total_time)
             new_quality = total_quality + next_connection_quality
 
-            # Recursively explores the next depth
+            # Recursively explores the next station and its quality
             trail_path, trail_quality = self.simulate_best_path(next_station, depth - 1, new_visited_connections, new_quality, traject_object)
 
             # saves the best path if it has a higher quality
