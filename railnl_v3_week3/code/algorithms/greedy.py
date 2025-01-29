@@ -122,7 +122,7 @@ class GreedyLookahead(Greedy):
     def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth, use_randomise=False):
         """
         initialize the GreedyLookahead algorithm
-        - It has a lookahead depth of 3
+        - It has a variable lookahead depth
         - It has the option to use the Random algorithm for a start_station
         """
         super().__init__(connections_file, locations_file, number_of_trajects, max_time)
