@@ -1,3 +1,4 @@
+import csv
 import matplotlib.pyplot as plt
 from code.algorithms.experiment import Experiment
 from code.classes.visualisation import Visualisation
@@ -69,10 +70,31 @@ class RunExperiments():
             # Add to dictionary
             self.data[number_of_trajects] = qualities
 
+    def save_all_collected_data(self, filename):
+        """
+        Saves a CSV file of all the collected data.
+        """
+        csv_filename = f"output/{filename}_data.csv"
+        with open(csv_filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            header = ["Number of Trajects"]
+
+            # Use enumerate to generate headers
+            for i, _ in enumerate(range(self.number_of_experiments1)):
+                header.append(f"Quality Score {i + 1}")
+
+            writer.writerow(header)
+
+            # add the data to rows in the csv file
+            for traject_count, qualities in self.data.items():
+                row = [traject_count] + qualities
+                writer.writerow(row)
+
+        print(f"Collected data saved as {csv_filename}")
 
     def save_all_objects(self, state_name, algorithm):
         """
-
+        Saves the result of every experiment and visualises it.
         """
         for traject_count, experiment_object in self.experiment_object_dict.items():
             save_results(experiment_object, traject_count, state_name, algorithm)
