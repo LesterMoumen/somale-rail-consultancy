@@ -1,6 +1,6 @@
 
 
-class Traject2():
+class Traject():
     """ This class handles a single train route/traject. It keeps track of the
     movement history and movement time.
     """

@@ -1,12 +1,12 @@
 
 #from code.classes.train_table import Train_table
-from code.classes.trajectanalyzer import TrajectAnalyzer
 #from code.boxplot import create_box_plot
-from code.algorithms.depthfirst import DepthFirstCounter
+from code.classes.trajectanalyzer import TrajectAnalyzer
 from code.classes.station import Station
-from code.algorithms.experiment import Experiment
+from code.classes.experiment import Experiment
+from code.classes.run_experiments import RunExperiments
+from code.algorithms.depthfirst import DepthFirstCounter
 from code.algorithms.randomise import Randomise
-from code.algorithms.run_experiments import RunExperiments
 from code.algorithms.greedy import Greedy
 from code.algorithms.greedy import GreedyLookahead
 from code.algorithms.hillclimber import HillClimber
@@ -87,10 +87,11 @@ if __name__ == "__main__":
     #__________GreedyLookahead random experiment___________
     algorithm1 = GreedyLookahead
     algorithm2 = None
-    number_of_experiments1 = 1000
+    number_of_experiments1 = 2
     r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
                         number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = True)
     r.run_first_algorithm()
+    r.save_all_collected_data("Greed")
     # r.save_all_objects("GreedyLookahead random", algorithm1)
     # r.print()
     # r.visualise_experiment("greedy_look")
@@ -98,13 +99,13 @@ if __name__ == "__main__":
     # r.box_plot("GreedyLookahead random")
 
     # __________ GreedyLookahead TrajectAnalyzer experiment_________
-    # algorithm1 = GreedyLookahead
-    # algorithm2 = None
-    # number_of_experiments1 = 2
-    # start_trajects = 7
-    # end_trajects = 17
-    # r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
-    #                     number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = False)
+    algorithm1 = GreedyLookahead
+    algorithm2 = None
+    number_of_experiments1 = 2
+    start_trajects = 7
+    end_trajects = 17
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
+                        number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = False)
     # r.run_first_algorithm()
     # r.save_all_objects("GreedyLookahead TrajectAnalyzer", algorithm1)
     # r.box_plot("GreedyLookahead TrajectAnalyzer")

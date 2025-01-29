@@ -1,4 +1,3 @@
-
 class Station():
     """ This class handles each station object. It serves as data storage
     container for the station.

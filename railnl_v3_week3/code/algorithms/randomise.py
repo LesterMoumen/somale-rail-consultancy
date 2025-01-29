@@ -1,6 +1,6 @@
 import random
-from code.algorithms.experiment import Experiment
-from code.classes.traject2 import Traject2
+from code.classes.experiment import Experiment
+from code.classes.traject import Traject
 
 class Randomise(Experiment):
     """ This class handles the instance of an experiment with a random algorithm.

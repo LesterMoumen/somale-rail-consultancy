@@ -25,6 +25,16 @@ class TrajectAnalyzer():
         self.connections_set = connections_set
         self.used_connections = self.find_used_connections()
 
+    def find_used_stations(self):
+        """ Find all used station from station_histories in Traject class.
+        """
+        used_stations = set()
+        for traject in self.traject_list:
+            for station in traject.station_history:
+                used_stations.add(station)
+
+        return used_stations
+
 
     def find_used_connections(self):
         """ Finds all connections that have been visited in the trajects and
