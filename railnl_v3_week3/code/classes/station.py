@@ -1,10 +1,15 @@
-
 class Station():
-    """ Handles each station object.
+    """ This class handles each station object. It serves as data storage
+    container for the station.
     """
     def __init__(self, station, connections, coordinates):
+        """ Initializes the Station.
+
+        Input:
+        - station: str, station name
+        - connections: dict, connection options as key, connection time as value
+        - coordinates: tuple, with x and y coordinate (floats)
+        """
         self.name = station
         self.coordinates = coordinates
-
-        # Dictionary with connection options + connection time
         self.connections = connections

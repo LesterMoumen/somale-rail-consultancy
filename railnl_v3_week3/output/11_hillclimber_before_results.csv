@@ -1,0 +1,13 @@
+train,stations
+train 1,"['s-Hertogenbosch', 'Utrecht Centraal', 'Amsterdam Centraal', 'Amsterdam Amstel', 'Almere Centrum', 'Lelystad Centrum', 'Almere Centrum', 'Lelystad Centrum', 'Almere Centrum', 'Hilversum']",171
+train 2,"['Tilburg', 'Eindhoven', 's-Hertogenbosch', 'Eindhoven', 's-Hertogenbosch', 'Eindhoven', 'Weert', 'Roermond', 'Sittard', 'Heerlen', 'Sittard']",169
+train 3,"['Tilburg', 's-Hertogenbosch', 'Oss', 'Nijmegen', 'Oss', 'Nijmegen', 'Arnhem Centraal', 'Dieren', 'Arnhem Centraal', 'Dieren', 'Zutphen', 'Deventer', 'Apeldoorn', 'Zutphen', 'Dieren']",180
+train 4,"['Gouda', 'Alphen a/d Rijn', 'Utrecht Centraal', 'Hilversum', 'Utrecht Centraal', 'Hilversum', 'Amsterdam Amstel', 'Utrecht Centraal', 'Hilversum', 'Utrecht Centraal']",169
+train 5,"['Etten-Leur', 'Roosendaal', 'Dordrecht', 'Rotterdam Centraal', 'Rotterdam Alexander', 'Gouda', 'Alphen a/d Rijn', 'Gouda', 'Den Haag Laan v NOI', 'Delft', 'Schiedam Centrum', 'Rotterdam Centraal', 'Dordrecht']",175
+train 6,"['Amsterdam Centraal', 'Utrecht Centraal', 'Hilversum', 'Almere Centrum', 'Hilversum', 'Amsterdam Amstel', 'Almere Centrum', 'Hilversum']",175
+train 7,"['Utrecht Centraal', 'Schiphol Airport', 'Leiden Centraal', 'Den Haag Centraal', 'Gouda', 'Den Haag HS', 'Leiden Centraal', 'Den Haag HS', 'Delft', 'Den Haag Laan v NOI', 'Leiden Centraal', 'Den Haag Laan v NOI', 'Delft', 'Schiedam Centrum']",180
+train 8,"['Apeldoorn', 'Amersfoort', 'Zwolle', 'Steenwijk', 'Heerenveen', 'Leeuwarden', 'Groningen', 'Assen']",165
+train 9,"['Dieren', 'Arnhem Centraal', 'Nijmegen', 'Oss', 'Nijmegen', 'Oss', 's-Hertogenbosch', 'Utrecht Centraal', 'Hilversum', 'Amsterdam Amstel', 'Amsterdam Centraal', 'Amsterdam Sloterdijk', 'Zaandam', 'Amsterdam Sloterdijk']",179
+train 10,"['Hengelo', 'Enschede', 'Hengelo', 'Almelo', 'Zwolle', 'Steenwijk', 'Zwolle', 'Steenwijk', 'Zwolle']",162
+train 11,"['Schiphol Airport', 'Amsterdam Zuid', 'Amsterdam Sloterdijk', 'Amsterdam Zuid', 'Amsterdam Sloterdijk', 'Haarlem', 'Heemstede-Aerdenhout', 'Leiden Centraal', 'Den Haag HS', 'Delft', 'Schiedam Centrum', 'Rotterdam Blaak', 'Rotterdam Alexander', 'Gouda', 'Utrecht Centraal', 'Gouda']",177
+score,"(4076.651685393258, 0.7078651685393258)"

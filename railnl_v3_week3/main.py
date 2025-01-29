@@ -1,12 +1,12 @@
 
 #from code.classes.train_table import Train_table
-from code.classes.trajectanalyzer import TrajectAnalyzer
 #from code.boxplot import create_box_plot
-from code.algorithms.depthfirst import DepthFirstCounter
+from code.classes.trajectanalyzer import TrajectAnalyzer
 from code.classes.station import Station
-from code.algorithms.experiment import Experiment
+from code.classes.experiment import Experiment
+from code.classes.run_experiments import RunExperiments
+from code.algorithms.depthfirst import DepthFirstCounter
 from code.algorithms.randomise import Randomise
-from code.algorithms.run_experiments import RunExperiments
 from code.algorithms.greedy import Greedy
 from code.algorithms.greedy import GreedyLookahead
 from code.algorithms.hillclimber import HillClimber

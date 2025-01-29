@@ -1,9 +1,9 @@
 import csv
 import matplotlib.pyplot as plt
-from code.algorithms.experiment import Experiment
 from code.classes.visualisation import Visualisation
-from code.algorithms.randomise import Randomise
 from code.classes.helper_functions import save_results
+from code.classes.experiment import Experiment
+from code.algorithms.randomise import Randomise
 from code.algorithms.hillclimber import HillClimber
 from code.algorithms.simulatedannealing import SimulatedAnnealing
 from code.algorithms.greedy import Greedy
@@ -49,6 +49,7 @@ class RunExperiments():
     def run_first_algorithm(self):
         """ Runs all experiments and collects data. Saves best quality experiment too.
         """
+        print(f"Starting {str(self.algorithm1)} for {self.number_of_experiments1} iterations per traject number.")
 
         for number_of_trajects in range(self.start_trajects, self.end_trajects + 1):
             highest_quality = 0

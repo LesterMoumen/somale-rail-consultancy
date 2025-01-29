@@ -1,12 +1,12 @@
 import copy
 import random
-from code.algorithms.experiment import Experiment
+from code.classes.experiment import Experiment
 from code.algorithms.randomise import Randomise
 # from code.algorithms.run_experiments import RunExperiments
 from code.classes.station import Station
 from code.classes.connection import Connection
 from code.classes.visualisation import Visualisation
-from code.classes.traject2 import Traject2
+from code.classes.traject import Traject
 from code.classes.trajectanalyzer import TrajectAnalyzer
 
 
@@ -102,8 +102,8 @@ class HillClimber(Experiment):
             used_stations = list(self.used_stations)  # Assuming self.used_stations is a set of used station names
             start_location = random.choice(used_stations)
 
-        # Create a new traject using Traject2
-        new_traject = Traject2(start_location, new_table.color_list[random_traject_index])
+        # Create a new traject using Traject
+        new_traject = Traject(start_location, new_table.color_list[random_traject_index])
 
         # Simulate movement for the new traject to make it valid
         while not new_traject.finished:

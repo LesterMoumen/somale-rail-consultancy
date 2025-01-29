@@ -153,7 +153,7 @@ class Visualisation():
 
         # CLose to save memory
         plt.close()
-        
+
         # Show the plot
         # plt.show()
         # plt.clf()

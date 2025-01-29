@@ -4,7 +4,7 @@ from code.classes import helper_functions as helper
 from code.classes.station import Station
 from code.classes.connection import Connection
 from code.classes.visualisation import Visualisation
-from code.classes.traject2 import Traject2
+from code.classes.traject import Traject
 
 class Experiment():
     """ This Class handles each instance of an experiment by creating train
@@ -16,7 +16,7 @@ class Experiment():
     def __init__(self, connections_file, stations_file, number_of_trajects, max_time):
         """ Initializes the experiment.
 
-        Parameters:
+        Input:
         - connections_file: csv file containing train connections
         - locations_file: csv file containing station locations (coordinates)
         - number_of_trajects: int, amount of trajects to be generated
@@ -173,7 +173,7 @@ class Experiment():
         """
         for i in range(self.number_of_trajects):
             start_location = self.start_station(list(self.stations_dict.keys()))
-            self.traject_list.append(Traject2(start_location, self.color_list[i]))
+            self.traject_list.append(Traject(start_location, self.color_list[i]))
 
 
     def movement(self, traject_object):
