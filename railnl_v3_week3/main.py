@@ -22,7 +22,7 @@ connections_national = "data/ConnectiesNationaal.csv"
 # Parameters
 connections_file = connections_national
 locations_file = locations_national
-max_number_of_trajects = 20
+max_number_of_trajects = 10
 max_time = 180
 
 if __name__ == "__main__":
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     # greedy_experiment.visualisation("greedy visualisation")
 
     #  __________GreedyLookahead___________
-    # greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, max_number_of_trajects, max_time, use_randomise = False)
+    greedy_lookahead_experiment = GreedyLookahead(connections_file, locations_file, max_number_of_trajects, max_time, use_randomise = False)
     # greedy_lookahead_experiment.run()
     # greedy_lookahead_experiment.print_output()
 
@@ -87,9 +87,24 @@ if __name__ == "__main__":
     #__________GreedyLookahead random experiment___________
     algorithm1 = GreedyLookahead
     algorithm2 = None
-    number_of_experiments1 = 50
+    number_of_experiments1 = 1
     r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
                         number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = True)
     r.run_first_algorithm()
-    r.save_all_objects("before")
-    # # r.create_boxplot()
+    # r.save_all_objects("GreedyLookahead random", algorithm1)
+    # r.print()
+    # r.visualise_experiment("greedy_look")
+    # r.to_csv()
+    # r.box_plot("GreedyLookahead random")
+
+    # __________ GreedyLookahead TrajectAnalyzer experiment_________
+    algorithm1 = GreedyLookahead
+    algorithm2 = None
+    number_of_experiments1 = 2
+    start_trajects = 7
+    end_trajects = 17
+    r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
+                        number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = False)
+    r.run_first_algorithm()
+    r.save_all_objects("GreedyLookahead TrajectAnalyzer", algorithm1)
+    r.box_plot("GreedyLookahead TrajectAnalyzer")
