@@ -87,10 +87,11 @@ if __name__ == "__main__":
     #__________GreedyLookahead random experiment___________
     algorithm1 = GreedyLookahead
     algorithm2 = None
-    number_of_experiments1 = 1
+    number_of_experiments1 = 2
     r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
                         number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = True)
     r.run_first_algorithm()
+    r.save_all_collected_data("Greed")
     # r.save_all_objects("GreedyLookahead random", algorithm1)
     # r.print()
     # r.visualise_experiment("greedy_look")
@@ -105,6 +106,6 @@ if __name__ == "__main__":
     end_trajects = 17
     r = RunExperiments(connections_file, locations_file, max_number_of_trajects, max_time,
                         number_of_experiments1, number_of_experiments2 = None, algorithm1_type = algorithm1, algorithm2_type = algorithm2, use_randomise = False)
-    r.run_first_algorithm()
-    r.save_all_objects("GreedyLookahead TrajectAnalyzer", algorithm1)
-    r.box_plot("GreedyLookahead TrajectAnalyzer")
+    # r.run_first_algorithm()
+    # r.save_all_objects("GreedyLookahead TrajectAnalyzer", algorithm1)
+    # r.box_plot("GreedyLookahead TrajectAnalyzer")
