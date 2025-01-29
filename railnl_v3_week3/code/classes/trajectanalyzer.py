@@ -62,10 +62,8 @@ class TrajectAnalyzer():
                 if connections_list[0] not in self.used_connections:
                     time = self.connections_dict[connections_list[0]].time
 
-
                     dead_ends[station_name] = int(float(time))
-        print("Dead ends:")
-        print(dead_ends)
+
         return dead_ends
 
 
