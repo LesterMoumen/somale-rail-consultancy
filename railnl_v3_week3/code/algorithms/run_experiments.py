@@ -22,6 +22,7 @@ class RunExperiments():
         self.use_randomise = use_randomise
         self.start_trajects = start_trajects
         self.end_trajects = end_trajects
+
         self.experiment_object_dict = {} #stores the best experiment objects for each number of trajects
 
         # List of lists of qualities
@@ -41,7 +42,7 @@ class RunExperiments():
 
             for i in range(self.number_of_experiments1):
                 # checks if an object has a randomise atribute
-                if 'use_randomise' in self.algorithm1.__init__.__code__.co_varnames: #hasattr(self.algorithm1, '__init__') and
+                if 'use_randomise' in self.algorithm1.__init__.__code__.co_varnames:
                     experiment_object = self.algorithm1(self.connections_file, self.locations_file, number_of_trajects, self.max_time, use_randomise = self.use_randomise)
                 else:
                     experiment_object = self.algorithm1(self.connections_file, self.locations_file, number_of_trajects, self.max_time)
