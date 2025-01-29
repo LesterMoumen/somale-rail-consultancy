@@ -11,7 +11,21 @@ from code.algorithms.greedy import GreedyLookahead
 
 
 class RunExperiments():
-    def __init__(self, connections_file, locations_file, max_number_of_trajects, max_time, number_of_experiments1, number_of_experiments2, algorithm1_type, algorithm2_type, start_trajects = 7, end_trajects = 17, use_randomise = False):
+    def __init__(
+        self,
+        connections_file,
+        locations_file,
+        max_number_of_trajects,
+        max_time, number_of_experiments1,
+        number_of_experiments2,
+        algorithm1_type,
+        algorithm2_type,
+        start_trajects,
+        end_trajects,
+        lookahead_depth = None,
+        use_randomise = False
+    ):
+        
         self.connections_file = connections_file
         self.locations_file = locations_file
         self.max_number_of_trajects = max_number_of_trajects
@@ -20,9 +34,11 @@ class RunExperiments():
         self.number_of_experiments2 = number_of_experiments2
         self.algorithm1 = algorithm1_type
         self.algorithm2 = algorithm2_type
-        self.use_randomise = use_randomise
         self.start_trajects = start_trajects
         self.end_trajects = end_trajects
+        self.lookahead_depth = lookahead_depth
+        self.use_randomise = use_randomise #if not given it will be False
+
 
         self.experiment_object_dict = {} #stores the best experiment objects for each number of trajects
 
@@ -43,8 +59,8 @@ class RunExperiments():
 
             for i in range(self.number_of_experiments1):
                 # checks if an object has a randomise atribute
-                if 'use_randomise' in self.algorithm1.__init__.__code__.co_varnames:
-                    experiment_object = self.algorithm1(self.connections_file, self.locations_file, number_of_trajects, self.max_time, use_randomise = self.use_randomise)
+                if 'use_randomise' in self.algorithm1.__init__.__code__.co_varnames and 'lookahead_depth' in self.algorithm1.__init__.__code__.co_varnames:
+                    experiment_object = self.algorithm1(self.connections_file, self.locations_file, number_of_trajects, self.max_time, lookahead_depth = self.lookahead_depth, use_randomise = self.use_randomise)
                 else:
                     experiment_object = self.algorithm1(self.connections_file, self.locations_file, number_of_trajects, self.max_time)
 
