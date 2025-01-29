@@ -22,22 +22,20 @@ Om de code te runnen kan het volgende commant gebruikt worden:
 python main.py
 '''
 
-Vervolgens worden er verschillende algoritmes gerunt en zal dit verschillende uitkomsten geven.
+Door dit commant te gebruiken kunnen worden er verschillende algoritmes gerund.
 
-'''
-voorbeeld van output toevoegen
-'''
 
 ### Structuur
 
 Dit project is opgedeeld in verschillende mappen;
 
 - **/code**: bevat alle code van dit project
-  - **/code/algorithms**: bevat de code voor de algoritmes. De depthfirst is alleen gebruikt voor de berekening van de state space  --> run_experiments/experiment verplaatsen naar classes
+  - **/code/algorithms**: bevat de code voor de algoritmes. De depthfirst is alleen gebruikt voor de berekening van de state space
   - **/code/classes**: bevat de verschillende classes die gebruikt worden voor dit project
 - **/data**: bevat de verschillende databestanden die nodig zijn om de stations en verbindingen te plotten.
+- **/output**: bevat alle verkregen bestanden bij het runnen van de experimenten.
 
 ## Auteurs
 - Marijn de Gans
 - Lester Moumen
-- Soesja van der Hilst 
+- Soesja van der Hilst
