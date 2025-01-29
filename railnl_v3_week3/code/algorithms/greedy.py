@@ -119,7 +119,7 @@ class Greedy(Experiment):
 
 
 class GreedyLookahead(Greedy):
-    def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth=5, use_randomise=False):
+    def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth, use_randomise=False):
         """
         initialize the GreedyLookahead algorithm
         - It has a lookahead depth of 3
