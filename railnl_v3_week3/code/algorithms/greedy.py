@@ -1,5 +1,5 @@
 import random
-from code.algorithms.experiment import Experiment
+from code.classes.experiment import Experiment
 from code.classes.traject import Traject
 from code.classes.trajectanalyzer import TrajectAnalyzer
 import code.classes.helper_functions as helper
@@ -84,7 +84,7 @@ class Greedy(Experiment):
         else:
             start_location, next_connecting_station = start_loca
 
-        traject_object = Traject2(start_location, self.color_list[color_list_i])
+        traject_object = Traject(start_location, self.color_list[color_list_i])
         self.traject_list.append(traject_object)
 
         # if traject_analyzer is used next_connecting_station != None than use the traject_analyzer as next_connecting_station

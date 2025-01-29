@@ -1,5 +1,5 @@
 import random
-from code.algorithms.experiment import Experiment
+from code.classes.experiment import Experiment
 from code.classes.traject import Traject
 
 class Randomise(Experiment):

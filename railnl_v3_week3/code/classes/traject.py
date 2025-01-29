@@ -1,4 +1,4 @@
-class Traject2():
+class Traject():
     """ Handles a single train route/traject.
     """
     def __init__(self, start_location, color):

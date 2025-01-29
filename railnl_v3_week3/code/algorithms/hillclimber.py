@@ -102,8 +102,8 @@ class HillClimber(Experiment):
             used_stations = list(self.used_stations)  # Assuming self.used_stations is a set of used station names
             start_location = random.choice(used_stations)
 
-        # Create a new traject using Traject2
-        new_traject = Traject2(start_location, new_table.color_list[random_traject_index])
+        # Create a new traject using Traject
+        new_traject = Traject(start_location, new_table.color_list[random_traject_index])
 
         # Simulate movement for the new traject to make it valid
         while not new_traject.finished:
