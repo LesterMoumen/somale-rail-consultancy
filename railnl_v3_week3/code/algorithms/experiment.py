@@ -247,16 +247,18 @@ class Experiment():
     def output_to_csv(self, filename):
         """ Saves trajects and quality score to csv file.
         """
-        csv_file = open(filename, 'w', newline='')
-        csv_writer = csv.writer(csv_file)
-        csv_writer.writerow(['train', 'stations'])
+        with open(filename, 'w', newline = '') as file:
+            csv_writer = csv.writer(file)
+            csv_writer.writerow(['train', 'stations'])
 
-        for i, traject in enumerate(self.traject_list):
-            train = f"train {1+i}"
-            csv_writer.writerow([train, traject.station_history, traject.traject_time])
+            for i, traject in enumerate(self.traject_list):
+                train = f"Train {i+1}"
+                route = [traject.station_history]
+                time = traject.traject_time
+                csv_writer.writerow([train, route, time])
 
-        csv_writer.writerow(["score", self.calculate_quality()])
-        csv_file.close()
+            total_quality, p = self.calculate_quality()
+            csv_writer.writerow(["Score", total_quality])
 
 
     def visualisation(self, filename):
@@ -264,5 +266,5 @@ class Experiment():
         table and displays it. Uses the Visualisation class.
         """
         visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
-        visualize.show_visualisation()
+        # visualize.show_visualisation()
         visualize.save_visualisation(filename)
