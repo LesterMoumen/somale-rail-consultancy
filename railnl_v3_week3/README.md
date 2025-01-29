@@ -35,6 +35,26 @@ Dit project is opgedeeld in verschillende mappen;
 - **/data**: bevat de verschillende databestanden die nodig zijn om de stations en verbindingen te plotten.
 - **/output**: bevat alle verkregen bestanden bij het runnen van de experimenten.
 
+### Algoritmes
+
+Voor dit project zijn er verschillende algoritmes gebruikt om zo naar de beste manier van lijnvoering te vinden.
+
+## Random
+
+Het random algoritme gebruikt een random start station en elk volgende station wordt ook weer random gekozen. Dit proces
+herhaald zichzelf tot de maximale tijd van het traject is bereikt.
+
+## Greedy
+
+Het greedy algoritme gebruikt de heuristieken van de TrajectAnalyzer. Deze heuristieken zorgen ervoor dat de stations die maar 1 verbinding hebben, dus doodlopende stations, voorkeur stations zijn om vanaf te starten. Wanneer alle doodlopende stations bereden zijn. Krijgen stations met een oneven aantal verbindingen prioriteit. Wanneer al deze verbindingen ook bereden zijn, wordt het volgende start station random gekozen.
+Het greedy algoritme werkt samen met deze heuristieken en kiest bij elke stap de volgende verbinding die de hoogste kwaliteit op levert.
+
+## GreedyLookahead
+
+Het greedylookahead algoritme gebruikt de heuristieken van de TrajectAnalyzer of de randomise als start station.
+
+
+
 ## Auteurs
 - Marijn de Gans
 - Lester Moumen
