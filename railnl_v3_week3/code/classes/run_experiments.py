@@ -1,9 +1,9 @@
 import csv
 import matplotlib.pyplot as plt
-from code.algorithms.experiment import Experiment
 from code.classes.visualisation import Visualisation
-from code.algorithms.randomise import Randomise
 from code.classes.helper_functions import save_results
+from code.classes.experiment import Experiment
+from code.algorithms.randomise import Randomise
 from code.algorithms.hillclimber import HillClimber
 from code.algorithms.simulatedannealing import SimulatedAnnealing
 from code.algorithms.greedy import Greedy

@@ -1,4 +1,3 @@
-
 class Station():
     """ Handles each station object.
     """

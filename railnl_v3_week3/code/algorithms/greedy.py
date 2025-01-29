@@ -1,6 +1,6 @@
 import random
 from code.algorithms.experiment import Experiment
-from code.classes.traject2 import Traject2
+from code.classes.traject import Traject
 from code.classes.trajectanalyzer import TrajectAnalyzer
 import code.classes.helper_functions as helper
 from code.algorithms.randomise import Randomise

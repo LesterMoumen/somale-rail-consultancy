@@ -1,12 +1,12 @@
 import copy
 import random
-from code.algorithms.experiment import Experiment
+from code.classes.experiment import Experiment
 from code.algorithms.randomise import Randomise
 # from code.algorithms.run_experiments import RunExperiments
 from code.classes.station import Station
 from code.classes.connection import Connection
 from code.classes.visualisation import Visualisation
-from code.classes.traject2 import Traject2
+from code.classes.traject import Traject
 from code.classes.trajectanalyzer import TrajectAnalyzer
 
 

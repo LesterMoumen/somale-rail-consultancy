@@ -1,6 +1,6 @@
 import random
 from code.algorithms.experiment import Experiment
-from code.classes.traject2 import Traject2
+from code.classes.traject import Traject
 
 class Randomise(Experiment):
     def start_station(self, list_of_stations):

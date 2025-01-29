@@ -1,5 +1,3 @@
-
-
 class Traject2():
     """ Handles a single train route/traject.
     """

@@ -15,7 +15,7 @@ class TrajectAnalyzer():
         #self.next_start_location = self.find_next_start_location()
 
     def find_used_stations(self):
-        """ Find used station from station_histories in Traject2 class
+        """ Find used station from station_histories in Traject class
         """
         used_stations = set()
         for traject in self.traject_list:
