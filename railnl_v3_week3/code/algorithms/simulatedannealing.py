@@ -26,8 +26,18 @@ class SimulatedAnnealing(HillClimber):
         self.no_improvement_threshold = 2000
 
         self.total_delta = 0
+        self.average_delta = calculate_average_delta()
         self.highest_delta = 0
         self.lowest_delta = 100
+
+    def calculate_average_delta(self, iteration):
+        pass
+
+    def normalize_delta(self):
+        pass
+
+    def reheat(self):
+        pass
 
     def update_temperature(self, iteration):
         """
@@ -82,17 +92,15 @@ class SimulatedAnnealing(HillClimber):
 
     def run(self, iterations, verbose=False, mutate_trajects_number=1, mutate_tracks_number=3):
         """
-        Runs the HillClimber algorithm for the specified number of iterations.
+        Runs the SA algorithm for the specified number of iterations.
         """
 
         for iteration in range(iterations):
             print(f'Iteration {iteration}/{iterations}, current value: {self.value}') if verbose else None
 
-            # Reheat
-            # if self.no_improvement_counter >= self.no_improvement_threshold:
-            #     self.T = 0.15 * self.T0
-            #     self.no_improvement_counter = 0
-            #     print('Reheating the model.')
+            if self.no_improvement_counter >= self.no_improvement_threshold:
+                self.reheat()
+                self.no_improvement_counter = 0
 
             # Generate a neighboring solution
             new_table = copy.deepcopy(self.train_table)
