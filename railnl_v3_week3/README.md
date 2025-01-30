@@ -29,6 +29,7 @@ python main.py
 
 Door dit commant te gebruiken krijgt de gebruiker de optie om keuze te maken voor welk algoritme er gerunt moet worden, hoe vaak dit algoritme
 gerunt moet worden en of er een tweede algoritme, zoals de hillclimber of simulatedanneling, gerunt moet worden. 
+
 In de onderstaande afbeelding ziet u een voorbeeld van de output. 
 
 ![Afbeelding van WhatsApp op 2025-01-30 om 20 38 44_270ed77e](https://github.com/user-attachments/assets/0eb59870-6302-49a9-bbb0-d07fab841a9d)
