@@ -11,7 +11,7 @@ from code.algorithms.greedy import Greedy
 from code.algorithms.greedy import GreedyLookahead
 from code.algorithms.hillclimber import HillClimber
 from code.algorithms.simulatedannealing import SimulatedAnnealing
-
+#from code.classes.helper_functions import select_first_algorithm, select_second_algorithm, get_algorithm_parameters
 
 # Data files
 locations_holland = "data/StationsHolland_locaties.csv"
@@ -72,7 +72,7 @@ def get_algorithm_parameters(algorithm):
 
     if algorithm == 'Randomise' or algorithm == 'Greedy':
         num_experiments = int(input(f"Enter the number of experiments for {algorithm}: "))
-        return {'num_experiments': num_experiments}
+        return {'number_of_experiments1': num_experiments}
 
     elif algorithm == 'Greedy':
         num_experiments = int(input(f"Enter the number of experiments for {algorithm}: "))
@@ -84,7 +84,7 @@ def get_algorithm_parameters(algorithm):
         else:
             print("Invalid input. Please enter 'yes' or 'no'.")
 
-        return {'num_experiments': num_experiments, 'depth': depth, 'use_randomise': use_randomise}
+        return {'number_of_experiments1': num_experiments, 'depth': depth, 'use_randomise': use_randomise}
 
     elif algorithm == 'GreedyLookahead':
         num_experiments = int(input(f"Enter the number of experiments for {algorithm}: "))
@@ -97,19 +97,22 @@ def get_algorithm_parameters(algorithm):
         else:
             print("Invalid input. Please enter 'yes' or 'no'.")
 
-        return {'num_experiments': num_experiments, 'depth': depth, 'use_randomise': use_randomise}
+        return {'number_of_experiments1': num_experiments, 'depth': depth, 'use_randomise': use_randomise}
 
     elif algorithm == 'HillClimber':
         num_experiments = int(input(f"Enter the number of experiments for {algorithm}: "))
         num_tracks = int(input("Enter the number of tracks you want to mutate for HillClimber: "))
         num_trajects = int(input("Enter the number of trajects you want to mutate for HillClimber: "))
-        return {'num_experiments': num_experiments, 'num_tracks': num_tracks, 'num_trajects': num_trajects}
+        return {'number_of_experiments2': num_experiments, 'mutate_tracks_number': num_tracks, 'mutate_trajects_number': num_trajects}
 
     elif algorithm == 'SimulatedAnnealing':
         num_experiments = int(input(f"Enter the number of experiments for {algorithm}: "))
+        num_tracks = int(input("Enter the number of tracks you want to mutate for HillClimber: "))
+        num_trajects = int(input("Enter the number of trajects you want to mutate for HillClimber: "))
         temperature = int(input("Enter the temperature for SimulatedAnnealing: "))
         alpha = float(input("Enter the alpha for SimulatedAnnealing (0 to 1): "))
-        return {'num_experiments': num_experiments, 'temperature': temperature, 'alpha': alpha}
+        return {'number_of_experiments2': num_experiments, 'temperature': temperature, 'alpha': alpha,
+            'mutate_tracks_number': num_tracks, 'mutate_trajects_number': num_trajects}
 
     return {}
 
@@ -117,11 +120,11 @@ if __name__ == "__main__":
     # Get algorithm selection
     algorithm1 = select_first_algorithm()
     if algorithm1 is not None:
-        parameters1 = get_algorithm_parameters(algorithm1) # 'num_experiments', 'use_randomise', 'depth'
+        parameters1 = get_algorithm_parameters(algorithm1) # 'num_experiments1', 'use_randomise', 'depth'
 
     algorithm2 = select_second_algorithm()
     if algorithm2 is not None:
-        parameters2 = get_algorithm_parameters(algorithm2) # 'num_experiments', 'depth', 'use_randomise', 'temperature', 'alpha', 'num_tracks', 'num_trajects'
+        parameters2 = get_algorithm_parameters(algorithm2) # 'num_experiments2', 'temperature', 'alpha', 'num_tracks', 'num_trajects'
 
     # If both algorithms are None, exit the program
     if algorithm1 is None and algorithm2 is None:
@@ -133,33 +136,28 @@ if __name__ == "__main__":
         print("Can't optimalize through iterative model without a traintable.")
         exit()
 
-    # Get parameters
-    parameters1 = {}
-    parameters2 = {}
 
     # Initialize and run the experiments
     r = RunExperiments(connections_file, locations_file, max_trajects, max_time,
-                       parameters1.get('num_experiments', 1000), parameters2.get('num_experiments', 1000),
+                       parameters1.get('number_of_experiments1', 1000), parameters2.get('number_of_experiments2', 1000),
                        algorithm1_type=algorithm1, algorithm2_type=algorithm2)
 
+
     if algorithm1 is not None:
-        if algorithm1 == Randomise:
-            r.run_algorithm(**parameters1)
-        elif algorithm1 == Greedy:
-            r.run_algorithm(**parameters1)
-        elif algorithm1 == GreedyLookahead:
-            r.run_algorithm(**parameters1)
+        if algorithm1 in [Randomise, GreedyLookahead, Greedy]:
+            r.run_constructive_algorithm(**parameters1)
 
         #r.run_first_algorithm()
         r.save_all_objects(algorithm1, r.experiment_object_dict)
         r.save_all_collected_data(filename=algorithm1.__name__)
 
-    # Algorithm2
+
     if algorithm2 is not None:
         if algorithm2 == SimulatedAnnealing:
-            r.run_algorithm(**parameters2)
+            r.run_iterative_algorithm(**parameters2)
         else: # HillClimber
-            r.run_algorithm(**parameters2)
+            r.run_iterative_algorithm(**parameters2)
+
         r.save_all_objects(algorithm2, r.experiment_object_dict2)
 
 
