@@ -6,7 +6,7 @@ De NS wilt de lijnvoering van intercitytreinen door Nederland verbeteren. Voor e
 
 ### Vereisten
 
-Deze codebase is volledig geschreven in python 3.10.8. In de requirements.txt staan alle benodigde packages om de code succesvol te draaien. Deze packages zijn te installeren door middel van pip  of conda met de volgende instructies:
+Deze codebase is volledig geschreven in python 3.10.8. In de requirements.txt staan alle benodigde packages om de code succesvol te draaien. Deze packages zijn te installeren door middel van pip of conda met de volgende instructies:
 
 '''
 pip install -r requirements.txt
@@ -22,7 +22,7 @@ Om de code te runnen kan het volgende commant gebruikt worden:
 python main.py
 '''
 
-Door dit commant te gebruiken kunnen worden er verschillende algoritmes gerund.
+Door dit commant te gebruiken krijgt de gebruiker een optie om een keuze te maken welk algoritme hij of zij gerunt wilt hebben.
 
 
 ### Structuur
@@ -54,17 +54,20 @@ Het greedylookahead algoritme is een child class van het greedy algoritme. Het v
 In tegenstelling tot het greedy algoritme wat telkens slechts één stap vooruit simuleert, kijkt de greedylookahead meerdere stappen vooruit, wat kan leiden tot een betere beslissing op langer termijn.
 Het start station van de GreedyLookahead kan de heuristieken van de TrajectAnalyzer gebruiken of kan een willekeurig start station kiezen door gebruik te maken van het random algoritme.
 
+Voor het experiment van dit algoritme hebben wij ervoor gekozen om de lookahead depth te variëren van 2 tot en met 6. Een lookahead depth van 1 is namelijk hetzelfde het greedy algoritme en een grotere
+lookahead depth kost veel rekenkracht.  
+
 ## Hillclimber
 
-Het algoritme van de hillclimber optimaliseert de kwaliteits score door iteratief willekeurig het begin of het einde van een lijnvoering te vervangen met een nieuwe verbinding. Wanneer deze nieuwe verbinding zorgt voor een hogere kwaliteits score, zal deze verbinding behouden worden. Vervolgens herhaalt dit proces zich om zo de beste lijnvoering te vinden met de hoogste kwaliteits score.
+Het algoritme van de hillclimber optimaliseert de kwaliteits score door iteratief willekeurig het begin of het einde van een traject te vervangen met een x aantal nieuwe verbindingen, daarnaast vervangt het algoritme ook een x aantal trajecten van de gehele lijnvoering. Wanneer deze nieuwe verbindingen leiden tot een hogere kwaliteits score, zal deze de verbindingen behouden worden. Vervolgens herhaalt dit proces zich om zo de beste lijnvoering te vinden met de hoogste kwaliteits score.
 
 ## SimulatedAnnealing
 
-Het algoritme van de SimulatedAnnealing werkt ongeveer hetzelfde als de HillClimber. Maar het algoritme kan in tegenstelling tot de HillClimber ook verbindingen accepteren die leiden tot een slechtere kwaliteits score.
+Het algoritme van de SimulatedAnnealing werkt ongeveer hetzelfde als de HillClimber. Maar het algoritme kan in tegenstelling tot de HillClimber ook verbindingen en trajecten accepteren die leiden tot een slechtere kwaliteits score.
 
 ## Depthfirst
 
-De depthfirst is gebruikt voor het berekenen van de state space.
+De depthfirst is gebruikt als een counter voor het berekenen van de state space.
 
 ## Auteurs
 - Marijn de Gans
