@@ -14,7 +14,7 @@ import copy
 class RunExperiments():
     def __init__(self, connections_file, locations_file, max_number_of_trajects, max_time,
                  number_of_experiments1, number_of_experiments2, algorithm1_type,
-                 algorithm2_type, start_trajects=9, end_trajects=12, use_randomise=False):
+                 algorithm2_type, start_trajects=1, end_trajects=1, use_randomise=False):
         self.connections_file = connections_file
         self.locations_file = locations_file
         self.max_number_of_trajects = max_number_of_trajects

@@ -22,7 +22,7 @@ connections_national = "data/ConnectiesNationaal.csv"
 # Parameters
 connections_file = connections_national
 locations_file = locations_national
-max_trajects = 10
+max_trajects = 3
 max_time = 180
 
 
@@ -139,7 +139,7 @@ if __name__ == "__main__":
 
     # Initialize and run the experiments
     r = RunExperiments(connections_file, locations_file, max_trajects, max_time,
-                       parameters1.get('num_experiments', 1000), parameters2.get('num_experiments', 1000),
+                       parameters1.get('num_experiments', 1), parameters2.get('num_experiments', 1),
                        algorithm1_type=algorithm1, algorithm2_type=algorithm2)
 
     if algorithm1 is not None:

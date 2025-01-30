@@ -1,159 +1,129 @@
 import matplotlib.pyplot as plt
 
 class Visualisation():
-    ''' Handles visualisation of train table.
-    '''
+    """ This class handles the visualisation of the train table that is created
+    through an experiment. The visualisation gives every traject their own
+    color and shows overlap through black dashed lines that are thicker when the
+    amount of overlap increases. Upon creating the visualisation, it can be
+    displayed directly and/or saved as a file in the output map.
+    """
     def __init__(self, stations_dict, connections_dict, traject_list):
+        """ Initializes the Visualisation object.
+
+        Input:
+        - stations_dict: station names as key, Station objects as value
+        - connections_dict: connection names as key, Connection objects as value
+        - traject_list: with all Traject objects
+        """
         self.stations_dict = stations_dict
         self.connections_dict = connections_dict
         self.traject_list = traject_list
 
+    def get_all_station_coordinates(self):
+        """ Get coordinates of all stations and returns as two lists (with x and
+        y coordinates).
+        """
+        x_list, y_list = [], []
 
-    def stations_plot(self):
-        ''' Create a plot for the stations as a scatter plot
-        '''
-        x, y = [], []
-
+        # Get coordinates of stations and add to coordinate lists
         for station, station_object in self.stations_dict.items():
-            x_coordinate, y_coordinate = station_object.coordinates
+            x, y = station_object.coordinates
+            x_list.append(x), y_list.append(y)
 
-            y.append(y_coordinate), x.append(x_coordinate)
+        return x_list, y_list
 
-        # Plotting stations/cities
-        plt.scatter(x, y)
-
-    def plot_connection(self, connection_object, color, line_style = "-", line_width = 1, label=None):
+    def get_connection_coordinates(self, connection_object):
+        """ Get coordinates of a single connection and return coordinates as two
+        lists (with x and y coordinates).
+        """
         station1, station2 = connection_object.station1, connection_object.station2
-
         x1, y1 = self.stations_dict[station1].coordinates
         x2, y2 = self.stations_dict[station2].coordinates
 
-        plt.plot([x1, x2], [y1, y2], color, linestyle=line_style, linewidth=line_width, label=None)
+        return [x1, x2], [y1, y2]
 
 
-    def connection_frequency_plot(self):
+    def plot_stations(self):
+        """ Create scatter plot of all stations.
         """
+        x_list, y_list = self.get_all_station_coordinates()
+
+        # Zorder = 3 ensures station shows on top
+        plt.scatter(x_list, y_list, zorder=3)
+
+
+    def plot_connection(self, connection_object, color, line_style = "-", line_width = 1):
+        """ Plot a connection between two stations.
+        """
+        x, y = self.get_connection_coordinates(connection_object)
+        plt.plot(x, y, color, linestyle=line_style, linewidth=line_width)
+
+
+    def plot_all_connections(self):
+        """ Plots all connections as lightgray dashed lines. This function does
+        not take into account whether the connection is used or not.
+        """
+        for connection, connection_object in self.connections_dict.items():
+            self.plot_connection(connection_object, color="lightgray", line_style="--")
+
+
+    def plot_connection_frequency(self):
+        """ Plots connection frequency: the number of times that connection is
+        used. It shows this through dashed lines that are thicker when the amount
+        of overlap increases.
         """
         for connection, connection_object in self.connections_dict.items():
             frequency = connection_object.times_used
-
-            # Plot the connections pair and its frequency how often a connecion has been used
-            # How bigger the line_width how more frequent the connection has been used.
             if frequency > 1:
                 self.plot_connection(connection_object, color="black", line_style="--", line_width=frequency)
 
-                #     for connection_pair, coordinates in connections_plotted.items():
-                #         frequency = connection_counts.get(connection_pair)
-                #         line_width = frequency + 1
-                #         plt.plot(coordinates[0], coordinates[1], '--k', linewidth = line_width
-
-
-    # def connection_frequency_plot(self):
-    #     '''
-    #     Creates the connections between the stations with its frequency.
-    #     '''
-    #     # keeps track how often a connection has been used in traject_histories
-    #     connection_counts = {}
-    #     # keep track on the plotted connections as connection_pair; [x_station, x_connection, y_station, y_connection]
-    #     connections_plotted = {}
-    #
-    #     for traject in self.traject_list:
-    #         for index in range(len(traject.station_history)):
-    #             current_station, next_station = traject[index].split('_')
-    #             connection_pair = tuple(sorted((current_station, next_station)))
-    #             connection_counts[connection_pair] = connection_counts.get(connection_pair, 0) + 1
-    #
-    #     for station, station_object in self.stations_dict.items():
-    #         for connection in station_object.connections:
-    #
-    #             # make a tuple of the station and its connection and sort it alphabetically.
-    #             connection_pair = tuple(sorted((station, connection)))
-    #
-    #             if connection_pair not in connections_plotted:
-    #
-    #                 x = [float(self.stations_dict[station].x_coordinate) , float(self.stations_dict[connection].x_coordinate)]
-    #                 y = [float(self.stations_dict[station].y_coordinate), float(self.stations_dict[connection].y_coordinate)]
-    #
-    #                 connections_plotted[connection_pair] = [x,y]
-    #
-    #     # Plot the connections pair and its frequency how often a connecion has been used
-    #     # how bigger the line_width how more frequent the connection has been used.
-    #     for connection_pair, coordinates in connections_plotted.items():
-    #         frequency = connection_counts.get(connection_pair)
-    #         line_width = frequency + 1
-    #         plt.plot(coordinates[0], coordinates[1], '--k', linewidth = line_width )
-
 
     def route_plot(self):
-        '''
-        Create the plot for each train traject
-        '''
-        train_count = 0
+        """ Plots the route of each traject with their respective color.
+        """
         for traject in self.traject_list:
-            train_count += 1
             for connection in traject.connection_history:
-                self.plot_connection(self.connections_dict[connection], color = traject.color,
-                                     label = f'Train {train_count}')
+                self.plot_connection(self.connections_dict[connection], color = traject.color)
 
 
+    def create_visualisation(self):
+        """ Creates the visualisation of the train table by combining all plots.
+        """
+        plt.figure()
+        self.plot_all_connections()
+        self.route_plot()
+        self.plot_connection_frequency()
+        self.plot_stations()
 
-                                    #if index == 0 else ""
+        # Plots title including the total number of trajects
+        plt.title(f"Train Table Visualised with {len(self.traject_list)} Trajects")
 
-    #
-    #     for i, traject in enumerate(self.traject_histories):
-    #         x_city = []
-    #         y_city = []
-    #
-    #         # goes over the index in the traject list
-    #         for index in range(len(traject)):
-    #             current_station, next_station = traject[index].split('_')
-    #
-    #             x_city.append(stations_coordinates[current_station]['x'])
-    #             y_city.append(stations_coordinates[current_station]['y'])
-    #             x_city.append(stations_coordinates[next_station]['x'])
-    #             y_city.append(stations_coordinates[next_station]['y'])
-    #
-    #             # plots the train route and only adds a label for the first point in the traject
-    #             plt.plot(x_city, y_city, color = color_list[i], label=f'Train {i+1}' if index == 0 else "")
-    #
-    #             # clear the list so there will not be connections which do not exist due to overlapping points
-    #             x_city.clear()
-    #             y_city.clear()
-    #
-    #         plt.legend(loc = "lower right")
+        # Leaves axis out as they are not required for the visualisation
+        plt.axis('off')
 
 
     def show_visualisation(self):
-        ''' Combines the different plots in a single one, and shows it.
-        '''
-
-        self.stations_plot()
-        self.connection_frequency_plot()
-        self.route_plot()
-        plt.title("Train trajects Holland visualized")
-        # plt.axis('off')
-        # plt.legend(loc = "lower right")
-
+        """ Shows the visualisation
+        """
+        self.create_visualisation()
         plt.show()
 
+        # Close to save memory
+        plt.close()
+
+
     def save_visualisation(self, filename=None):
-        ''' Combines the different plots in a single one, and shows it.
-        '''
-        plt.figure()
+        """ Saves the visualisation.
+        """
+        self.create_visualisation()
 
-        self.stations_plot()
-        self.connection_frequency_plot()
-        self.route_plot()
-        plt.title("Train trajects Holland visualized")
+        # If no filename provided, use default
+        if not filename:
+            filename = "unnamed_train_table_visualisation.png"
 
-        # Save the plot as a PNG file if a filename is provided
-        if filename:
-            plt.savefig(filename, format='png')  # Save the image
-            print(f"Visualization saved as {filename}")
+        # Save visualisation as png
+        plt.savefig(filename, format='png')
+        print(f"Visualisation saved as {filename}")
 
         # CLose to save memory
         plt.close()
-
-        # Show the plot
-        # plt.show()
-        # plt.clf()
