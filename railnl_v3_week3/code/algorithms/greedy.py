@@ -6,6 +6,13 @@ import code.classes.helper_functions as helper
 from code.algorithms.randomise import Randomise
 
 class Greedy(Experiment):
+    """
+    The greedy algoritm calculates from every station the possible next connections and its quality.
+    When a connection leads to a higher quality score, the traject will move to that station. Than from
+    the this proces will repeat itselfs untill the max time of a traject is reached or if there are no availible
+    connections left.
+    """
+
     def __init__(self, connections_file, locations_file, number_of_trajects, max_time, use_randomise=False):
         super().__init__(connections_file, locations_file, number_of_trajects, max_time)
 
@@ -119,11 +126,16 @@ class Greedy(Experiment):
 
 
 class GreedyLookahead(Greedy):
+    """
+    This algoritm will use a lookahead depth to simulate all paths from a start station and calculate the quality score from all paths.
+    The best path will be saved and the traject will move to the next station, this is the first station in best path. When the traject is moved,
+    the proces will repeat itselfs.
+    """
     def __init__(self, connections_file, locations_file, number_of_trajects, max_time, lookahead_depth, use_randomise=False):
         """
         initialize the GreedyLookahead algorithm
         - It has a variable lookahead depth
-        - It has the option to use the Random algorithm for a start_station
+        - It has the option to use a random start_station or use TrajectAnalyzer to determine the start station.
         """
         super().__init__(connections_file, locations_file, number_of_trajects, max_time)
         self.lookahead_depth = lookahead_depth
@@ -151,8 +163,9 @@ class GreedyLookahead(Greedy):
 
     def simulate_best_path(self, current_station, depth, visited_connections, total_quality, traject_object):
         """
-        Recursively find the best path starting from the current station and explores the best path to a specified depth.
-        Return the best path and its quality
+        Recursively find the best path starting from the current station and explores the best
+        path (the path with the highest quality) to a specified depth.
+        Return the best path and its quality.
 
         e.g.
         Den Helder --> Alkmaar = quality 3
@@ -180,7 +193,7 @@ class GreedyLookahead(Greedy):
         for next_station, travel_time in connection_options.items():
             connection = helper.sorted_connection(current_station, next_station)
 
-            # calculate the quality of the new path
+            # calculate the quality of the new connection and the path
             new_visited_connections = visited_connections.union({connection})
             total_time = self.get_total_time() + float(travel_time)
             next_connection_quality, p = self.calculate_quality(new_visited_connections, total_time)

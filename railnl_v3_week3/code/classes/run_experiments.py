@@ -14,7 +14,7 @@ import copy
 class RunExperiments():
     def __init__(self, connections_file, locations_file, max_number_of_trajects, max_time,
                  number_of_experiments1, number_of_experiments2, algorithm1_type,
-                 algorithm2_type, start_trajects=1, end_trajects=1, use_randomise=False):
+                 algorithm2_type, use_randomise=False):
         self.connections_file = connections_file
         self.locations_file = locations_file
         self.max_number_of_trajects = max_number_of_trajects
@@ -24,14 +24,20 @@ class RunExperiments():
         self.algorithm1 = algorithm1_type
         self.algorithm2 = algorithm2_type
         self.use_randomise = use_randomise
-        self.start_trajects = start_trajects
-        self.end_trajects = end_trajects
 
         self.experiment_object_dict = {}  # Stores the best experiment objects for each number of trajects
         self.experiment_object_dict2 = {}
         self.data = {}  # Stores all quality scores of traject count
 
-    def run_algorithm(self, **kwargs):
+        self.kwargs = {
+            'connections_file': self.connections_file,
+            'locations_file': self.locations_file,
+            'number_of_trajects': self.max_number_of_trajects,
+            'max_time': self.max_time
+        }
+
+
+    def run_constructive_algorithm(self, **parameters1):
         """
         Runs experiments based on the selected algorithm and its parameters.
         This method handles both constructive and iterative algorithms by checking the type of the algorithm.
@@ -39,27 +45,24 @@ class RunExperiments():
         highest_quality = 0
         best_experiment_object = None
 
-        # Put data in dict for more readability
-        data = {
-            'connections_file': self.connections_file,
-            'locations_file': self.locations_file,
-            'number_of_trajects': self.max_number_of_trajects,
-            'max_time': self.max_time
-        }
-
         # Update dict with parameters from main
-        combined_data = {**data, **kwargs}
+        combined_data = {**self.kwargs, **parameters1}
 
         # Loop through number of trajects as before
-        for number_of_trajects in range(self.start_trajects, self.end_trajects + 1):
+        for number_of_trajects in range(9, self.max_number_of_trajects + 1):
             qualities = []
 
             print(f"Starting experiments for {number_of_trajects} trajects...")
 
             for i in range(self.number_of_experiments1):
                 # Initialize the experiment object based on the algorithm type
-                if self.algorithm1 in [Randomise, GreedyLookahead, Greedy]:
-                    experiment_object = self.algorithm1(**combined_data)
+                if self.algorithm1 == Randomise:
+                    experiment_object = self.algorithm1(**self.kwargs)
+                elif self.algorithm1 == Greedy:
+                    experiment_object = self.algorithm1(**self.kwargs, use_randomise=parameters1.get('use_randomise', False))
+                elif self.algorithm1 == GreedyLookahead:
+                    experiment_object = self.algorithm1(**self.kwargs, use_randomise=parameters1.get('use_randomise', False),
+                        lookahead_depth=parameters1.get('depth', 3))
 
                 # Run the experiment
                 experiment_object.run()
@@ -86,23 +89,26 @@ class RunExperiments():
         # Make a copy of experiment_object_dict for iterative algorithm
         self.experiment_object_dict2 = copy.deepcopy(self.experiment_object_dict)
 
-        # If the algorithm is iterative (SimulatedAnnealing, HillClimber), apply the iterative optimization
-        if self.algorithm2 in [SimulatedAnnealing, HillClimber]:
-            for number_of_trajects, experiment_object in self.experiment_object_dict2.items():
-                # Handle iterative algorithms like SimulatedAnnealing and HillClimber
-                if self.algorithm2 == SimulatedAnnealing:
-                    # If using SimulatedAnnealing, pass the temperature and alpha
-                    algorithm_instance = self.algorithm2(experiment_object, combined_data.get('temperature', 1000), combined_data.get('alpha', 0.995))
-                else:
-                    # For HillClimber, pass the mutate_trajects_number and mutate_tracks_number
-                    algorithm_instance = self.algorithm2(experiment_object, combined_data.get('num_trajects', 1), combined_data.get('num_tracks', 1))
+    def run_iterative_algorithm(self, **parameters2):
 
-                # Run the new experiment
-                algorithm_instance.run(self.number_of_experiments2, verbose=True)
+        for number_of_trajects, experiment_object in self.experiment_object_dict2.items():
+            # Handle iterative algorithms like SimulatedAnnealing and HillClimber
+            if self.algorithm2 == SimulatedAnnealing:
+                # If using SimulatedAnnealing, pass the temperature and alpha
+                algorithm_instance = self.algorithm2(experiment_object, temperature=parameters2.get('temperature', 1000),
+                        alpha=parameters2.get('alpha', 0.995), mutate_trajects_number=parameters2.get('mutate_trajects_number', 1),
+                                mutate_tracks_number=parameters2.get('mutate_tracks_number', 1))
+            else:
+                # For HillClimber, pass the mutate_trajects_number and mutate_tracks_number
+                algorithm_instance = self.algorithm2(experiment_object, mutate_trajects_number=parameters2.get('mutate_trajects_number', 1),
+                        mutate_tracks_number=parameters2.get('mutate_tracks_number', 1))
 
-                # Update the dictionary with the optimized experiment
-                optimized_train_table = algorithm_instance.train_table
-                self.experiment_object_dict2[number_of_trajects] = optimized_train_table
+            # Run the new experiment
+            algorithm_instance.run(self.number_of_experiments2, verbose=True)
+
+            # Update the dictionary with the optimized experiment
+            optimized_train_table = algorithm_instance.train_table
+            self.experiment_object_dict2[number_of_trajects] = optimized_train_table
 
     def save_all_collected_data(self, filename):
         """

@@ -26,7 +26,19 @@ class HillClimber(Experiment):
 
         self.train_table = copy.deepcopy(train_table)  # Keeping the original train_table for reference
         self.value = train_table.calculate_quality()[0]
-        # Initialize TrajectAnalyzer with necessary data
+
+        # Access the used stations
+        self.used_stations = self.update_used_stations()
+
+        # Parameters
+        self.mutate_trajects_number = mutate_trajects_number
+        self.mutate_tracks_number = mutate_tracks_number
+
+    def update_used_stations(self):    
+        """
+        Re-initializes the TrajectAnalyzer and updates used stations.
+        This method is called after every mutation to reflect the new train table state.
+        """
         self.traject_analyzer = TrajectAnalyzer(
             self.train_table.stations_dict,
             self.train_table.connections_dict,
@@ -34,12 +46,7 @@ class HillClimber(Experiment):
             self.train_table.connections_set
         )
 
-        # Access the used stations
-        self.used_stations = self.traject_analyzer.used_stations
-
-        # Parameters
-        self.mutate_trajects_number = mutate_trajects_number
-        self.mutate_tracks_number = mutate_tracks_number
+        return self.traject_analyzer.used_stations
 
     def check_solution(self, new_table):
         """
@@ -175,14 +182,7 @@ class HillClimber(Experiment):
             new_table = copy.deepcopy(self.train_table)
 
             # Update used stations after mutation
-            self.traject_analyzer = TrajectAnalyzer(
-                new_table.stations_dict,
-                new_table.connections_dict,
-                new_table.traject_list,
-                new_table.connections_set
-            )
-
-            self.used_stations = self.traject_analyzer.used_stations
+            self.update_used_stations()
 
             # Evaluate the neighboring solution
             self.mutate_table(new_table)
