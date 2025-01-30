@@ -1,2 +1,5 @@
-pip install -r matplotlib
+pip install -r copy 
 pip install -r csv
+pip install -r math
+pip install -r matplotlib
+pip install -r random
