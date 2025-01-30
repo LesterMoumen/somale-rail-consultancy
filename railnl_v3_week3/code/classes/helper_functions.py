@@ -28,7 +28,7 @@ def sorted_connection(station1, station2, separator="_"):
     return connection_str
 
 
-def save_results(traintable, number_of_trajects, state_name, algorithm):
+def save_results(traintable, number_of_trajects, algorithm):
     """
     Saves the train table results as a CSV and PNG visualization.
     `state_name` indicates whether this is "before" or "after" the algorithm runs.
@@ -37,11 +37,11 @@ def save_results(traintable, number_of_trajects, state_name, algorithm):
     algorithm_name = algorithm.__name__
 
     # Save CSV
-    csv_filename = f"output/{number_of_trajects}_{algorithm_name}_{state_name}_results.csv"
+    csv_filename = f"output/{number_of_trajects}_{algorithm_name}_results.csv"
     traintable.output_to_csv(csv_filename)
 
     # Save visualization
-    visualization_filename = f"output/{number_of_trajects}_{algorithm_name}_{state_name}_visualization.png"
+    visualization_filename = f"output/{number_of_trajects}_{algorithm_name}_visualization.png"
     traintable.visualisation(visualization_filename)
 
     print(f"Results saved: {csv_filename} and {visualization_filename}")

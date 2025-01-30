@@ -17,7 +17,7 @@ class HillClimber(Experiment):
     in the train table with new random tracks. Improvements or equivalent solutions are kept.
     """
 
-    def __init__(self, train_table):
+    def __init__(self, train_table, mutate_trajects_number, mutate_tracks_number):
         """
         Initializes the HillClimber with a complete train table solution.
         """
@@ -36,6 +36,10 @@ class HillClimber(Experiment):
 
         # Access the used stations
         self.used_stations = self.traject_analyzer.used_stations
+
+        # Parameters
+        self.mutate_trajects_number = mutate_trajects_number
+        self.mutate_tracks_number = mutate_tracks_number
 
     def check_solution(self, new_table):
         """
@@ -91,14 +95,17 @@ class HillClimber(Experiment):
         random_traject_index = random.randint(0, len(new_table.traject_list) -1)
         traject = new_table.traject_list[random_traject_index]
 
+        # Delete the traject from data
         self.clear_traject(traject, new_table)
 
+        # Prioritizes start station that has not been used yet
         available_stations = list(set(new_table.stations_dict.keys()) - self.used_stations)
         if available_stations:
             # Generate a new random traject
             start_location = random.choice(available_stations)  # Random start station
+
+        # If every station is used reroute to any used station
         else:
-            # Fallback: reroute to any used station
             used_stations = list(self.used_stations)  # Assuming self.used_stations is a set of used station names
             start_location = random.choice(used_stations)
 
@@ -113,7 +120,7 @@ class HillClimber(Experiment):
         new_table.traject_list[random_traject_index] = new_traject
 
 
-    def mutate_track(self, new_table, number_of_tracks):
+    def mutate_track(self, new_table):
         """
         Mutates one or multiple connections within a traject and reroutes the traject.
         """
@@ -121,7 +128,7 @@ class HillClimber(Experiment):
         traject = new_table.traject_list[random_traject_index]
 
         # Remove specified number of connections
-        for _ in range(number_of_tracks):
+        for _ in range(self.mutate_tracks_number):
             if traject.connection_history:
                 # Randomly choose to remove either the first or the last connection
                 if random.choice(["first", "last"]) == "first":
@@ -145,16 +152,18 @@ class HillClimber(Experiment):
             new_table.movement(traject)
 
 
-    def mutate_table(self, new_table, number_of_trajects, number_of_tracks):
+    def mutate_table(self, new_table):
         """
         Changes a random traject in the train table with a randomly generated traject.
         """
-        for _ in range(number_of_trajects):
+        for _ in range(self.mutate_trajects_number):
             self.mutate_traject(new_table)
-            self.mutate_track(new_table, number_of_tracks)
+
+        # FF KIJKEN WAAR DIT BEST KAN STAAN
+        self.mutate_track(new_table)
 
 
-    def run(self, iterations, verbose=False, mutate_trajects_number=1, mutate_tracks_number=5):
+    def run(self, iterations, verbose=False):
         """
         Runs the HillClimber algorithm for the specified number of iterations.
         """
@@ -176,7 +185,7 @@ class HillClimber(Experiment):
             self.used_stations = self.traject_analyzer.used_stations
 
             # Evaluate the neighboring solution
-            self.mutate_table(new_table, number_of_trajects=mutate_trajects_number, number_of_tracks=mutate_tracks_number)
+            self.mutate_table(new_table)
             # Evalute new train table
             self.check_solution(new_table)
 
