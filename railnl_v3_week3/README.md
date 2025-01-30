@@ -24,6 +24,9 @@ python main.py
 
 Door dit commant te gebruiken krijgt de gebruiker een optie om een keuze te maken welk algoritme hij of zij gerunt wilt hebben.
 
+![Afbeelding van WhatsApp op 2025-01-30 om 20 38 44_c59fa29b](https://github.com/user-attachments/assets/791a7238-4371-4d05-a7d4-53e524f5bfa5)
+
+
 
 ### Structuur
 
