@@ -30,6 +30,7 @@ class SimulatedAnnealing(HillClimber):
         self.highest_delta = 0
         self.lowest_delta = 100
 
+
     def reheat(self):
         print('Reheating the model.')
         return 0.15 * self.T0
@@ -73,10 +74,12 @@ class SimulatedAnnealing(HillClimber):
 
         # Calculate the probability of accepting this new graph
         delta = old_value - new_value
-        print(f"Old Value: {old_value}, New Value: {new_value}, Delta: {delta}, Temperature: {self.T}")
 
         # # Normalized delta
-        # delta = self.normalize_delta()
+        #delta = self.normalize_delta(delta, old_value)
+
+        print(f"Old Value: {old_value}, New Value: {new_value}, Temperature: {self.T}, Raw Delta: {old_value - new_value}")
+        print(f" Normalized Delta: {delta}")
 
         # Count delta to get average for 'normalizing' delta
         self.total_delta += delta

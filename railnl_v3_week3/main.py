@@ -22,7 +22,7 @@ connections_national = "data/ConnectiesNationaal.csv"
 # Parameters
 connections_file = connections_national
 locations_file = locations_national
-max_trajects = 10
+max_trajects = 3
 max_time = 180
 
 

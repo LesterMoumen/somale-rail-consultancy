@@ -14,7 +14,7 @@ import copy
 class RunExperiments():
     def __init__(self, connections_file, locations_file, max_number_of_trajects, max_time,
                  number_of_experiments1, number_of_experiments2, algorithm1_type,
-                 algorithm2_type, start_trajects=9, end_trajects=10, use_randomise=False):
+                 algorithm2_type, use_randomise=False):
         self.connections_file = connections_file
         self.locations_file = locations_file
         self.max_number_of_trajects = max_number_of_trajects
@@ -24,8 +24,6 @@ class RunExperiments():
         self.algorithm1 = algorithm1_type
         self.algorithm2 = algorithm2_type
         self.use_randomise = use_randomise
-        self.start_trajects = start_trajects
-        self.end_trajects = end_trajects
 
         self.experiment_object_dict = {}  # Stores the best experiment objects for each number of trajects
         self.experiment_object_dict2 = {}
@@ -51,7 +49,7 @@ class RunExperiments():
         combined_data = {**self.kwargs, **parameters1}
 
         # Loop through number of trajects as before
-        for number_of_trajects in range(self.start_trajects, self.end_trajects + 1):
+        for number_of_trajects in range(9, self.max_number_of_trajects + 1):
             qualities = []
 
             print(f"Starting experiments for {number_of_trajects} trajects...")

@@ -266,5 +266,5 @@ class Experiment():
         table and displays it. Uses the Visualisation class.
         """
         visualize = Visualisation(self.stations_dict, self.connections_dict, self.traject_list)
-        # visualize.show_visualisation()
+        visualize.show_visualisation()
         visualize.save_visualisation(filename)
