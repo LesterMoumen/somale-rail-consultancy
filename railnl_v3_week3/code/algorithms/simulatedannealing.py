@@ -14,13 +14,14 @@ class SimulatedAnnealing(HillClimber):
     Most of the functions are similar to those of the HillClimber class, which is why
     we use that as a parent class.
     """
-    def __init__(self, train_table, temperature=1200):
-        # Use the init of the Hillclimber class
-        super().__init__(train_table)
+    def __init__(self, train_table, mutate_trajects_number, mutate_tracks_number, temperature=1200, alpha=0.98):
+        # Use the init of the HillClimber class
+        super().__init__(train_table, mutate_trajects_number, mutate_tracks_number)
 
         # Starting temperature and current temperature
         self.T0 = temperature
         self.T = temperature
+        self.alpha = alpha
 
         self.no_improvement_counter = 0
         self.no_improvement_threshold = 2000
@@ -28,6 +29,21 @@ class SimulatedAnnealing(HillClimber):
         self.total_delta = 0
         self.highest_delta = 0
         self.lowest_delta = 100
+
+    def reheat(self):
+        print('Reheating the model.')
+        return 0.15 * self.T0
+
+
+    def normalize_delta(self, delta, current_score):
+        """
+        Normalizes the delta by dividing it by the current score.
+        This ensures that the delta is scale-invariant.
+        """
+        if current_score == 0:
+            return delta  # Avoid division by zero
+        return delta / current_score
+
 
     def update_temperature(self, iteration):
         """
@@ -39,13 +55,12 @@ class SimulatedAnnealing(HillClimber):
         # self.T = self.T - (self.T0 / self.iterations)
 
         # Exponential would look like this:
-        alpha = 0.995
-        # self.T = self.T * alpha
-        self.T = self.T * alpha
+        # self.T = self.T * self.alpha
+        self.T = self.T * self.alpha
 
         # Prevent the temperature from getting too small
         if self.T < 0.001:
-            self.T = 0.001  # Set a minimum temperature value
+            self.T = 0.1  # Set a minimum temperature value
 
     def check_solution(self, new_table, iteration):
         """
@@ -60,18 +75,21 @@ class SimulatedAnnealing(HillClimber):
         delta = old_value - new_value
         print(f"Old Value: {old_value}, New Value: {new_value}, Delta: {delta}, Temperature: {self.T}")
 
+        # # Normalized delta
+        # delta = self.normalize_delta()
+
         # Count delta to get average for 'normalizing' delta
         self.total_delta += delta
         if delta > self.highest_delta:
             self.highest_delta = delta
 
-        # Increase counter if delta is above threshold
+        # Increase counter if model is not converging
         if delta > 0:
             self.no_improvement_counter += 1
 
         probability = math.exp(-delta / self.T)
 
-        # Pull a random number between 0 and 1 and see if we accept the graph!
+        # Pull a random number between 0 and 1 and check if new table is accepted
         if random.random() < probability:
             self.train_table = new_table
             self.value = new_value
@@ -80,7 +98,7 @@ class SimulatedAnnealing(HillClimber):
         self.update_temperature(iteration)
 
 
-    def run(self, iterations, verbose=False, mutate_trajects_number=1, mutate_tracks_number=3):
+    def run(self, iterations, verbose=False):
         """
         Runs the HillClimber algorithm for the specified number of iterations.
         """
@@ -90,15 +108,14 @@ class SimulatedAnnealing(HillClimber):
 
             # Reheat
             # if self.no_improvement_counter >= self.no_improvement_threshold:
-            #     self.T = 0.15 * self.T0
-            #     self.no_improvement_counter = 0
-            #     print('Reheating the model.')
+            #   self.reheat()
+            #   self.no_improvement_counter = 0
+
 
             # Generate a neighboring solution
             new_table = copy.deepcopy(self.train_table)
-
             # Evaluate the neighboring solution
-            self.mutate_table(new_table, number_of_trajects=mutate_trajects_number, number_of_tracks=mutate_tracks_number)
+            self.mutate_table(new_table)
             # Evalute new train table
             self.check_solution(new_table, iteration)
 

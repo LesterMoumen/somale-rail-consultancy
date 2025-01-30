@@ -13,7 +13,7 @@ class Experiment():
     how to select the next station (e.g. randomly or greedy) or to change the
     movement and run.
     """
-    def __init__(self, connections_file, stations_file, number_of_trajects, max_time):
+    def __init__(self, connections_file, locations_file, number_of_trajects, max_time):
         """ Initializes the experiment.
 
         Input:
@@ -23,7 +23,7 @@ class Experiment():
         - max_time: int, the maximum amount of minutes allowed per train route
         """
         # Load csv files into dictionaries holding Connection and Station objects
-        self.stations_dict, self.connections_dict = self.load_data(connections_file, stations_file)
+        self.stations_dict, self.connections_dict = self.load_data(connections_file, locations_file)
         self.max_time = max_time
         self.number_of_trajects = number_of_trajects
 
@@ -40,14 +40,14 @@ class Experiment():
         self.connections_set = self.get_all_connections(connections_file)
 
 
-    def load_data(self, connections_file, stations_file):
+    def load_data(self, connections_file, locations_file):
         """ Loads csv files of connection and location data into input
         connections and locations files into Station class. Returns dictionary
         with station/connection name as key, and Station/Connection object as
         value.
         """
         # Get cleaned up data from csv files
-        clean_stations_data = helper.file_import(stations_file)
+        clean_stations_data = helper.file_import(locations_file)
         clean_connections_data = helper.file_import(connections_file)
 
         # Create and add Station obects to stations_dict
