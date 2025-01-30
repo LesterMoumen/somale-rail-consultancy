@@ -1,6 +1,11 @@
 # RailNL
 
-De NS wilt de lijnvoering van intercitytreinen door Nederland verbeteren. Voor een optimale lijnvoering moet elke verbinding tussen de stations bereden zijn door minimaal één trein. Verder mag elk trein traject maximaal 180 minuten duren en mogen er maximaal 20 trein trajecten gebruikt worden.
+De NS wilt de lijnvoering van intercitytreinen door Nederland verbeteren. Voor een optimale lijnvoering moet elke verbinding tussen de stations bereden zijn door minimaal één trein. Verder mag elk trein traject maximaal 180 minuten duren en mogen er maximaal 20 trein trajecten gebruikt worden. 
+
+Alle stations en de verbindingen tussen de stations:
+
+![Afbeelding van WhatsApp op 2025-01-30 om 20 52 00_f005b0b4](https://github.com/user-attachments/assets/2ec8bd4b-b403-4886-b662-315bf6a49c77)
+
 
 ## Aan de slag
 
