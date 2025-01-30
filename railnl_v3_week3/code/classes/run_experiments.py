@@ -64,7 +64,7 @@ class RunExperiments():
                     experiment_object = self.algorithm1(**self.kwargs, use_randomise=parameters1.get('use_randomise', False))
                 elif self.algorithm1 == GreedyLookahead:
                     experiment_object = self.algorithm1(**self.kwargs, use_randomise=parameters1.get('use_randomise', False),
-                        depth=parameters1.get('depth', 3))
+                        lookahead_depth=parameters1.get('depth', 3))
 
                 # Run the experiment
                 experiment_object.run()

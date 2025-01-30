@@ -136,6 +136,8 @@ if __name__ == "__main__":
         print("Can't optimalize through iterative model without a traintable.")
         exit()
 
+    if algorithm1 is not None and algorithm2 is None:
+        parameters2 = {'number_of_experiments2': 0}
 
     # Initialize and run the experiments
     r = RunExperiments(connections_file, locations_file, max_trajects, max_time,
