@@ -5,7 +5,7 @@ class Traject():
     movement history and movement time.
     """
     def __init__(self, start_location, color):
-        """ Initializes the Traject.
+        """ Initializes the Traject object.
 
         Input:
         - start_location: str, the first station of the traject

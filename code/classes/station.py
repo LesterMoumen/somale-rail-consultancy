@@ -3,7 +3,7 @@ class Station():
     container for the station.
     """
     def __init__(self, station, connections, coordinates):
-        """ Initializes the Station.
+        """ Initializes the Station object.
 
         Input:
         - station: str, station name

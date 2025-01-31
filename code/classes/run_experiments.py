@@ -49,7 +49,7 @@ class RunExperiments():
         combined_data = {**self.kwargs, **parameters1}
 
         # Loop through number of trajects as before
-        for number_of_trajects in range(9, self.max_number_of_trajects + 1):
+        for number_of_trajects in range(1, self.max_number_of_trajects + 1):
             qualities = []
 
             print(f"Starting experiments for {number_of_trajects} trajects...")

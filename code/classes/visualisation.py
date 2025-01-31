@@ -19,6 +19,7 @@ class Visualisation():
         self.connections_dict = connections_dict
         self.traject_list = traject_list
 
+
     def get_all_station_coordinates(self):
         """ Get coordinates of all stations and returns as two lists (with x and
         y coordinates).
@@ -31,6 +32,7 @@ class Visualisation():
             x_list.append(x), y_list.append(y)
 
         return x_list, y_list
+
 
     def get_connection_coordinates(self, connection_object):
         """ Get coordinates of a single connection and return coordinates as two
