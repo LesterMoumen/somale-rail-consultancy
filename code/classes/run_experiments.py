@@ -26,7 +26,7 @@ class RunExperiments():
         self.use_randomise = use_randomise
 
         self.experiment_object_dict = {}  # Stores the best experiment objects for each number of trajects
-        self.experiment_object_dict2 = {}
+        self.experiment_object_dict2 = {} #
         self.data = {}  # Stores all quality scores of traject count
 
         self.kwargs = {
@@ -49,7 +49,8 @@ class RunExperiments():
         combined_data = {**self.kwargs, **parameters1}
 
         # Loop through number of trajects as before
-        for number_of_trajects in range(1, self.max_number_of_trajects + 1):
+        # We use minimal of 9 trajects as traintable requires at least ~8.6 trajects for a solution
+        for number_of_trajects in range(9, self.max_number_of_trajects + 1):
             qualities = []
 
             print(f"Starting experiments for {number_of_trajects} trajects...")
@@ -86,10 +87,15 @@ class RunExperiments():
             # Add qualities for all iterations for each traject number
             self.data[number_of_trajects] = qualities
 
-        # Make a copy of experiment_object_dict for iterative algorithm
-        self.experiment_object_dict2 = copy.deepcopy(self.experiment_object_dict)
+
 
     def run_iterative_algorithm(self, **parameters2):
+        """
+        Runs the iterative algorithm HC and SA.
+        """
+
+        # Make a copy of the constructive algorithm to iterate over
+        self.experiment_object_dict2 = copy.deepcopy(self.experiment_object_dict)
 
         for number_of_trajects, experiment_object in self.experiment_object_dict2.items():
             # Handle iterative algorithms like SimulatedAnnealing and HillClimber
@@ -101,14 +107,17 @@ class RunExperiments():
             else:
                 # For HillClimber, pass the mutate_trajects_number and mutate_tracks_number
                 algorithm_instance = self.algorithm2(experiment_object, mutate_trajects_number=parameters2.get('mutate_trajects_number', 1),
-                        mutate_tracks_number=parameters2.get('mutate_tracks_number', 1))
+                        mutate_tracks_number=parameters2.get('mutate_tracks_number', 1), number_of_trajects=number_of_trajects)
 
             # Run the new experiment
             algorithm_instance.run(self.number_of_experiments2, verbose=True)
 
             # Update the dictionary with the optimized experiment
             optimized_train_table = algorithm_instance.train_table
+
+            # Append new value to dict
             self.experiment_object_dict2[number_of_trajects] = optimized_train_table
+
 
     def save_all_collected_data(self, filename):
         """

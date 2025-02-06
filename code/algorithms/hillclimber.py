@@ -1,8 +1,8 @@
 import copy
 import random
+import csv
 from code.classes.experiment import Experiment
 from code.algorithms.randomise import Randomise
-# from code.algorithms.run_experiments import RunExperiments
 from code.classes.station import Station
 from code.classes.connection import Connection
 from code.classes.visualisation import Visualisation
@@ -17,14 +17,14 @@ class HillClimber(Experiment):
     in the train table with new random tracks. Improvements or equivalent solutions are kept.
     """
 
-    def __init__(self, train_table, mutate_trajects_number, mutate_tracks_number):
+    def __init__(self, train_table, mutate_trajects_number, mutate_tracks_number, number_of_trajects):
         """
         Initializes the HillClimber with a complete train table solution.
         """
-        #if not train_table.is_solution():
-        #        raise Exception("HillClimber requires a complete solution.")
+
 
         self.train_table = copy.deepcopy(train_table)  # Keeping the original train_table for reference
+        self.train_table.number_of_trajects = number_of_trajects  # Couldn't fix the error
         self.value = train_table.calculate_quality()[0]
 
         # Access the used stations
@@ -34,7 +34,10 @@ class HillClimber(Experiment):
         self.mutate_trajects_number = mutate_trajects_number
         self.mutate_tracks_number = mutate_tracks_number
 
-    def update_used_stations(self):    
+        # List to store the quality and parameters for each iteration
+        self.iteration_history = []
+
+    def update_used_stations(self):
         """
         Re-initializes the TrajectAnalyzer and updates used stations.
         This method is called after every mutation to reflect the new train table state.
@@ -169,6 +172,44 @@ class HillClimber(Experiment):
         # FF KIJKEN WAAR DIT BEST KAN STAAN
         self.mutate_track(new_table)
 
+    def store_iteration_data(self, iteration):
+         # Store parameters and quality at each iteration
+        iteration_data = {
+            'iteration': iteration,
+            'value': self.value,
+            'mutate_trajects_number': self.mutate_trajects_number,
+            'mutate_tracks_number': self.mutate_tracks_number
+        }
+        self.iteration_history.append(iteration_data)
+
+
+    def save_all_iterations_data(self, filename):
+        """
+        Saves a CSV file of all the collected data, including iteration parameters and quality scores.
+        """
+        print(f"Saving file for traject count: {self.train_table.number_of_trajects}")
+
+        csv_filename = f"output/{filename}trajectnumber{self.train_table.number_of_trajects}._mutate{self.mutate_tracks_number}tracks_mutate{self.mutate_trajects_number}trajects_quality_data.csv"
+        with open(csv_filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+
+            # Add header for the number of trajects, iteration parameters, and quality score
+            header = ["Iteration", "Quality Score", "Mutate Trajects Number", "Mutate Tracks Number"]
+
+            writer.writerow(header)
+
+            # Add the iteration data for each experiment
+            for iteration_data in self.iteration_history:
+                row = [
+                    iteration_data['iteration'],
+                    iteration_data['value'],
+                    iteration_data['mutate_trajects_number'],
+                    iteration_data['mutate_tracks_number']
+                ]
+                writer.writerow(row)
+
+        print(f"Collected data saved as {csv_filename}")
+
 
     def run(self, iterations, verbose=False):
         """
@@ -189,7 +230,6 @@ class HillClimber(Experiment):
             # Evalute new train table
             self.check_solution(new_table)
 
+            self.store_iteration_data(iteration)
 
-        # Heb nu hier de output/visualization want als ik deze in main call gebruikt hij nog niet de juiste waardes
-        # self.train_table.print_output()
-        # self.train_table.visualisation()
+        self.save_all_iterations_data(HillClimber.__name__)

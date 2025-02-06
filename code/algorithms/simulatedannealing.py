@@ -48,20 +48,21 @@ class SimulatedAnnealing(HillClimber):
 
     def update_temperature(self, iteration):
         """
-        This function implements a *linear* cooling scheme.
+        This function implements a cooling scheme.
         Temperature will become zero after all iterations passed to the run()
-        method have passed.
+        method have passed. We reheat the model after it gets too low, this is probably not
+        the way to optimize this algorithm.
+        (Nevertheless, I still wanted to implement the reheat somewhere to show how I was conceptually
+        thinking about Temperature - felt like its a hard concept to grasp and I lacked the mathematical
+        knowledge to optimize it accordingly.
         """
-        # #Linear
-        # self.T = self.T - (self.T0 / self.iterations)
 
-        # Exponential would look like this:
-        # self.T = self.T * self.alpha
+        # Exponential cooling
         self.T = self.T * self.alpha
 
         # Prevent the temperature from getting too small
         if self.T < 0.001:
-            self.T = 0.1  # Set a minimum temperature value
+            self.reheat()  # Reheat the model
 
     def check_solution(self, new_table, iteration):
         """
@@ -75,7 +76,7 @@ class SimulatedAnnealing(HillClimber):
         # Calculate the probability of accepting this new graph
         delta = old_value - new_value
 
-        # # Normalized delta
+        # # Normalized delta --- Did not implement due to lack of time
         #delta = self.normalize_delta(delta, old_value)
 
         print(f"Old Value: {old_value}, New Value: {new_value}, Temperature: {self.T}, Raw Delta: {old_value - new_value}")
@@ -86,9 +87,9 @@ class SimulatedAnnealing(HillClimber):
         if delta > self.highest_delta:
             self.highest_delta = delta
 
-        # Increase counter if model is not converging
-        if delta > 0:
-            self.no_improvement_counter += 1
+        # Increase counter if model is not converging --- Did not implement due to lack of time 
+        #if delta > 0:
+        #    self.no_improvement_counter += 1
 
         probability = math.exp(-delta / self.T)
 
