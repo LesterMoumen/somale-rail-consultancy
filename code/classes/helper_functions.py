@@ -34,14 +34,14 @@ def save_results(traintable, number_of_trajects, algorithm):
     `state_name` indicates whether this is "before" or "after" the algorithm runs.
     """
     # get algorithm name as string
-    algorithm_name = algorithm.__name__
+    name = algorithm
 
     # Save CSV
-    csv_filename = f"output/{number_of_trajects}_{algorithm_name}_results.csv"
+    csv_filename = f"output/{number_of_trajects}_{name}_results.csv"
     traintable.output_to_csv(csv_filename)
 
     # Save visualization
-    visualization_filename = f"output/{number_of_trajects}_{algorithm_name}_visualization.png"
+    visualization_filename = f"output/{number_of_trajects}_{name}_visualization.png"
     traintable.visualisation(visualization_filename)
 
     print(f"Results saved: {csv_filename} and {visualization_filename}")
